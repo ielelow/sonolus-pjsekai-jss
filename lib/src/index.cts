@@ -4,7 +4,7 @@ export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
 export * from './usc/index.cjs'
 
-export const version = '0.0.3'
+export const version = '1.0.0'
 
 export const databaseEngineItem = {
     name: 'prosekaR',
@@ -35,7 +35,7 @@ export const databaseEngineItem = {
             'https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine',
             '',
             'Github:',
-            'https://github.com/hyeon2006/sonolus-pjsekai-engine'
+            'https://github.com/hyeon2006/sonolus-pjsekai-js'
         ].join('\n'),
         ko: [   
             '프로젝트 세카이: 컬러풀 스테이지! 엔진을 Sonolus로 재현했습니다.',
@@ -45,7 +45,7 @@ export const databaseEngineItem = {
             'https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine',
             '',
             '깃허브:',
-            'https://github.com/hyeon2006/sonolus-pjsekai-engine'
+            'https://github.com/hyeon2006/sonolus-pjsekai-js'
         ].join('\n'),
     },
 } as const satisfies Partial<DatabaseEngineItem>
