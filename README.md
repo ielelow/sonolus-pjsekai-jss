@@ -1,4 +1,4 @@
-# Sonolus-pjsekai-js
+# Sonolus Pjsekai Js
 
 Compiled and expanded version of [pjsekai-sonolus-engine](https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine)
 
