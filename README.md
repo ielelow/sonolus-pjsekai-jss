@@ -1,59 +1,144 @@
-# Sonolus.js Template (JS)
+# Sonolus-pjsekai-js
 
-## Prerequisites
+Compiled and expanded version of [pjsekai-sonolus-engine](https://github.com/hyeon2006/sonolus-pjsekai-engine)
 
--   [Node.js](https://nodejs.org) (16+)
+## Custom Resources
 
-## Recommended Setup
+### Skin Sprites
 
--   [Visual Studio Code](https://code.visualstudio.com)
+| Name                                          |
+| --------------------------------------------- |
+| `Sekai Stage`                                 |
+| `Sekai Note Red Left`                         |
+| `Sekai Note Red Middle`                       |
+| `Sekai Note Red Right`                        |
+| `Sekai Note Green Left`                       |
+| `Sekai Note Green Middle`                     |
+| `Sekai Note Green Right`                      |
+| `Sekai Note Yellow Left`                      |
+| `Sekai Note Yellow Middle`                    |
+| `Sekai Note Yellow Right`                     |
+| `Sekai Note Cyan Left`                        |
+| `Sekai Note Cyan Middle`                      |
+| `Sekai Note Cyan Right`                       |
+| `Sekai Diamond Green`                         |
+| `Sekai Diamond Yellow`                        |
+| `Sekai Trace Note Red`                        |
+| `Sekai Trace Note Red Left`                   |
+| `Sekai Trace Note Red Middle`                 |
+| `Sekai Trace Note Red Right`                  |
+| `Sekai Trace Note Green`                      |
+| `Sekai Trace Note Green Left`                 |
+| `Sekai Trace Note Green Middle`               |
+| `Sekai Trace Note Green Right`                |
+| `Sekai Trace Note Yellow`                     |
+| `Sekai Trace Note Yellow Left`                |
+| `Sekai Trace Note Yellow Middle`              |
+| `Sekai Trace Note Yellow Right`               |
+| `Sekai Trace Diamond Red`                     |
+| `Sekai Trace Diamond Green`                   |
+| `Sekai Trace Diamond Yellow`                  |
+| `Sekai Slide Connection Green`                |
+| `Sekai Slide Connection Green Active`         |
+| `Sekai Slide Connection Yellow`               |
+| `Sekai Slide Connection Yellow Active`        |
+| `Sekai Active Slide Connection Green`         |
+| `Sekai Active Slide Connection Green Active`  |
+| `Sekai Active Slide Connection Yellow`        |
+| `Sekai Active Slide Connection Yellow Active` |
+| `Sekai Slot Glow Red`                         |
+| `Sekai Slot Glow Green`                       |
+| `Sekai Slot Glow Yellow`                      |
+| `Sekai Slot Glow Cyan`                        |
+| `Sekai Slot Red`                              |
+| `Sekai Slot Green`                            |
+| `Sekai Slot Yellow`                           |
+| `Sekai Slot Cyan`                             |
+| `Sekai Flick Arrow Red Up 1`                  |
+| `Sekai Flick Arrow Red Up 2`                  |
+| `Sekai Flick Arrow Red Up 3`                  |
+| `Sekai Flick Arrow Red Up 4`                  |
+| `Sekai Flick Arrow Red Up 5`                  |
+| `Sekai Flick Arrow Red Up 6`                  |
+| `Sekai Flick Arrow Red Left 1`                |
+| `Sekai Flick Arrow Red Left 2`                |
+| `Sekai Flick Arrow Red Left 3`                |
+| `Sekai Flick Arrow Red Left 4`                |
+| `Sekai Flick Arrow Red Left 5`                |
+| `Sekai Flick Arrow Red Left 6`                |
+| `Sekai Flick Arrow Yellow Up 1`               |
+| `Sekai Flick Arrow Yellow Up 2`               |
+| `Sekai Flick Arrow Yellow Up 3`               |
+| `Sekai Flick Arrow Yellow Up 4`               |
+| `Sekai Flick Arrow Yellow Up 5`               |
+| `Sekai Flick Arrow Yellow Up 6`               |
+| `Sekai Flick Arrow Yellow Left 1`             |
+| `Sekai Flick Arrow Yellow Left 2`             |
+| `Sekai Flick Arrow Yellow Left 3`             |
+| `Sekai Flick Arrow Yellow Left 4`             |
+| `Sekai Flick Arrow Yellow Left 5`             |
+| `Sekai Flick Arrow Yellow Left 6`             |
 
-## Get Started
+### Effect Clips
 
-To get this template, run (change `my-project` to desired name):
+| Name                   |
+| ---------------------- |
+| `Sekai Tick`           |
+| `Sekai Trace`          |
+| `Sekai Critical Tap`   |
+| `Sekai Critical Trace` |
+| `Sekai Critical Flick` |
+| `Sekai Critical Hold`  |
+| `Sekai Critical Tick`  |
 
-```
-npx degit Sonolus/sonolus.js-template-js my-project
-```
+### Particle Effects
 
-To install dependencies, run in project directory:
+| Name                                   |
+| -------------------------------------- |
+| `Sekai Trace Note Circular Green`      |
+| `Sekai Trace Note Linear Green`        |
+| `Sekai Trace Note Circular Yellow`     |
+| `Sekai Trace Note Linear Yellow`       |
+| `Sekai Note Lane Linear`               |
+| `Sekai Critical Lane Linear`           |
+| `Sekai Critical Flick Lane Linear`     |
+| `Sekai Critical Slide Circular Yellow` |
+| `Sekai Critical Slide Linear Yellow`   |
+| `Sekai Critical Flick Circular Yellow` |
+| `Sekai Critical Flick Linear Yellow`   |
 
-```
-npm i
-```
+## Documentation
 
-## Start Dev Server
+### `version`
 
-Run in project directory:
+Package version.
 
-```
-npm run dev:play
-```
+### `databaseEngineItem`
 
-```
-npm run dev:watch
-```
+Partial database engine item compatible with [sonolus-express](https://github.com/NonSpicyBurrito/sonolus-express).
 
-```
-npm run dev:preview
-```
+### `susToUSC(sus)`
 
-```
-npm run dev:tutorial
-```
+Converts sus chart to USC (Universal Sekai Chart).
 
-A dev server will be up and running. You can connect to it using Sonolus app and play test the level.
+- `sus`: sus chart.
 
-Changes made to the project will be automatically detected and trigger rebuild.
+### `uscToLevelData(usc, offset?)`
 
-Temporary files and extraction artifacts can be found in `.dev`.
+Converts USC (Universal Sekai Chart) to Level Data.
 
-## Build
+- `usc`: usc chart.
+- `offset`: offset (default: `0`).
 
-Run in project directory:
+### Assets
 
-```
-npm run build
-```
+The following assets are exposed as package entry points:
 
-Build artifacts can be found in `dist`.
+- `EngineConfiguration`
+- `EnginePlayData`
+- `EngineWatchData`
+- `EnginePreviewData`
+- `EngineTutorialData`
+- `EngineThumbnail`
+
+In Node.js, you can obtain path to assets using `require.resolve('sonolus-pjsekai-engine/EngineConfiguration')` or `import.meta.resolve('sonolus-pjsekai-engine/EngineConfiguration')`.
