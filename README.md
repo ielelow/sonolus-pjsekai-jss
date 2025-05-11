@@ -1,6 +1,6 @@
 # Sonolus-pjsekai-js
 
-Compiled and expanded version of [pjsekai-sonolus-engine](https://github.com/hyeon2006/sonolus-pjsekai-engine)
+Compiled and expanded version of [pjsekai-sonolus-engine](https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine)
 
 ## Custom Resources
 
