@@ -78,6 +78,17 @@ Compiled and expanded version of [pjsekai-sonolus-engine](https://github.com/Non
 | `Sekai Flick Arrow Yellow Left 4`             |
 | `Sekai Flick Arrow Yellow Left 5`             |
 | `Sekai Flick Arrow Yellow Left 6`             |
+| `Perfect`                                     |
+| `Great`                                       |
+| `Good`                                        |
+| `Bad`                                         |
+| `Miss`                                        |
+| `C0 - C9`                                     |
+| `AP0 - AP9`                                   |
+| `Combo`                                       |
+| `Fast`                                        |
+| `Late`                                        |
+| `Flick`                                       |
 
 ### Effect Clips
 
