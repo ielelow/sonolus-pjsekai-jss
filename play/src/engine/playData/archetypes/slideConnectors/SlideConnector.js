@@ -54,8 +54,7 @@ export class SlideConnector extends Archetype {
     z = this.entityMemory(Number);
     visual = this.entityMemory((DataType));
     exportIndex = this.entityMemory(Number);
-    exportStartTime = this.entityMemory(Number);
-    critical = this.entityMemory(Number);
+    exportStartTime = this.entityMemory(Number)
     preprocess() {
         this.head.time = bpmChanges.at(this.headImport.beat).time;
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime;
@@ -85,10 +84,10 @@ export class SlideConnector extends Archetype {
             this.hiddenTime = this.tail.scaledTime - note.duration * options.hidden;
         if (entityInfos.get(this.import.startRef).archetype === archetypes.IgnoredSlideTickNote.index ||
             entityInfos.get(this.import.endRef).archetype === archetypes.IgnoredSlideTickNote.index) {
-            this.z = getZ(layer.note.connectorS + (Math.abs(this.startImport.lane) / 10) + this.critical, this.start.time, this.startImport.lane);
+            this.z = getZ(layer.note.connectorS, -this.start.time, Math.abs(this.startImport.lane));
         }
         else {
-            this.z = getZ(layer.note.connector + (Math.abs(this.startImport.lane) / 10) + this.critical, this.start.time, this.startImport.lane);
+            this.z = getZ(layer.note.connector, -this.start.time, Math.abs(this.startImport.lane));
         }
         this.exportStartTime = -1000;
     }

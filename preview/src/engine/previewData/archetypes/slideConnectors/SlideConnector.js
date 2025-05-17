@@ -12,7 +12,6 @@ export class SlideConnector extends Archetype {
         ease: { name: 'ease', type: (DataType) },
         lane: { name: 'lane', type: Number },
     });
-    critical = 0;
     render() {
         const ft = {
             min: bpmChanges.at(this.startImport.beat).time,
@@ -38,9 +37,8 @@ export class SlideConnector extends Archetype {
             (entityInfos.get(this.import.startRef).archetype === archetypes.IgnoredSlideTickNote.index ||
                 entityInfos.get(this.import.endRef).archetype === archetypes.IgnoredSlideTickNote.index
                 ? layer.note.connectorS
-                : layer.note.connector) + (Math.abs(this.startImport.lane) / 10) + this.critical,
-            bpmChanges.at(this.startImport.beat).time,
-            this.startImport.lane
+                : layer.note.connector), bpmChanges.at(-this.startImport.beat).time,
+            Math.abs(this.startImport.lane)
         );
         for (let i = index.min; i <= index.max; i++) {
             const x = i * panel.w;

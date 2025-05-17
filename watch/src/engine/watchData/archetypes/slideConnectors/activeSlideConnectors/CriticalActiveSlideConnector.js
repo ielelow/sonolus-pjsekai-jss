@@ -31,8 +31,4 @@ export class CriticalActiveSlideConnector extends ActiveSlideConnector {
     get slideStartNote() {
         return archetypes.CriticalSlideStartNote;
     }
-    preprocess() {
-        super.preprocess();
-        this.critical = 0.15
-    }
 }
