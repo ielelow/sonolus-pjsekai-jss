@@ -71,4 +71,7 @@ export class Judg extends SpawnableArchetype({
         }
         this.check = true
     }
+    terminate() {
+        this.check = false
+    }
 }
