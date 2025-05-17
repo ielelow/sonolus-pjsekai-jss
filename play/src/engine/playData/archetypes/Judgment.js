@@ -1,11 +1,11 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { options } from '../../configuration/options.js';
-import { ease } from '../../../../../shared/src/engine/data/EaseType.js';
 
 export class Judg extends SpawnableArchetype({
     j: Number,
     t: Number,
+    fl: Number
 })
 {
     endTime = this.entityMemory(Number);

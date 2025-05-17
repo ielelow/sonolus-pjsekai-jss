@@ -48,6 +48,12 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    fastLate: {
+        name: 'Fast/Late',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
     sfxEnabled: {
         name: Text.Effect,
         scope: 'Sekai',

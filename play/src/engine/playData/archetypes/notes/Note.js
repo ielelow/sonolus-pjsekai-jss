@@ -28,6 +28,6 @@ export class Note extends Archetype {
     }
     updateSequentialOrder = 2;
     terminate() {
-        archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
+        archetypes.Judg.spawn({ j: this.result.judgment, t: time.now, fl: this.result.accuracy });
     }
 }
