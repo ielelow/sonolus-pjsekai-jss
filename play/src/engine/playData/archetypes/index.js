@@ -38,6 +38,7 @@ import { CriticalSlotGlowEffect } from './slotGlowEffects/CriticalSlotGlowEffect
 import { FlickSlotGlowEffect } from './slotGlowEffects/FlickSlotGlowEffect.js';
 import { NormalSlotGlowEffect } from './slotGlowEffects/NormalSlotGlowEffect.js';
 import { SlideSlotGlowEffect } from './slotGlowEffects/SlideSlotGlowEffect.js';
+import { Judg } from './Judgment.js';
 export const archetypes = defineArchetypes({
     Initialization,
     InputManager,
@@ -79,4 +80,5 @@ export const archetypes = defineArchetypes({
     SlideSlotGlowEffect,
     FlickSlotGlowEffect,
     CriticalSlotGlowEffect,
+    Judg,
 });

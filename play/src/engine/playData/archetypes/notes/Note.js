@@ -1,5 +1,6 @@
 import { EngineArchetypeDataName } from '@sonolus/core';
 import { options } from '../../../configuration/options.js';
+import { archetypes } from '../index.js';
 export class Note extends Archetype {
     hasInput = true;
     import = this.defineImport({
@@ -17,8 +18,7 @@ export class Note extends Archetype {
     preprocess() {
         this.sharedMemory.lastActiveTime = -1000;
         this.targetTime = bpmChanges.at(this.import.beat).time;
-        if (options.mirror)
-            this.import.lane *= -1;
+        if (options.mirror) { this.import.lane *= -1; }
     }
     spawnOrder() {
         return 1000 + this.spawnTime;
@@ -27,4 +27,7 @@ export class Note extends Archetype {
         return time.scaled >= this.spawnTime;
     }
     updateSequentialOrder = 2;
+    terminate() {
+        archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
+    }
 }
