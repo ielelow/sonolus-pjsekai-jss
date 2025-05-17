@@ -46,7 +46,7 @@ export const optionsDefinition = {
         name: 'Using Sekai Judgment(Beta)',
         scope: 'Sekai',
         type: 'toggle',
-        def: 0,
+        def: 1,
     },
     sfxEnabled: {
         name: Text.Effect,
