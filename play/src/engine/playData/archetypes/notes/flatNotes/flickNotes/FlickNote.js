@@ -74,6 +74,7 @@ export class FlickNote extends FlatNote {
                 this.flickExport('accuracyDiff', this.result.accuracy - this.windows.perfect.max);
                 this.result.accuracy = this.windows.perfect.max;
             }
+            this.flick = true
         }
         this.result.bucket.index = this.bucket.index;
         this.result.bucket.value = this.result.accuracy * 1000;

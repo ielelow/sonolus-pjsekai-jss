@@ -54,6 +54,12 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    auto: {
+        name: 'Output judgment as auto in watch mode',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
     sfxEnabled: {
         name: Text.Effect,
         scope: 'Sekai',

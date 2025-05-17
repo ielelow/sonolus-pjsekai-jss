@@ -1,5 +1,6 @@
 import { EngineArchetypeDataName } from '@sonolus/core';
 import { options } from '../../../configuration/options.js';
+import { archetypes } from '../index.js';
 export class Note extends Archetype {
     hasInput = true;
     import = this.defineImport({
@@ -16,5 +17,8 @@ export class Note extends Archetype {
         this.targetTime = bpmChanges.at(this.import.beat).time;
         if (this.hasInput)
             this.result.time = this.targetTime;
+        if (options.customJudgment) {
+            archetypes.Judg.spawn({ t: this.targetTime });
+        }
     }
 }

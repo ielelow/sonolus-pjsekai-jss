@@ -7,6 +7,7 @@ import { flatEffectLayout } from '../../../../particle.js';
 import { scaledScreen } from '../../../../scaledScreen.js';
 import { getZ, layer } from '../../../../skin.js';
 import { SlideTickNote } from '../SlideTickNote.js';
+import { archetypes } from '../../../index.js';
 export class VisibleSlideTickNote extends SlideTickNote {
     visualTime = this.entityMemory(Range);
     hiddenTime = this.entityMemory(Number);
@@ -101,5 +102,10 @@ export class VisibleSlideTickNote extends SlideTickNote {
     }
     playNoteEffect() {
         this.effect.spawn(flatEffectLayout({ lane: this.import.lane }), 0.6, false);
+    }
+    terminate() {
+        if (options.customJudgment) {
+            archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
+        }
     }
 }

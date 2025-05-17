@@ -15,6 +15,7 @@ export class Note extends Archetype {
     spawnTime = this.entityMemory(Number);
     hitbox = this.entityMemory(Rect);
     fullHitbox = this.entityMemory(Rect);
+    flick = this.entityMemory(Boolean)
     preprocess() {
         this.sharedMemory.lastActiveTime = -1000;
         this.targetTime = bpmChanges.at(this.import.beat).time;
@@ -28,6 +29,15 @@ export class Note extends Archetype {
     }
     updateSequentialOrder = 2;
     terminate() {
-        archetypes.Judg.spawn({ j: this.result.judgment, t: time.now, fl: this.result.accuracy });
+        if (options.customJudgment) {
+            archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
+        }
+        if (options.fastLate) {
+            archetypes.FastLate.spawn({
+                j: this.result.judgment, t: time.now, accuracy: this.result.accuracy,
+                late: this.windows.perfect.max, fast: this.windows.perfect.min,
+                flick: this.flick
+            });
+        }
     }
 }

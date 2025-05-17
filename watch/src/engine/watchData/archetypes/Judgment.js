@@ -3,7 +3,6 @@ import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { options } from '../../configuration/options.js';
 
 export class Judg extends SpawnableArchetype({
-    j: Number,
     t: Number
 })
 {
@@ -15,17 +14,22 @@ export class Judg extends SpawnableArchetype({
     check = this.entityMemory(Boolean)
     ratio = this.entityMemory(Number);
     initialize() {
-        this.endTime = this.spawnData.t + 0.5;
+        this.endTime = this.spawnData.t + 1;
         this.z = getZ(layer.judgment, -this.spawnData.t, 0);
     }
+    spawnTime() {
+        return timeScaleChanges.at(this.spawnData.t).scaledTime;
+    }
+    despawnTime() {
+        if (this.check == true && this.comboc != this.combo)
+            return timeScaleChanges.at(bpmChanges.at(time.now).time).scaledTime;
+        else
+            return timeScaleChanges.at(this.spawnData.t + 0.5).scaledTime;
+    }
     updateParallel() {
-        if (time.now >= this.endTime) {
-            this.despawn = true;
-            return;
-        }
-        if (this.comboc != this.combo) {
-            this.despawn = true;
-            return;
+        if (this.check == true && this.comboc != this.combo) {
+            this.despawnTime
+            return
         }
         const targetAspectRatio = 16 / 9;
         const stage = {
@@ -40,20 +44,10 @@ export class Judg extends SpawnableArchetype({
                     : screen.w / targetAspectRatio
                 : screen.h,
         };
-        switch (this.spawnData.j) {
-            case Judgment.Perfect:
-                this.ratio = 3.83;
-                break;
-            case Judgment.Great:
-                this.ratio = 3.49;
-                break;
-            case Judgment.Good:
-                this.ratio = 2.65;
-                break;
-            case Judgment.Miss:
-                this.ratio = 2.23;
-                break;
-        }
+        if (options.auto)
+            this.ratio = 2.23;
+        else
+            this.ratio = 3.83;
         const h = stage.h * 0.052 * ui.configuration.judgment.scale
         const w = h * this.ratio * 5.8
         const centerX = 0
@@ -65,20 +59,10 @@ export class Judg extends SpawnableArchetype({
             t: centerY - (h * s) / 2,
             b: centerY + (h * s) / 2,
         }).copyTo(this.layout);
-        switch (this.spawnData.j) {
-            case Judgment.Perfect:
-                skin.sprites.perfect.draw(this.layout, this.z, 1);
-                break;
-            case Judgment.Great:
-                skin.sprites.great.draw(this.layout, this.z, 1);
-                break;
-            case Judgment.Good:
-                skin.sprites.good.draw(this.layout, this.z, 1);
-                break;
-            case Judgment.Miss:
-                skin.sprites.miss.draw(this.layout, this.z, 1);
-                break;
-        }
+        if (options.auto)
+            skin.sprites.auto.draw(this.layout, this.z, 1);
+        else
+            skin.sprites.perfect.draw(this.layout, this.z, 1);
     }
     updateSequential() {
         if (!this.check) {

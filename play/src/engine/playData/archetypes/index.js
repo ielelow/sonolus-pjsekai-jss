@@ -39,6 +39,7 @@ import { FlickSlotGlowEffect } from './slotGlowEffects/FlickSlotGlowEffect.js';
 import { NormalSlotGlowEffect } from './slotGlowEffects/NormalSlotGlowEffect.js';
 import { SlideSlotGlowEffect } from './slotGlowEffects/SlideSlotGlowEffect.js';
 import { Judg } from './Judgment.js';
+import { FastLate } from './JudgmentFS.js';
 export const archetypes = defineArchetypes({
     Initialization,
     InputManager,
@@ -81,4 +82,5 @@ export const archetypes = defineArchetypes({
     FlickSlotGlowEffect,
     CriticalSlotGlowEffect,
     Judg,
+    FastLate,
 });
