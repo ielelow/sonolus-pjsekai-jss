@@ -124,6 +124,7 @@ export const skin = defineSkin({
         fast: 'Fast',
         late: 'Late',
         flick: 'Flick',
+        auto: 'Auto',
     },
 });
 export const layer = {

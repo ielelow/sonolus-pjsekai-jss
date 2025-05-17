@@ -26,7 +26,7 @@ export class Judg extends SpawnableArchetype({
             this.despawn = true;
             return;
         }
-        if (options.sonolusjudgment) {
+        if (options.customJudgment) {
             const a = Math.unlerp(this.endTime, this.spawnData.t, time.now);
             switch (this.spawnData.j) {
                 case Judgment.Perfect:
@@ -43,7 +43,7 @@ export class Judg extends SpawnableArchetype({
                     break;
             }
         }
-        /*if (options.sonolusCombo) {
+        /*if (options.customCombo) {
         }*/
     }
 }

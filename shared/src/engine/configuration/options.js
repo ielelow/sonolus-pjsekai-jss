@@ -36,13 +36,13 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 0,
     },
-    /*sonolusCombo: {
+    /*customCombo: {
         name: 'Using Sekai Combo(Beta)',
         scope: 'Sekai',
         type: 'toggle',
         def: 0,
     },*/
-    sonolusjudgment: {
+    customJudgment: {
         name: 'Using Sekai Judgment(Beta)',
         scope: 'Sekai',
         type: 'toggle',
