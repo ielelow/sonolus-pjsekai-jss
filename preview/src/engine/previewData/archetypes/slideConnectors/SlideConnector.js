@@ -38,7 +38,7 @@ export class SlideConnector extends Archetype {
                 entityInfos.get(this.import.endRef).archetype === archetypes.IgnoredSlideTickNote.index
                 ? layer.note.connectorS
                 : layer.note.connector), bpmChanges.at(-this.startImport.beat).time,
-            Math.abs(this.startImport.lane)
+            -Math.abs(this.startImport.lane)
         );
         for (let i = index.min; i <= index.max; i++) {
             const x = i * panel.w;
