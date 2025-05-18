@@ -45,12 +45,16 @@ export class FastLate extends SpawnableArchetype({
                         : screen.w / targetAspectRatio
                     : screen.h,
             };
-            this.ratio = 3.49;
+            if (this.spawnData.flick == true)
+                this.ratio = 4.08;
+            else
+                this.ratio = 3.49;
             const h = stage.h * 0.03 * ui.configuration.judgment.scale
             const w = h * this.ratio * 5.8
             const centerX = 0
-            const centerY = stage.h * 0.35
-            const s = Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.07, time.now));
+            const centerY = stage.h * 0.365
+            const s = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+            const a = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
             NormalLayout({
                 l: centerX - (w * s) / 2,
                 r: centerX + (w * s) / 2,
@@ -59,11 +63,11 @@ export class FastLate extends SpawnableArchetype({
             }).copyTo(this.layout);
             if (this.spawnData.j != Judgment.Perfect && this.spawnData.j != Judgment.Miss) {
                 if (this.spawnData.flick == true)
-                    skin.sprites.flick.draw(this.layout, this.z, 1);
+                    skin.sprites.flick.draw(this.layout, this.z, a);
                 else if (this.spawnData.fast > this.spawnData.accuracy)
-                    skin.sprites.fast.draw(this.layout, this.z, 1);
+                    skin.sprites.fast.draw(this.layout, this.z, a);
                 else if (this.spawnData.late < this.spawnData.accuracy)
-                    skin.sprites.late.draw(this.layout, this.z, 1);
+                    skin.sprites.late.draw(this.layout, this.z, a);
             }
         }
         /*if (options.customCombo) {

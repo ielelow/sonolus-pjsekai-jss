@@ -3,6 +3,9 @@ import { claimStart, disallowEmpty, disallowEnd, getClaimedStart } from '../../.
 import { FlatNote } from '../FlatNote.js';
 export class TapNote extends FlatNote {
     leniency = 0.75;
+    judExport = this.defineExport({
+        jud: { name: 'jud', type: Number },
+    });
     updateSequential() {
         if (time.now < this.inputTime.min)
             return;
@@ -24,6 +27,10 @@ export class TapNote extends FlatNote {
         this.result.bucket.index = this.bucket.index;
         this.result.bucket.value = this.result.accuracy * 1000;
         this.playHitEffects(touch.startTime);
+        if (this.windows.perfect.min > this.result.accuracy)
+            this.judExport('jud', 1);
+        else if (this.windows.perfect.max < this.result.accuracy)
+            this.judExport('jud', 2);
         this.despawn = true;
     }
 }

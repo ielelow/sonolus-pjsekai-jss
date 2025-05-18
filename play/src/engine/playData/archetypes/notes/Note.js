@@ -34,8 +34,11 @@ export class Note extends Archetype {
         }
         if (options.fastLate) {
             archetypes.FastLate.spawn({
-                j: this.result.judgment, t: time.now, accuracy: this.result.accuracy,
-                late: this.windows.perfect.max, fast: this.windows.perfect.min,
+                j: this.result.judgment,
+                t: time.now,
+                accuracy: this.result.accuracy,
+                late: this.windows.perfect.max,
+                fast: this.windows.perfect.min,
                 flick: this.flick
             });
         }

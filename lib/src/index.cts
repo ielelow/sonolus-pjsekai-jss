@@ -4,7 +4,7 @@ export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.0.1'
+export const version = '1.0.2'
 
 export const databaseEngineItem = {
     name: 'prosekaR',
@@ -24,7 +24,7 @@ export const databaseEngineItem = {
         zht: '世界計劃 匆忙',
     },
     author: {
-        en: 'Burrito#1000, Hyeon2#7895',
+        en: 'Hyeon2#7895',
     },
     description: {
         en: [

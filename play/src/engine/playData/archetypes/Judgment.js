@@ -57,8 +57,9 @@ export class Judg extends SpawnableArchetype({
         const h = stage.h * 0.052 * ui.configuration.judgment.scale
         const w = h * this.ratio * 6.7
         const centerX = 0
-        const centerY = stage.h * 0.37
-        const s = Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.033, time.now));
+        const centerY = stage.h * 0.39
+        const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+        const a = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         NormalLayout({
             l: centerX - (w * s) / 2,
             r: centerX + (w * s) / 2,
@@ -67,16 +68,16 @@ export class Judg extends SpawnableArchetype({
         }).copyTo(this.layout);
         switch (this.spawnData.j) {
             case Judgment.Perfect:
-                skin.sprites.perfect.draw(this.layout, this.z, 1);
+                skin.sprites.perfect.draw(this.layout, this.z, a);
                 break;
             case Judgment.Great:
-                skin.sprites.great.draw(this.layout, this.z, 1);
+                skin.sprites.great.draw(this.layout, this.z, a);
                 break;
             case Judgment.Good:
-                skin.sprites.good.draw(this.layout, this.z, 1);
+                skin.sprites.good.draw(this.layout, this.z, a);
                 break;
             case Judgment.Miss:
-                skin.sprites.miss.draw(this.layout, this.z, 1);
+                skin.sprites.miss.draw(this.layout, this.z, a);
                 break;
         }
     }

@@ -7,6 +7,7 @@ import { flatEffectLayout } from '../../../../particle.js';
 import { scaledScreen } from '../../../../scaledScreen.js';
 import { getZ, layer } from '../../../../skin.js';
 import { SlideTickNote } from '../SlideTickNote.js';
+import { archetypes } from '../../../index.js';
 export class VisibleSlideTickNote extends SlideTickNote {
     visualTime = this.entityMemory(Range);
     hiddenTime = this.entityMemory(Number);
@@ -14,7 +15,14 @@ export class VisibleSlideTickNote extends SlideTickNote {
     spriteLayout = this.entityMemory(Quad);
     z = this.entityMemory(Number);
     preprocess() {
-        super.preprocess();
+        if (options.mirror)
+            this.import.lane *= -1;
+        this.targetTime = bpmChanges.at(this.import.beat).time;
+        if (this.hasInput)
+            this.result.time = this.targetTime;
+        if (options.customJudgment) {
+            archetypes.Judg.spawn({ t: this.targetTime, j: this.import.judgment });
+        }
         this.visualTime.copyFrom(Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime));
         if (options.sfxEnabled) {
             if (replay.isReplay) {

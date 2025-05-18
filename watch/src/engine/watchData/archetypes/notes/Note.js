@@ -9,6 +9,8 @@ export class Note extends Archetype {
         size: { name: 'size', type: Number },
         judgment: { name: EngineArchetypeDataName.Judgment, type: (DataType) },
         accuracy: { name: EngineArchetypeDataName.Accuracy, type: Number },
+        flick: { name: 'flick', type: Boolean },
+        jud: { name: 'jud', type: Number },
     });
     targetTime = this.entityMemory(Number);
     preprocess() {
@@ -18,7 +20,16 @@ export class Note extends Archetype {
         if (this.hasInput)
             this.result.time = this.targetTime;
         if (options.customJudgment) {
-            archetypes.Judg.spawn({ t: this.targetTime });
+            archetypes.Judg.spawn({ t: this.targetTime, j: this.import.judgment });
+        }
+        if (options.fastLate && replay.isReplay && options.customJudgment) {
+            archetypes.FastLate.spawn({
+                t: this.targetTime,
+                j: this.import.judgment,
+                accuracy: this.import.accuracy,
+                fastLate: this.import.jud,
+                flick: this.import.flick,
+            });
         }
     }
 }
