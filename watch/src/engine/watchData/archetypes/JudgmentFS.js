@@ -55,7 +55,7 @@ export class FastLate extends SpawnableArchetype({
         const h = stage.h * 0.03 * ui.configuration.judgment.scale
         const w = h * this.ratio * 5.8
         const centerX = 0
-        const centerY = stage.h * 0.365
+        const centerY = stage.h * 0.36
         const s = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         const a = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         NormalLayout({

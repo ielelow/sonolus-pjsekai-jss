@@ -68,7 +68,7 @@ export class Judg extends SpawnableArchetype({
         const h = stage.h * 0.052 * ui.configuration.judgment.scale
         const w = h * this.ratio * 6.7
         const centerX = 0
-        const centerY = stage.h * 0.395
+        const centerY = stage.h * 0.39
         const s = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         const a = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         NormalLayout({
