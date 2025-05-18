@@ -95,9 +95,9 @@ export class Judg extends SpawnableArchetype({
         }
         else {
             if (options.auto)
-                skin.sprites.auto.draw(this.layout, this.z, 1);
+                skin.sprites.auto.draw(this.layout, this.z, a);
             else
-                skin.sprites.perfect.draw(this.layout, this.z, 1);
+                skin.sprites.perfect.draw(this.layout, this.z, a);
         }
     }
     updateSequential() {
