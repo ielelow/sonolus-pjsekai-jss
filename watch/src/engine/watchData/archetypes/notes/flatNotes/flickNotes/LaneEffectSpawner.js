@@ -35,7 +35,7 @@ export class LaneEffectSpawner extends SpawnableArchetype({
     updateSequential() {
         if (this.check) return
         this.check = true
-        if (!replay.isReplay && this.spawnData.j != Judgment.Miss) {
+        if (!replay.isReplay || this.spawnData.j != Judgment.Miss) {
             const id = particle.effects.criticalFlickLane.spawn(perspectiveLayout({
                 l: this.spawnData.l,
                 r: this.spawnData.r,
