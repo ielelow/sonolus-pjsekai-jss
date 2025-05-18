@@ -1,5 +1,4 @@
 import { lane } from '../../../../../../../../shared/src/engine/data/lane.js';
-import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.js';
 import { windows } from '../../../../../../../../shared/src/engine/data/windows.js';
 import { buckets } from '../../../../buckets.js';
 import { effect } from '../../../../effect.js';
@@ -7,9 +6,6 @@ import { particle } from '../../../../particle.js';
 import { skin } from '../../../../skin.js';
 import { archetypes } from '../../../index.js';
 import { FlickNote } from './FlickNote.js';
-import { SharedLaneEffectUtils } from './SharedLaneEffectUtils.js';
-import { options } from '../../../../../configuration/options.js'
-
 
 export class CriticalFlickNote extends FlickNote {
     sprites = {
@@ -66,7 +62,7 @@ export class CriticalFlickNote extends FlickNote {
         const laneB = lane.b
         const laneT = lane.t
         archetypes.LaneEffectSpawner.spawn({
-            l: l, r: r, t: t, laneB: laneB, laneT: laneT
+            l: l, r: r, t: t, laneB: laneB, laneT: laneT, j: this.import.judgment,
         });
     }
 }

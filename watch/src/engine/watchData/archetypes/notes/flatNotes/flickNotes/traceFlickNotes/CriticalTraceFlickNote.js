@@ -60,7 +60,7 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
         const laneB = lane.b
         const laneT = lane.t
         archetypes.LaneEffectSpawner.spawn({
-            l: l, r: r, t: t, laneB: laneB, laneT: laneT
+            l: l, r: r, t: t, laneB: laneB, laneT: laneT, j: this.import.judgment,
         });
     }
 }

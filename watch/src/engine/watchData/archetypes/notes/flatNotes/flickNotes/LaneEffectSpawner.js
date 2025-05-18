@@ -8,6 +8,7 @@ export class LaneEffectSpawner extends SpawnableArchetype({
     t: Number,
     laneB: Number,
     laneT: Number,
+    j: DataType,
 })
 {
     laneE = levelMemory({
@@ -34,12 +35,14 @@ export class LaneEffectSpawner extends SpawnableArchetype({
     updateSequential() {
         if (this.check) return
         this.check = true
-        const id = particle.effects.criticalFlickLane.spawn(perspectiveLayout({
-            l: this.spawnData.l,
-            r: this.spawnData.r,
-            b: this.spawnData.laneB,
-            t: this.spawnData.laneT
-        }), 1, false);
-        SharedLaneEffectUtils.playAndHandleLaneEffect(id, this.spawnData.l, this.spawnData.r, this.laneE)
+        if (!replay.isReplay && this.spawnData.j != Judgment.Miss) {
+            const id = particle.effects.criticalFlickLane.spawn(perspectiveLayout({
+                l: this.spawnData.l,
+                r: this.spawnData.r,
+                b: this.spawnData.laneB,
+                t: this.spawnData.laneT
+            }), 1, false);
+            SharedLaneEffectUtils.playAndHandleLaneEffect(id, this.spawnData.l, this.spawnData.r, this.laneE)
+        }
     }
 }
