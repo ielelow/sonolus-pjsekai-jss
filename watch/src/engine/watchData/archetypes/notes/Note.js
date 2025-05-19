@@ -21,15 +21,15 @@ export class Note extends Archetype {
             this.result.time = this.targetTime;
         if (options.customJudgment) {
             archetypes.Judg.spawn({ t: this.targetTime, j: this.import.judgment });
-        }
-        if (options.fastLate && replay.isReplay && options.customJudgment) {
-            archetypes.FastLate.spawn({
-                t: this.targetTime,
-                j: this.import.judgment,
-                accuracy: this.import.accuracy,
-                fastLate: this.import.jud,
-                flick: this.import.flick,
-            });
+            if (options.fastLate && replay.isReplay) {
+                archetypes.FastLate.spawn({
+                    t: this.targetTime,
+                    j: this.import.judgment,
+                    accuracy: this.import.accuracy,
+                    fastLate: this.import.jud,
+                    flick: this.import.flick,
+                });
+            }
         }
     }
 }

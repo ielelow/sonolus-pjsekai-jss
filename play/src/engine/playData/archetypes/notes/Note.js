@@ -31,16 +31,16 @@ export class Note extends Archetype {
     terminate() {
         if (options.customJudgment) {
             archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
-        }
-        if (options.fastLate) {
-            archetypes.FastLate.spawn({
-                j: this.result.judgment,
-                t: time.now,
-                accuracy: this.result.accuracy,
-                late: this.windows.perfect.max,
-                fast: this.windows.perfect.min,
-                flick: this.flick
-            });
+            if (options.fastLate) {
+                archetypes.FastLate.spawn({
+                    j: this.result.judgment,
+                    t: time.now,
+                    accuracy: this.result.accuracy,
+                    late: this.windows.perfect.max,
+                    fast: this.windows.perfect.min,
+                    flick: this.flick
+                });
+            }
         }
     }
 }
