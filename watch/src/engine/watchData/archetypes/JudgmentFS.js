@@ -1,7 +1,5 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
-import { options } from '../../configuration/options.js';
-
 export class FastLate extends SpawnableArchetype({
     j: DataType,
     t: Number,
@@ -35,29 +33,16 @@ export class FastLate extends SpawnableArchetype({
             this.despawnTime
             return
         }
-        const targetAspectRatio = 16 / 9;
-        const stage = {
-            w: options.lockStageAspectRatio
-                ? screen.aspectRatio >= targetAspectRatio
-                    ? targetAspectRatio * screen.h
-                    : screen.w
-                : screen.w,
-            h: options.lockStageAspectRatio
-                ? screen.aspectRatio >= targetAspectRatio
-                    ? screen.h
-                    : screen.w / targetAspectRatio
-                : screen.h,
-        };
         if (this.spawnData.flick == true)
             this.ratio = 4.08;
         else
             this.ratio = 3.49;
-        const h = stage.h * 0.03 * ui.configuration.judgment.scale
+        const h = 0.06 * ui.configuration.judgment.scale
         const w = h * this.ratio * 5.8
         const centerX = 0
-        const centerY = stage.h * 0.36
-        const s = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
-        const a = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+        const centerY = 0.72
+        const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+        const a = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         NormalLayout({
             l: centerX - (w * s) / 2,
             r: centerX + (w * s) / 2,

@@ -27,19 +27,6 @@ export class Judg extends SpawnableArchetype({
             this.despawn = true;
             return;
         }
-        const targetAspectRatio = 16 / 9;
-        const stage = {
-            w: options.lockStageAspectRatio
-                ? screen.aspectRatio >= targetAspectRatio
-                    ? targetAspectRatio * screen.h
-                    : screen.w
-                : screen.w,
-            h: options.lockStageAspectRatio
-                ? screen.aspectRatio >= targetAspectRatio
-                    ? screen.h
-                    : screen.w / targetAspectRatio
-                : screen.h,
-        };
         switch (this.spawnData.j) {
             case Judgment.Perfect:
                 this.ratio = 3.83;
@@ -54,12 +41,12 @@ export class Judg extends SpawnableArchetype({
                 this.ratio = 2.23;
                 break;
         }
-        const h = stage.h * 0.052 * ui.configuration.judgment.scale
+        const h = 0.1 * ui.configuration.judgment.scale
         const w = h * this.ratio * 6.7
         const centerX = 0
-        const centerY = stage.h * 0.39
+        const centerY = 0.78
         const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
-        const a = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+        const a = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         NormalLayout({
             l: centerX - (w * s) / 2,
             r: centerX + (w * s) / 2,

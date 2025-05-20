@@ -31,47 +31,30 @@ export class FastLate extends SpawnableArchetype({
             this.despawn = true;
             return;
         }
-        if (options.customJudgment) {
-            const targetAspectRatio = 16 / 9;
-            const stage = {
-                w: options.lockStageAspectRatio
-                    ? screen.aspectRatio >= targetAspectRatio
-                        ? targetAspectRatio * screen.h
-                        : screen.w
-                    : screen.w,
-                h: options.lockStageAspectRatio
-                    ? screen.aspectRatio >= targetAspectRatio
-                        ? screen.h
-                        : screen.w / targetAspectRatio
-                    : screen.h,
-            };
+        if (this.spawnData.flick == true)
+            this.ratio = 4.08;
+        else
+            this.ratio = 3.49;
+        const h = 0.06 * ui.configuration.judgment.scale
+        const w = h * this.ratio * 5.8
+        const centerX = 0
+        const centerY = 0.72
+        const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+        const a = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+        NormalLayout({
+            l: centerX - (w * s) / 2,
+            r: centerX + (w * s) / 2,
+            t: centerY - (h * s) / 2,
+            b: centerY + (h * s) / 2,
+        }).copyTo(this.layout);
+        if (this.spawnData.j != Judgment.Perfect && this.spawnData.j != Judgment.Miss) {
             if (this.spawnData.flick == true)
-                this.ratio = 4.08;
-            else
-                this.ratio = 3.49;
-            const h = stage.h * 0.03 * ui.configuration.judgment.scale
-            const w = h * this.ratio * 5.8
-            const centerX = 0
-            const centerY = stage.h * 0.36
-            const s = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
-            const a = Math.ease('Out', 'Expo', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
-            NormalLayout({
-                l: centerX - (w * s) / 2,
-                r: centerX + (w * s) / 2,
-                t: centerY - (h * s) / 2,
-                b: centerY + (h * s) / 2,
-            }).copyTo(this.layout);
-            if (this.spawnData.j != Judgment.Perfect && this.spawnData.j != Judgment.Miss) {
-                if (this.spawnData.flick == true)
-                    skin.sprites.flick.draw(this.layout, this.z, a);
-                else if (this.spawnData.fast > this.spawnData.accuracy)
-                    skin.sprites.fast.draw(this.layout, this.z, a);
-                else if (this.spawnData.late < this.spawnData.accuracy)
-                    skin.sprites.late.draw(this.layout, this.z, a);
-            }
+                skin.sprites.flick.draw(this.layout, this.z, a);
+            else if (this.spawnData.fast > this.spawnData.accuracy)
+                skin.sprites.fast.draw(this.layout, this.z, a);
+            else if (this.spawnData.late < this.spawnData.accuracy)
+                skin.sprites.late.draw(this.layout, this.z, a);
         }
-        /*if (options.customCombo) {
-        }*/
     }
     updateSequential() {
         if (this.spawnData.j != Judgment.Perfect && this.spawnData.j != Judgment.Miss)
