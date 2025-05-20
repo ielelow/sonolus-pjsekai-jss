@@ -32,7 +32,7 @@ export class FlatNote extends Note {
         this.visualTime.copyFrom(Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime));
         this.sharedMemory.despawnTime = timeScaleChanges.at(this.hitTime).scaledTime;
         if (options.sfxEnabled) {
-            if (replay.isReplay) {
+            if (replay.isReplay && !options.autoSFX) {
                 this.scheduleReplaySFX();
             }
             else {
@@ -114,10 +114,10 @@ export class FlatNote extends Note {
     }
     scheduleSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
-            this.clips.fallback.schedule(this.hitTime, sfxDistance);
+            this.clips.fallback.schedule(this.targetTime, sfxDistance);
         }
         else {
-            this.clips.perfect.schedule(this.hitTime, sfxDistance);
+            this.clips.perfect.schedule(this.targetTime, sfxDistance);
         }
     }
     scheduleReplaySFX() {

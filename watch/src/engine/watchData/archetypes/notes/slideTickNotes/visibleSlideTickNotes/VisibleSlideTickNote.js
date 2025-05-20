@@ -25,7 +25,7 @@ export class VisibleSlideTickNote extends SlideTickNote {
         }
         this.visualTime.copyFrom(Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime));
         if (options.sfxEnabled) {
-            if (replay.isReplay) {
+            if (replay.isReplay && !options.autoSFX) {
                 this.scheduleReplaySFX();
             }
             else {

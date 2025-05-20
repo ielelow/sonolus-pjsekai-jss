@@ -19,7 +19,7 @@ export class ActiveSlideConnector extends SlideConnector {
     preprocess() {
         super.preprocess();
         if (options.sfxEnabled) {
-            if (replay.isReplay) {
+            if (replay.isReplay && !options.autoSFX) {
                 for (const [, start, end] of slideConnectorReplayKeys) {
                     const startTime = this.import[start];
                     const endTime = this.import[end];
