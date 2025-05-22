@@ -28,7 +28,8 @@ export class SlotGlowEffect extends SpawnableArchetype({
             this.despawn = true;
             return;
         }
-        const a = Math.unlerp(this.endTime, this.spawnData.startTime, time.now);
+        const baseA = Math.unlerp(this.endTime, this.spawnData.startTime, time.now);
+        const a = options.lightweight ? baseA * 0.25 : baseA;
         const p = options.simplifySlotA ? Math.min(1, a / 0.03) : 1 - a ** 3;
         const t = 1 - this.layout.h * p;
         this.sprite.draw({

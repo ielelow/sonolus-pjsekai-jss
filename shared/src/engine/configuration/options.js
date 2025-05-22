@@ -60,6 +60,12 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    lightweight: {
+        name: 'Using lightweight skin',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 0
+    },
     sfxEnabled: {
         name: Text.Effect,
         scope: 'Sekai',

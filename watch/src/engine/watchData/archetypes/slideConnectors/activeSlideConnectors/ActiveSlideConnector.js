@@ -105,8 +105,13 @@ export class ActiveSlideConnector extends SlideConnector {
             y2: 1 - h,
             y3: 1 - h,
             y4: 1,
-        }, this.glowZ, Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25)) *
-        ((Math.cos(((time.now - this.start.time) * 8 * Math.PI) / 2) + 1) / 20 + 0.2));
+        }, this.glowZ,
+            (options.lightweight
+                ? Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25)) * 0.25
+                : Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25))
+            ) *
+            ((Math.cos(((time.now - this.start.time) * 8 * Math.PI) / 2) + 1) / 20 + 0.2)
+        );
     }
     renderSlide() {
         const s = this.getScale(time.scaled);

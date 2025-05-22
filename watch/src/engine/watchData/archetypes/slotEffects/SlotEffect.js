@@ -1,6 +1,7 @@
 import { perspectiveLayout } from '../../../../../../shared/src/engine/data/utils.js';
 import { note } from '../../note.js';
 import { getZ, layer } from '../../skin.js';
+import { options } from '../../../configuration/options.js';
 export class SlotEffect extends SpawnableArchetype({
     startTime: Number,
     lane: Number,
@@ -25,7 +26,8 @@ export class SlotEffect extends SpawnableArchetype({
         this.z = getZ(layer.slotEffect, -this.spawnData.startTime, Math.abs(this.spawnData.lane));
     }
     updateParallel() {
-        const a = Math.unlerp(this.endTime, this.spawnData.startTime, time.now);
+        const baseA = Math.unlerp(this.endTime, this.spawnData.startTime, time.now);
+        const a = options.lightweight ? baseA * 0.25 : baseA;
         this.sprite.draw(this.layout, this.z, a);
     }
 }
