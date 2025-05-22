@@ -152,7 +152,7 @@ export const optionsDefinition = {
         def: 0,
         min: 0,
         max: 1,
-        step: 0.05,
+        step: 0.01,
         unit: Text.PercentageUnit,
     },
     lockStageAspectRatio: {
