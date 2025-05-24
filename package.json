@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "@sonolus/core": "~7.13.1",
-    "@sonolus/sonolus.js": "~9.5.5"
+    "@sonolus/sonolus.js": "~9.5.5",
+    "typescript": "~5.8.2"
   },
   "dependencies": {
     "sonolus-pjsekai-js": "file:"
