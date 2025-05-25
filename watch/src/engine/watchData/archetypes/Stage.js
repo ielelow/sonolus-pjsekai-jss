@@ -47,9 +47,4 @@ export class Stage extends Archetype {
             b: Math.lerp(lane.t, 1, options.stageCover),
         }), layer.cover, 1);
     }
-    preprocess() {
-        if (options.customJudgment) {
-            ui.judgment.alpha = 0
-        }
-    }
 }
