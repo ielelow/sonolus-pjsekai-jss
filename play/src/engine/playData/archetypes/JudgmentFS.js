@@ -30,12 +30,8 @@ export class FastLate extends SpawnableArchetype({
             this.despawn = true;
             return;
         }
-        if (this.spawnData.flick == true)
-            this.ratio = 4.08;
-        else
-            this.ratio = 3.49;
         const h = 0.06 * ui.configuration.judgment.scale
-        const w = h * this.ratio * 5.8
+        const w = h * 20
         const centerX = 0
         const centerY = 0.72
         const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))

@@ -32,28 +32,8 @@ export class Judg extends SpawnableArchetype({
             this.despawnTime
             return
         }
-        if (options.auto)
-            this.ratio = 2.23;
-        else
-            this.ratio = 3.83;
-        if (replay.isReplay) {
-            switch (this.spawnData.j) {
-                case Judgment.Perfect:
-                    this.ratio = 3.83;
-                    break;
-                case Judgment.Great:
-                    this.ratio = 3.49;
-                    break;
-                case Judgment.Good:
-                    this.ratio = 2.65;
-                    break;
-                case Judgment.Miss:
-                    this.ratio = 2.23;
-                    break;
-            }
-        }
         const h = 0.1 * ui.configuration.judgment.scale
-        const w = h * this.ratio * 6.7
+        const w = h * 25.5
         const centerX = 0
         const centerY = 0.78
         const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
