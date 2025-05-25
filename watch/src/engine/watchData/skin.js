@@ -121,6 +121,7 @@ export const skin = defineSkin({
         c8: 'C8',
         c9: 'C9',
         combo: 'Combo',
+        apcombo: 'APCombo',
         fast: 'Fast',
         late: 'Late',
         flick: 'Flick',
