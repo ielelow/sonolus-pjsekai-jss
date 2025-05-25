@@ -40,6 +40,8 @@ import { NormalSlotGlowEffect } from './slotGlowEffects/NormalSlotGlowEffect.js'
 import { SlideSlotGlowEffect } from './slotGlowEffects/SlideSlotGlowEffect.js';
 import { Judg } from './Judgment.js';
 import { FastLate } from './JudgmentFS.js';
+import { ComboN } from './ComboN.js';
+import { ComboT } from './ComboT.js';
 export const archetypes = defineArchetypes({
     Initialization,
     InputManager,
@@ -83,4 +85,6 @@ export const archetypes = defineArchetypes({
     CriticalSlotGlowEffect,
     Judg,
     FastLate,
+    ComboT,
+    ComboN,
 });

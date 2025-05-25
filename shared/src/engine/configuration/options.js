@@ -36,12 +36,12 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 0,
     },
-    /*customCombo: {
+    customCombo: {
         name: 'Using Sekai Combo(Beta)',
         scope: 'Sekai',
         type: 'toggle',
         def: 0,
-    },*/
+    },
     customJudgment: {
         name: 'Using Sekai Judgment(Beta)',
         scope: 'Sekai',
@@ -49,7 +49,7 @@ export const optionsDefinition = {
         def: 1,
     },
     fastLate: {
-        name: 'Fast/Late',
+        name: 'Late/Fast/Flick',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,

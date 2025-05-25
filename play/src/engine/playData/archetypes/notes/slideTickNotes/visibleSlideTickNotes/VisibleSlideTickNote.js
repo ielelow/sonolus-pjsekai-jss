@@ -107,5 +107,8 @@ export class VisibleSlideTickNote extends SlideTickNote {
         if (options.customJudgment) {
             archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
         }
+        if (options.customCombo) {
+            archetypes.ComboN.spawn({ j: this.result.judgment, t: time.now });
+        }
     }
 }

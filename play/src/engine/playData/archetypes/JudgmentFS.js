@@ -1,6 +1,5 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
-import { options } from '../../configuration/options.js';
 
 export class FastLate extends SpawnableArchetype({
     j: Number,
