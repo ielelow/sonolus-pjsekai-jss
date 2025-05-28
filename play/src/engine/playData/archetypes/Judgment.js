@@ -31,7 +31,7 @@ export class Judg extends SpawnableArchetype({
         const centerX = 0
         const centerY = 0.78
         const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
-        const a = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
+        const a = ui.configuration.judgment.alpha * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)))
         NormalLayout({
             l: centerX - (w * s) / 2,
             r: centerX + (w * s) / 2,

@@ -3,6 +3,7 @@ import { options } from '../../../configuration/options.js';
 import { archetypes } from '../index.js';
 export class Note extends Archetype {
     hasInput = true;
+    preprocessOrder = 0;
     import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         lane: { name: 'lane', type: Number },
@@ -11,8 +12,19 @@ export class Note extends Archetype {
         accuracy: { name: EngineArchetypeDataName.Accuracy, type: Number },
         flick: { name: 'flick', type: Boolean },
         jud: { name: 'jud', type: Number },
+        ap: { name: 'ap', type: Boolean },
     });
+    entityArray = this.defineSharedMemory({
+        value: Number,
+        time: Number,
+        length: Number,
+        start: Number,
+        combo: Number,
+        Judgment: DataType,
+    })
     targetTime = this.entityMemory(Number);
+    check = levelMemory(Boolean)
+    combo = levelMemory(Number)
     preprocess() {
         if (options.mirror)
             this.import.lane *= -1;
@@ -30,6 +42,12 @@ export class Note extends Archetype {
                     flick: this.import.flick,
                 });
             }
+        }
+        if (options.customCombo) {
+            this.entityArray.get(this.info.index).time = timeScaleChanges.at(this.targetTime).scaledTime
+            this.entityArray.get(this.info.index).Judgment = this.import.judgment
+            archetypes.ComboN.spawn({ t: this.targetTime, j: this.import.judgment, ap: this.import.ap, i: this.info.index })
+            archetypes.ComboT.spawn({ t: this.targetTime, j: this.import.judgment, ap: this.import.ap })
         }
     }
 }

@@ -1,6 +1,5 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
-import { options } from '../../configuration/options.js';
 
 export class ComboT extends SpawnableArchetype({
     c: Number,
@@ -16,7 +15,7 @@ export class ComboT extends SpawnableArchetype({
     combo = levelMemory(Number);
     check = this.entityMemory(Boolean);
     initialize() {
-        this.endTime = 99999
+        this.endTime = 999999
         this.z = getZ(layer.judgment, -this.spawnData.t, 0);
     }
     updateParallel() {
@@ -30,7 +29,7 @@ export class ComboT extends SpawnableArchetype({
         const centerX = 5.15
         const centerY = 0.475
         const s = this.spawnData.c == 0 ? Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now))) : 1
-        const a = this.spawnData.c == 0 ? Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now))) : 1
+        const a = ui.configuration.combo.alpha * this.spawnData.c == 0 ? Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now))) : 1
         // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
         NormalLayout({
             l: centerX - (w * s) / 2,

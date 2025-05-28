@@ -4,7 +4,7 @@ export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.0.3'
+export const version = '1.0.4'
 
 export const databaseEngineItem = {
     name: 'prosekaR',
@@ -17,7 +17,7 @@ export const databaseEngineItem = {
         zht: '世界計劃 R',
     },
     subtitle: {
-        en: 'ProSekai Rush',
+        en: 'ProSeka Rush',
         ja: 'プロセカ ラッシュ',
         ko: '프로세카 러쉬',
         zhs: '世界计划 匆忙',

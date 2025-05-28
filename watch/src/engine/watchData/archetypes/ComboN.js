@@ -1,37 +1,39 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
-import { archetypes } from './index.js';
 import { options } from '../../configuration/options.js';
 export class ComboN extends SpawnableArchetype({
-    j: Number,
+    j: DataType,
     t: Number,
+    ap: Boolean,
+    i: Number
 })
 {
     endTime = this.entityMemory(Number);
     layout = this.entityMemory(Quad);
     z = this.entityMemory(Number);
-    comboc = this.entityMemory(Number);
     check = this.entityMemory(Boolean);
-    ratio = this.entityMemory(Number);
-    combo = levelMemory(Number);
-    AP = levelMemory(Boolean);
-    comboExport = this.defineExport({
-        combo: { name: 'combo', type: Number },
-        ap: { name: 'ap', type: Boolean }
-    });
-    sharedMemory = this.defineSharedMemory({
-        ap: Boolean
-    });
+    preprocessOrder = 5;
+    entityArray = this.defineSharedMemory({
+        value: Number,
+        time: Number,
+        length: Number,
+        start: Number,
+        combo: Number
+    })
     initialize() {
-        this.endTime = 999999;
         this.z = getZ(layer.judgment, -this.spawnData.t, 0);
     }
+    spawnTime() {
+        return timeScaleChanges.at(this.spawnData.t).scaledTime;
+    }
+    despawnTime() {
+        if (this.entityArray.get(this.spawnData.i).value == 0)
+            return 999999
+        else
+            return this.entityArray.get(this.entityArray.get(this.spawnData.i).value).time
+    }
     updateParallel() {
-        if (this.comboc != this.combo) {
-            this.despawn = true;
-            return;
-        }
-        const c = this.combo;
+        const c = this.entityArray.get(this.spawnData.i).combo
         const digits = [
             Math.floor(c / 1000) % 10,
             Math.floor(c / 100) % 10,
@@ -42,14 +44,13 @@ export class ComboN extends SpawnableArchetype({
         if (digits[0] === 0) digitCount = 3;
         if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
         if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
-        this.ratio = 0.773;
         const h = 0.14 * ui.configuration.combo.scale
         const centerX = 5.15
         const centerY = 0.58
         // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
         const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
         const a = ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-        const digitWidth = h * this.ratio * 6.65
+        const digitWidth = h * 0.773 * 6.65
         const digitGap = digitWidth * 0;
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
         const startX = centerX - totalWidth / 2;
@@ -145,26 +146,8 @@ export class ComboN extends SpawnableArchetype({
             this.drawDigit(digits[3], digitLayout3, this.z, a, skin);
         }
     }
-    updateSequential() {
-        if (this.spawnData.j != Judgment.Good && this.spawnData.j != Judgment.Miss) {
-            if (!this.check) {
-                this.combo += 1
-                this.comboc = this.combo
-            }
-        }
-        else {
-            this.combo = 0
-            this.comboc = -999
-        }
-        if (this.spawnData.j != Judgment.Perfect) {
-            this.AP = true
-            this.sharedMemory.get(0).ap = true
-        }
-        archetypes.ComboT.spawn({ c: this.combo, t: time.now, ap: this.AP })
-        this.check = true
-    }
     drawDigit(digit, layout, z, a, skin) {
-        if (this.AP || !options.ap) {
+        if (this.spawnData.ap || !options.ap) {
             switch (digit) {
                 case 0: skin.sprites.c0.draw(layout, z, a); break;
                 case 1: skin.sprites.c1.draw(layout, z, a); break;

@@ -40,7 +40,8 @@ import { SlideSlotGlowEffect } from './slotGlowEffects/SlideSlotGlowEffect.js';
 import { LaneEffectSpawner } from './/notes/flatNotes/flickNotes/LaneEffectSpawner.js';
 import { Judg } from './Judgment.js';
 import { FastLate } from './JudgmentFS.js';
-
+import { ComboN } from './ComboN.js';
+import { ComboT } from './ComboT.js';
 export const archetypes = defineArchetypes({
     Initialization,
     Stage,
@@ -84,4 +85,6 @@ export const archetypes = defineArchetypes({
     LaneEffectSpawner,
     Judg,
     FastLate,
+    ComboN,
+    ComboT,
 });

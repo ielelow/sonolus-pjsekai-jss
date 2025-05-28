@@ -37,13 +37,19 @@ export const optionsDefinition = {
         def: 0,
     },
     customCombo: {
-        name: 'Using Sekai Combo(Beta)',
+        name: 'Using Sekai Combo',
         scope: 'Sekai',
         type: 'toggle',
-        def: 0,
+        def: 1,
     },
     customJudgment: {
-        name: 'Using Sekai Judgment(Beta)',
+        name: 'Using Sekai Judgment',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
+    ap: {
+        name: 'AP continues to direct',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
