@@ -2,9 +2,7 @@ import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { options } from '../../configuration/options.js';
 export class ComboN extends SpawnableArchetype({
-    j: DataType,
     t: Number,
-    ap: Boolean,
     i: Number
 })
 {
@@ -18,7 +16,10 @@ export class ComboN extends SpawnableArchetype({
         time: Number,
         length: Number,
         start: Number,
-        combo: Number
+        combo: Number,
+        Judgment: DataType,
+        tail: Number,
+        ap: Boolean
     })
     initialize() {
         this.z = getZ(layer.judgment, -this.spawnData.t, 0);
@@ -27,127 +28,129 @@ export class ComboN extends SpawnableArchetype({
         return timeScaleChanges.at(this.spawnData.t).scaledTime;
     }
     despawnTime() {
-        if (this.entityArray.get(this.spawnData.i).value == 0)
-            return 999999
-        else
+        if (this.entityArray.get(this.spawnData.i).value != this.entityArray.get(this.entityArray.get(0).tail).value)
             return this.entityArray.get(this.entityArray.get(this.spawnData.i).value).time
+        else
+            return 999999
     }
     updateParallel() {
         const c = this.entityArray.get(this.spawnData.i).combo
-        const digits = [
-            Math.floor(c / 1000) % 10,
-            Math.floor(c / 100) % 10,
-            Math.floor(c / 10) % 10,
-            c % 10,
-        ];
-        let digitCount = 4;
-        if (digits[0] === 0) digitCount = 3;
-        if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
-        if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
-        const h = 0.14 * ui.configuration.combo.scale
-        const centerX = 5.15
-        const centerY = 0.58
-        // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
-        const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-        const a = ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-        const digitWidth = h * 0.773 * 6.65
-        const digitGap = digitWidth * 0;
-        const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
-        const startX = centerX - totalWidth / 2;
-        if (digitCount === 1) {
-            const digitLayout = NormalLayout({
-                l: s * (centerX - digitWidth / 2) + (1 - s) * centerX,
-                r: s * (centerX + digitWidth / 2) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[3], digitLayout, this.z, a, skin);
-        } else if (digitCount === 2) {
-            // 첫 번째 자리
-            const digitLayout0 = NormalLayout({
-                l: s * (startX) + (1 - s) * centerX,
-                r: s * (startX + digitWidth) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[2], digitLayout0, this.z, a, skin);
+        if (c != 0) {
+            const digits = [
+                Math.floor(c / 1000) % 10,
+                Math.floor(c / 100) % 10,
+                Math.floor(c / 10) % 10,
+                c % 10,
+            ];
+            let digitCount = 4;
+            if (digits[0] === 0) digitCount = 3;
+            if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
+            if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
+            const h = 0.14 * ui.configuration.combo.scale
+            const centerX = 5.15
+            const centerY = 0.58
+            // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
+            const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
+            const a = ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
+            const digitWidth = h * 0.773 * 6.65
+            const digitGap = digitWidth * -0.05;
+            const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
+            const startX = centerX - totalWidth / 2;
+            if (digitCount === 1) {
+                const digitLayout = NormalLayout({
+                    l: s * (centerX - digitWidth / 2) + (1 - s) * centerX,
+                    r: s * (centerX + digitWidth / 2) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[3], digitLayout, this.z, a, skin);
+            } else if (digitCount === 2) {
+                // 첫 번째 자리
+                const digitLayout0 = NormalLayout({
+                    l: s * (startX) + (1 - s) * centerX,
+                    r: s * (startX + digitWidth) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[2], digitLayout0, this.z, a, skin);
 
-            // 두 번째 자리
-            const digitLayout1 = NormalLayout({
-                l: s * (startX + digitWidth + digitGap) + (1 - s) * centerX,
-                r: s * (startX + 2 * digitWidth + digitGap) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[3], digitLayout1, this.z, a, skin);
-        } else if (digitCount === 3) {
-            // 첫 번째 자리
-            const digitLayout0 = NormalLayout({
-                l: s * (startX) + (1 - s) * centerX,
-                r: s * (startX + digitWidth) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[1], digitLayout0, this.z, a, skin);
+                // 두 번째 자리
+                const digitLayout1 = NormalLayout({
+                    l: s * (startX + digitWidth + digitGap) + (1 - s) * centerX,
+                    r: s * (startX + 2 * digitWidth + digitGap) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[3], digitLayout1, this.z, a, skin);
+            } else if (digitCount === 3) {
+                // 첫 번째 자리
+                const digitLayout0 = NormalLayout({
+                    l: s * (startX) + (1 - s) * centerX,
+                    r: s * (startX + digitWidth) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[1], digitLayout0, this.z, a, skin);
 
-            // 두 번째 자리
-            const digitLayout1 = NormalLayout({
-                l: s * (startX + digitWidth + digitGap) + (1 - s) * centerX,
-                r: s * (startX + 2 * digitWidth + digitGap) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[2], digitLayout1, this.z, a, skin);
+                // 두 번째 자리
+                const digitLayout1 = NormalLayout({
+                    l: s * (startX + digitWidth + digitGap) + (1 - s) * centerX,
+                    r: s * (startX + 2 * digitWidth + digitGap) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[2], digitLayout1, this.z, a, skin);
 
-            // 세 번째 자리
-            const digitLayout2 = NormalLayout({
-                l: s * (startX + 2 * (digitWidth + digitGap)) + (1 - s) * centerX,
-                r: s * (startX + 3 * digitWidth + 2 * digitGap) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[3], digitLayout2, this.z, a, skin);
+                // 세 번째 자리
+                const digitLayout2 = NormalLayout({
+                    l: s * (startX + 2 * (digitWidth + digitGap)) + (1 - s) * centerX,
+                    r: s * (startX + 3 * digitWidth + 2 * digitGap) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[3], digitLayout2, this.z, a, skin);
 
-        } else if (digitCount === 4) {
-            // 첫 번째 자리
-            const digitLayout0 = NormalLayout({
-                l: s * (startX) + (1 - s) * centerX,
-                r: s * (startX + digitWidth) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[0], digitLayout0, this.z, a, skin);
+            } else if (digitCount === 4) {
+                // 첫 번째 자리
+                const digitLayout0 = NormalLayout({
+                    l: s * (startX) + (1 - s) * centerX,
+                    r: s * (startX + digitWidth) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[0], digitLayout0, this.z, a, skin);
 
-            // 두 번째 자리
-            const digitLayout1 = NormalLayout({
-                l: s * (startX + digitWidth + digitGap) + (1 - s) * centerX,
-                r: s * (startX + 2 * digitWidth + digitGap) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[1], digitLayout1, this.z, a, skin);
+                // 두 번째 자리
+                const digitLayout1 = NormalLayout({
+                    l: s * (startX + digitWidth + digitGap) + (1 - s) * centerX,
+                    r: s * (startX + 2 * digitWidth + digitGap) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[1], digitLayout1, this.z, a, skin);
 
-            // 세 번째 자리
-            const digitLayout2 = NormalLayout({
-                l: s * (startX + 2 * (digitWidth + digitGap)) + (1 - s) * centerX,
-                r: s * (startX + 3 * digitWidth + 2 * digitGap) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[2], digitLayout2, this.z, a, skin);
+                // 세 번째 자리
+                const digitLayout2 = NormalLayout({
+                    l: s * (startX + 2 * (digitWidth + digitGap)) + (1 - s) * centerX,
+                    r: s * (startX + 3 * digitWidth + 2 * digitGap) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[2], digitLayout2, this.z, a, skin);
 
-            // 네 번째 자리
-            const digitLayout3 = NormalLayout({
-                l: s * (startX + 3 * (digitWidth + digitGap)) + (1 - s) * centerX,
-                r: s * (startX + 4 * digitWidth + 3 * digitGap) + (1 - s) * centerX,
-                t: s * (centerY - h / 2) + (1 - s) * centerY,
-                b: s * (centerY + h / 2) + (1 - s) * centerY,
-            });
-            this.drawDigit(digits[3], digitLayout3, this.z, a, skin);
+                // 네 번째 자리
+                const digitLayout3 = NormalLayout({
+                    l: s * (startX + 3 * (digitWidth + digitGap)) + (1 - s) * centerX,
+                    r: s * (startX + 4 * digitWidth + 3 * digitGap) + (1 - s) * centerX,
+                    t: s * (centerY - h / 2) + (1 - s) * centerY,
+                    b: s * (centerY + h / 2) + (1 - s) * centerY,
+                });
+                this.drawDigit(digits[3], digitLayout3, this.z, a, skin);
+            }
         }
     }
     drawDigit(digit, layout, z, a, skin) {
-        if (this.spawnData.ap || !options.ap) {
+        if (this.entityArray.get(this.spawnData.i).ap == true || !options.ap) {
             switch (digit) {
                 case 0: skin.sprites.c0.draw(layout, z, a); break;
                 case 1: skin.sprites.c1.draw(layout, z, a); break;

@@ -7,9 +7,6 @@ import { layer, skin } from '../skin.js';
 import { archetypes } from './index.js';
 import { EngineArchetypeDataName } from '@sonolus/core';
 export class Stage extends Archetype {
-    import = this.defineImport({
-        beat: { name: EngineArchetypeDataName.Beat, type: Number }
-    });
     preprocessOrder = 3;
     entityArray = this.defineSharedMemory({
         value: Number,
@@ -18,7 +15,10 @@ export class Stage extends Archetype {
         start: Number,
         combo: Number,
         Judgment: DataType,
+        tail: Number,
+        ap: Boolean
     })
+    ap = this.entityMemory(Boolean)
     cache = this.entityMemory({
         n0: Number,
         n1: Number,
@@ -104,34 +104,34 @@ export class Stage extends Archetype {
         for (let i = 0; i < entityCount; i++) {
             let ii = entityCount - 1 - i
             let archetypeIndex = entityInfos.get(ii).archetype
-            if (archetypeIndex != archetypes.Initialization.index
-                && archetypeIndex != archetypes.Stage.index
-                && archetypeIndex != archetypes.IgnoredSlideTickNote.index
-                && archetypeIndex != archetypes.SimLine.index
-                && archetypeIndex != archetypes.NormalSlotEffect.index
-                && archetypeIndex != archetypes.SlideSlotEffect.index
-                && archetypeIndex != archetypes.FlickSlotEffect.index
-                && archetypeIndex != archetypes.CriticalSlotEffect.index
-                && archetypeIndex != archetypes.NormalSlotGlowEffect.index
-                && archetypeIndex != archetypes.SlideSlotGlowEffect.index
-                && archetypeIndex != archetypes.FlickSlotGlowEffect.index
-                && archetypeIndex != archetypes.CriticalSlotGlowEffect.index
-                && archetypeIndex != archetypes.LaneEffectSpawner.index
-                && archetypeIndex != archetypes.Judg.index
-                && archetypeIndex != archetypes.FastLate.index
-                && archetypeIndex != archetypes.ComboN.index
-                && archetypeIndex != archetypes.ComboT.index
-                && archetypeIndex != archetypes.NormalActiveSlideConnector.index
-                && archetypeIndex != archetypes.CriticalActiveSlideConnector.index
-                && archetypeIndex != archetypes.NormalAttachedSlideTickNote.index
-                && archetypeIndex != archetypes.CriticalAttachedSlideTickNote.index) {
+            if (archetypeIndex == archetypes.NormalTapNote.index
+                || archetypeIndex == archetypes.CriticalTapNote.index
+                || archetypeIndex == archetypes.NormalFlickNote.index
+                || archetypeIndex == archetypes.CriticalFlickNote.index
+                || archetypeIndex == archetypes.NormalTraceNote.index
+                || archetypeIndex == archetypes.CriticalTraceNote.index
+                || archetypeIndex == archetypes.NormalTraceFlickNote.index
+                || archetypeIndex == archetypes.CriticalTraceFlickNote.index
+                || archetypeIndex == archetypes.NormalSlideTraceNote.index
+                || archetypeIndex == archetypes.CriticalSlideTraceNote.index
+                || archetypeIndex == archetypes.NormalSlideStartNote.index
+                || archetypeIndex == archetypes.CriticalSlideStartNote.index
+                || archetypeIndex == archetypes.NormalSlideEndNote.index
+                || archetypeIndex == archetypes.CriticalSlideEndNote.index
+                || archetypeIndex == archetypes.NormalSlideEndTraceNote.index
+                || archetypeIndex == archetypes.CriticalSlideEndTraceNote.index
+                || archetypeIndex == archetypes.CriticalSlideEndFlickNote.index
+                || archetypeIndex == archetypes.NormalSlideEndFlickNote.index
+                || archetypeIndex == archetypes.NormalSlideTickNote.index
+                || archetypeIndex == archetypes.CriticalSlideTickNote.index
+                || archetypeIndex == archetypes.HiddenSlideTickNote.index
+                || archetypeIndex == archetypes.NormalAttachedSlideTickNote.index
+                || archetypeIndex == archetypes.CriticalAttachedSlideTickNote.index
+            ) {
                 lineLength += 1
                 this.entityArray.get(ii).value = next
                 next = ii
             }
-        }
-        for (let i = 0; i < 32; i++) {
-            this.setCacheValue(i, 0);
         }
         let currentEntity = next;
         for (let i = 0; i < lineLength; i++) {
@@ -170,7 +170,11 @@ export class Stage extends Archetype {
         let idx = 0;
         let ptr = head;
         let combo = 0
-        while (ptr != 0 && idx < lineLength) {
+        while (idx < lineLength && ptr != this.entityArray.get(this.entityArray.get(0).tail).value) {
+            if (replay.isReplay && (this.entityArray.get(ptr).Judgment != Judgment.Perfect || this.ap == true)) {
+                this.entityArray.get(ptr).ap = true
+                this.ap = true
+            }
             if (replay.isReplay && (this.entityArray.get(ptr).Judgment == Judgment.Good || this.entityArray.get(ptr).Judgment == Judgment.Miss))
                 combo = 0
             else
@@ -209,11 +213,25 @@ export class Stage extends Archetype {
         }
         if (Alen < Asize) {
             this.entityArray.get(pointer).value = A;
+            // 마지막 노드 찾기
+            while (Alen < Asize) {
+                pointer = A;
+                A = this.entityArray.get(A).value;
+                Alen += 1;
+            }
         }
         if (Blen < Bsize) {
             this.entityArray.get(pointer).value = B;
+            // 마지막 노드 찾기
+            while (Blen < Bsize) {
+                pointer = B;
+                B = this.entityArray.get(B).value;
+                Blen += 1;
+            }
         }
-        return newHead;
+        this.entityArray.get(pointer).value = -1;
+        this.entityArray.get(0).tail = pointer
+        return newHead
     }
     getCacheValue(index) {
         switch (index) {

@@ -11,8 +11,7 @@ export class Note extends Archetype {
         judgment: { name: EngineArchetypeDataName.Judgment, type: (DataType) },
         accuracy: { name: EngineArchetypeDataName.Accuracy, type: Number },
         flick: { name: 'flick', type: Boolean },
-        jud: { name: 'jud', type: Number },
-        ap: { name: 'ap', type: Boolean },
+        jud: { name: 'jud', type: Number }
     });
     entityArray = this.defineSharedMemory({
         value: Number,
@@ -21,6 +20,8 @@ export class Note extends Archetype {
         start: Number,
         combo: Number,
         Judgment: DataType,
+        tail: Number,
+        ap: Boolean
     })
     targetTime = this.entityMemory(Number);
     check = levelMemory(Boolean)
@@ -46,8 +47,8 @@ export class Note extends Archetype {
         if (options.customCombo) {
             this.entityArray.get(this.info.index).time = timeScaleChanges.at(this.targetTime).scaledTime
             this.entityArray.get(this.info.index).Judgment = this.import.judgment
-            archetypes.ComboN.spawn({ t: this.targetTime, j: this.import.judgment, ap: this.import.ap, i: this.info.index })
-            archetypes.ComboT.spawn({ t: this.targetTime, j: this.import.judgment, ap: this.import.ap })
+            archetypes.ComboN.spawn({ t: this.targetTime, i: this.info.index })
+            archetypes.ComboT.spawn({ t: this.targetTime, i: this.info.index })
         }
     }
 }

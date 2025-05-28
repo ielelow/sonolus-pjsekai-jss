@@ -19,8 +19,8 @@ export class SlideTickNote extends Note {
         if (options.customCombo) {
             this.entityArray.get(this.info.index).time = timeScaleChanges.at(this.targetTime).scaledTime
             this.entityArray.get(this.info.index).Judgment = this.import.judgment
-            archetypes.ComboN.spawn({ t: this.targetTime, j: this.import.judgment, ap: this.import.ap, i: this.info.index })
-            archetypes.ComboT.spawn({ t: this.targetTime, j: this.import.judgment, ap: this.import.ap })
+            archetypes.ComboN.spawn({ t: this.targetTime, i: this.info.index })
+            archetypes.ComboT.spawn({ t: this.targetTime, i: this.info.index })
         }
     }
 }

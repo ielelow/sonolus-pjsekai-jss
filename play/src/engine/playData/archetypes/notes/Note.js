@@ -8,12 +8,8 @@ export class Note extends Archetype {
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
     });
-    comboExport = this.defineExport({
-        ap: { name: 'ap', type: Boolean },
-    });
     sharedMemory = this.defineSharedMemory({
-        lastActiveTime: Number,
-        ap: Boolean
+        lastActiveTime: Number
     });
     targetTime = this.entityMemory(Number);
     spawnTime = this.entityMemory(Number);
@@ -47,9 +43,6 @@ export class Note extends Archetype {
             }
         }
         if (options.customCombo) {
-            if (this.result.judgment != Judgment.Perfect || this.sharedMemory.get(0).ap == true) {
-                this.comboExport('ap', true);
-            }
             archetypes.ComboN.spawn({ j: this.result.judgment, t: time.now });
         }
     }

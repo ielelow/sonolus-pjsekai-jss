@@ -20,6 +20,7 @@ export class ComboN extends SpawnableArchetype({
         ap: { name: 'ap', type: Boolean }
     });
     sharedMemory = this.defineSharedMemory({
+        lastActiveTime: Number,
         ap: Boolean
     });
     initialize() {
@@ -50,7 +51,7 @@ export class ComboN extends SpawnableArchetype({
         const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
         const a = ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
         const digitWidth = h * this.ratio * 6.65
-        const digitGap = digitWidth * 0;
+        const digitGap = digitWidth * -0.05;
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
         const startX = centerX - totalWidth / 2;
         if (digitCount === 1) {
