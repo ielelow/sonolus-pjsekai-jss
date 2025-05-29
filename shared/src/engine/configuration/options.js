@@ -49,13 +49,13 @@ export const optionsDefinition = {
         def: 1,
     },
     ap: {
-        name: 'AP continues to direct',
+        name: 'AP Continues To Direct',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     comboDistance: {
-        name: 'custom combo number distance',
+        name: 'Custom Combo Number Distance',
         scope: 'Sekai',
         advanced: true,
         type: 'slider',
@@ -71,19 +71,19 @@ export const optionsDefinition = {
         def: 1,
     },
     auto: {
-        name: 'Output judgment as auto in watch mode',
+        name: 'Output Judgment As Auto In Watch Mode',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     autoCombo: {
-        name: 'hide combo in watch mode',
+        name: 'Hide Combo In Watch Mode',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     lightweight: {
-        name: 'Using lightweight skin',
+        name: 'Using Lightweight Skin',
         scope: 'Sekai',
         type: 'toggle',
         def: 0
