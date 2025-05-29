@@ -17,4 +17,4 @@ export const effect = defineEffect({
         criticalTrace: 'Sekai Critical Trace',
     },
 });
-export const sfxDistance = 0.0005;
+export const sfxDistance = 0;
