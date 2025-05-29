@@ -46,13 +46,13 @@ export class ComboN extends SpawnableArchetype({
             if (digits[0] === 0) digitCount = 3;
             if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
             if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
-            const h = 0.14 * ui.configuration.combo.scale
+            const h = 0.1624 * ui.configuration.combo.scale
             const centerX = 5.36
-            const centerY = 0.32
+            const centerY = 0.6
             // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
             const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
             const a = ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-            const digitWidth = h * 0.89668 * 7.5145
+            const digitWidth = h * 0.773 * 7.5145
             const digitGap = digitWidth * -0.0565;
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
             const startX = centerX - totalWidth / 2;
