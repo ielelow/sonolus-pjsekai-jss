@@ -37,37 +37,37 @@ export const optionsDefinition = {
         def: 0,
     },
     customCombo: {
-        name: 'Using Sekai Combo',
+        name: 'Replace Sonolus Combo with Sekai Assets',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     customJudgment: {
-        name: 'Using Sekai Judgment',
+        name: 'Replace Sonolus Judgement with Sekai Assets',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     ap: {
-        name: 'AP continues to direct',
+        name: 'AP Effect',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     fastLate: {
-        name: 'Late/Fast/Flick',
+        name: 'Show Judgment Errors Fast/Late/Flick',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     auto: {
-        name: 'Output judgment as auto in watch mode',
+        name: 'Set Judgment as AUTO in Watch Mode',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     lightweight: {
-        name: 'Using lightweight skin',
+        name: 'Using Lightweight Skin',
         scope: 'Sekai',
         type: 'toggle',
         def: 0
