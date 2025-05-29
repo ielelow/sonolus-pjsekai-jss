@@ -53,7 +53,7 @@ export class ComboN extends SpawnableArchetype({
             const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
             const a = ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
             const digitWidth = h * 0.71889 * 7.5145
-            const digitGap = digitWidth * -0.0565;
+            const digitGap = digitWidth * -0.058;
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
             const startX = centerX - totalWidth / 2;
             if (digitCount === 1) {
