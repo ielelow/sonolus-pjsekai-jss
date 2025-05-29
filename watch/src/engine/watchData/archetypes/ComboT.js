@@ -35,7 +35,7 @@ export class ComboT extends SpawnableArchetype({
     updateParallel() {
         const c = this.entityArray.get(this.spawnData.i).combo
         const h = 0.05 * ui.configuration.combo.scale
-        const w = h * 3.542 * 7.315
+        const w = h * 3.22 * 7.315
         const centerX = 5.36
         const centerY = 0.475
         const s = c == 1 ? Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now))) : 1
