@@ -25,8 +25,8 @@ export class ComboT extends SpawnableArchetype({
         }
         this.ratio = 3.22;
         const h = 0.05 * ui.configuration.combo.scale
-        const w = h * this.ratio * 6.65
-        const centerX = 5.15
+        const w = h * this.ratio * 7.315
+        const centerX = 5.36
         const centerY = 0.475
         const s = this.spawnData.c == 0 ? Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now))) : 1
         const a = ui.configuration.combo.alpha * this.spawnData.c == 0 ? Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now))) : 1
