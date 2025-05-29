@@ -46,8 +46,8 @@ export class ComboE extends SpawnableArchetype({
         const centerX = 5.15
         const centerY = 0.575
         // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
-        const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-        const a = 0.3 * ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.unlerp(this.spawnData.t + 0.15, this.spawnData.t, time.now))
+        const s = 0.7 + 0.3 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t + 0.1, this.spawnData.t + 0.15, time.now)))
+        const a = time.now >= this.spawnData.t + 0.1 ? 0.45 * ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.unlerp(this.spawnData.t + 0.15, this.spawnData.t + 0.1, time.now)) : 0
         const digitWidth = h * 0.773 * 6.65
         const digitGap = digitWidth * (options.comboDistance - 0.17);
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;

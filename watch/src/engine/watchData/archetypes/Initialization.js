@@ -96,7 +96,7 @@ export class Initialization extends Archetype {
             pivot: { x: 0.5, y: 0.5 },
             size: new Vec(0, stage.h * 0.14).mul(ui.configuration.combo.scale),
             rotation: 0,
-            alpha: options.customCombo ? 0 : ui.configuration.combo.alpha,
+            alpha: options.customCombo || (options.autoCombo && !replay.isReplay) ? 0 : ui.configuration.combo.alpha,
             horizontalAlign: HorizontalAlign.Center,
             background: false,
         });
@@ -105,7 +105,7 @@ export class Initialization extends Archetype {
             pivot: { x: 0.5, y: -2.25 },
             size: new Vec(0, stage.h * 0.14 * 0.25).mul(ui.configuration.combo.scale),
             rotation: 0,
-            alpha: options.customCombo ? 0 : ui.configuration.combo.alpha,
+            alpha: options.customCombo || (options.autoCombo && !replay.isReplay) ? 0 : ui.configuration.combo.alpha,
             horizontalAlign: HorizontalAlign.Center,
             background: false,
         });
