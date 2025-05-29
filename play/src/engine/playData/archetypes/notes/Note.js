@@ -44,6 +44,8 @@ export class Note extends Archetype {
         }
         if (options.customCombo) {
             archetypes.ComboN.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboE.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboG.spawn({ j: this.result.judgment, t: time.now });
         }
     }
 }

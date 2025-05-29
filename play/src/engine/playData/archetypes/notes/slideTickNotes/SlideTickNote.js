@@ -1,6 +1,8 @@
 import { getHitbox } from '../../../lane.js';
 import { disallowEmpty } from '../../InputManager.js';
 import { Note } from '../Note.js';
+import { archetypes } from '../../index.js';
+import { options } from '../../../../configuration/options.js';
 export class SlideTickNote extends Note {
     leniency = 1;
     inputTime = this.entityMemory(Number);
@@ -44,4 +46,14 @@ export class SlideTickNote extends Note {
     }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     playHitEffects() { }
+    terminate() {
+        if (options.customJudgment) {
+            archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
+        }
+        if (options.customCombo) {
+            archetypes.ComboN.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboE.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboG.spawn({ j: this.result.judgment, t: time.now });
+        }
+    }
 }

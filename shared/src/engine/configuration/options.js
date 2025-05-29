@@ -54,6 +54,16 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    comboDistance: {
+        name: 'custom combo number distance',
+        scope: 'Sekai',
+        advanced: true,
+        type: 'slider',
+        def: -0.05,
+        min: -0.15,
+        max: 0.15,
+        step: 0.01,
+    },
     fastLate: {
         name: 'Late/Fast/Flick',
         scope: 'Sekai',

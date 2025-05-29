@@ -1,7 +1,7 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { options } from '../../configuration/options.js';
-export class ComboN extends SpawnableArchetype({
+export class ComboE extends SpawnableArchetype({
     t: Number,
     i: Number
 })
@@ -46,14 +46,14 @@ export class ComboN extends SpawnableArchetype({
             if (digits[0] === 0) digitCount = 3;
             if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
             if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
-            const h = 0.14 * ui.configuration.combo.scale
+            const h = 0.19 * ui.configuration.combo.scale
             const centerX = 5.15
             const centerY = 0.575
             // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
             const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-            const a = ui.configuration.combo.alpha * (0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now))))
+            const a = 0.3 * ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.unlerp(this.spawnData.t + 0.15, this.spawnData.t, time.now))
             const digitWidth = h * 0.773 * 6.65
-            const digitGap = digitWidth * options.comboDistance;
+            const digitGap = digitWidth * (options.comboDistance - 0.17);
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
             const startX = centerX - totalWidth / 2;
             if (digitCount === 1) {
@@ -63,7 +63,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[3], digitLayout, this.z, a);
+                this.drawDigit(digits[3], digitLayout, this.z, a, skin);
             } else if (digitCount === 2) {
                 // 첫 번째 자리
                 const digitLayout0 = NormalLayout({
@@ -72,7 +72,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[2], digitLayout0, this.z, a);
+                this.drawDigit(digits[2], digitLayout0, this.z, a, skin);
 
                 // 두 번째 자리
                 const digitLayout1 = NormalLayout({
@@ -81,7 +81,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[3], digitLayout1, this.z, a);
+                this.drawDigit(digits[3], digitLayout1, this.z, a, skin);
             } else if (digitCount === 3) {
                 // 첫 번째 자리
                 const digitLayout0 = NormalLayout({
@@ -90,7 +90,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[1], digitLayout0, this.z, a);
+                this.drawDigit(digits[1], digitLayout0, this.z, a, skin);
 
                 // 두 번째 자리
                 const digitLayout1 = NormalLayout({
@@ -99,7 +99,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[2], digitLayout1, this.z, a);
+                this.drawDigit(digits[2], digitLayout1, this.z, a, skin);
 
                 // 세 번째 자리
                 const digitLayout2 = NormalLayout({
@@ -108,7 +108,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[3], digitLayout2, this.z, a);
+                this.drawDigit(digits[3], digitLayout2, this.z, a, skin);
 
             } else if (digitCount === 4) {
                 // 첫 번째 자리
@@ -118,7 +118,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[0], digitLayout0, this.z, a);
+                this.drawDigit(digits[0], digitLayout0, this.z, a, skin);
 
                 // 두 번째 자리
                 const digitLayout1 = NormalLayout({
@@ -127,7 +127,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[1], digitLayout1, this.z, a);
+                this.drawDigit(digits[1], digitLayout1, this.z, a, skin);
 
                 // 세 번째 자리
                 const digitLayout2 = NormalLayout({
@@ -136,7 +136,7 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[2], digitLayout2, this.z, a);
+                this.drawDigit(digits[2], digitLayout2, this.z, a, skin);
 
                 // 네 번째 자리
                 const digitLayout3 = NormalLayout({
@@ -145,12 +145,12 @@ export class ComboN extends SpawnableArchetype({
                     t: s * (centerY - h / 2) + (1 - s) * centerY,
                     b: s * (centerY + h / 2) + (1 - s) * centerY,
                 });
-                this.drawDigit(digits[3], digitLayout3, this.z, a);
+                this.drawDigit(digits[3], digitLayout3, this.z, a, skin);
             }
         }
     }
-    drawDigit(digit, layout, z, a) {
-        if (this.entityArray.get(this.spawnData.i).ap || !options.ap) {
+    drawDigit(digit, layout, z, a, skin) {
+        if (this.entityArray.get(this.spawnData.i).ap == true || !options.ap) {
             switch (digit) {
                 case 0: skin.sprites.c0.draw(layout, z, a); break;
                 case 1: skin.sprites.c1.draw(layout, z, a); break;
@@ -166,36 +166,16 @@ export class ComboN extends SpawnableArchetype({
         }
         else {
             switch (digit) {
-                case 0:
-                    skin.sprites.ap0.draw(layout, z, a);
-                    break;
-                case 1:
-                    skin.sprites.ap1.draw(layout, z, a);
-                    break;
-                case 2:
-                    skin.sprites.ap2.draw(layout, z, a);
-                    break;
-                case 3:
-                    skin.sprites.ap3.draw(layout, z, a);
-                    break;
-                case 4:
-                    skin.sprites.ap4.draw(layout, z, a);
-                    break;
-                case 5:
-                    skin.sprites.ap5.draw(layout, z, a);
-                    break;
-                case 6:
-                    skin.sprites.ap6.draw(layout, z, a);
-                    break;
-                case 7:
-                    skin.sprites.ap7.draw(layout, z, a);
-                    break;
-                case 8:
-                    skin.sprites.ap8.draw(layout, z, a);
-                    break;
-                case 9:
-                    skin.sprites.ap9.draw(layout, z, a);
-                    break;
+                case 0: skin.sprites.ap0.draw(layout, z, a); break;
+                case 1: skin.sprites.ap1.draw(layout, z, a); break;
+                case 2: skin.sprites.ap2.draw(layout, z, a); break;
+                case 3: skin.sprites.ap3.draw(layout, z, a); break;
+                case 4: skin.sprites.ap4.draw(layout, z, a); break;
+                case 5: skin.sprites.ap5.draw(layout, z, a); break;
+                case 6: skin.sprites.ap6.draw(layout, z, a); break;
+                case 7: skin.sprites.ap7.draw(layout, z, a); break;
+                case 8: skin.sprites.ap8.draw(layout, z, a); break;
+                case 9: skin.sprites.ap9.draw(layout, z, a); break;
             }
         }
     }

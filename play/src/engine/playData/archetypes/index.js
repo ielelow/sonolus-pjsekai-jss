@@ -42,6 +42,8 @@ import { Judg } from './Judgment.js';
 import { FastLate } from './JudgmentFS.js';
 import { ComboN } from './ComboN.js';
 import { ComboT } from './ComboT.js';
+import { ComboE } from './ComboE.js';
+import { ComboG } from './ComboG.js';
 export const archetypes = defineArchetypes({
     Initialization,
     InputManager,
@@ -87,4 +89,6 @@ export const archetypes = defineArchetypes({
     FastLate,
     ComboT,
     ComboN,
+    ComboE,
+    ComboG,
 });

@@ -28,6 +28,8 @@ export class VisibleSlideTickNote extends SlideTickNote {
             this.entityArray.get(this.info.index).time = timeScaleChanges.at(this.targetTime).scaledTime
             this.entityArray.get(this.info.index).Judgment = this.import.judgment
             archetypes.ComboN.spawn({ t: this.targetTime, i: this.info.index })
+            archetypes.ComboG.spawn({ t: this.targetTime, i: this.info.index })
+            archetypes.ComboE.spawn({ t: this.targetTime, i: this.info.index })
             archetypes.ComboT.spawn({ t: this.targetTime, i: this.info.index })
         }
         this.visualTime.copyFrom(Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime));

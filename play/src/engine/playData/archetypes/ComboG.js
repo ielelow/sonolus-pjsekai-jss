@@ -2,7 +2,7 @@ import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { archetypes } from './index.js';
 import { options } from '../../configuration/options.js';
-export class ComboN extends SpawnableArchetype({
+export class ComboG extends SpawnableArchetype({
     j: Number,
     t: Number,
 })
@@ -10,7 +10,6 @@ export class ComboN extends SpawnableArchetype({
     endTime = this.entityMemory(Number);
     layout = this.entityMemory(Quad);
     z = this.entityMemory(Number);
-    z2 = this.entityMemory(Number);
     comboc = this.entityMemory(Number);
     check = this.entityMemory(Boolean);
     combo = levelMemory(Number);
@@ -25,8 +24,7 @@ export class ComboN extends SpawnableArchetype({
     });
     initialize() {
         this.endTime = 999999;
-        this.z = getZ(layer.judgment, -this.spawnData.t, 0);
-        this.z2 = getZ(layer.judgment + 1, -this.spawnData.t, 0);
+        this.z = getZ(layer.judgment + 1, -this.spawnData.t, 0);
     }
     updateParallel() {
         if (this.comboc != this.combo) {
@@ -49,8 +47,7 @@ export class ComboN extends SpawnableArchetype({
         const centerY = 0.575
         // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
         const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-        const a = ui.configuration.combo.alpha * (0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now))))
-        const a2 = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
+        const a = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const digitWidth = h * 0.773 * 6.65
         const digitGap = digitWidth * options.comboDistance;
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
@@ -165,21 +162,7 @@ export class ComboN extends SpawnableArchetype({
         this.check = true
     }
     drawDigit(digit, layout, z, a) {
-        if (this.AP || !options.ap) {
-            switch (digit) {
-                case 0: skin.sprites.c0.draw(layout, z, a); break;
-                case 1: skin.sprites.c1.draw(layout, z, a); break;
-                case 2: skin.sprites.c2.draw(layout, z, a); break;
-                case 3: skin.sprites.c3.draw(layout, z, a); break;
-                case 4: skin.sprites.c4.draw(layout, z, a); break;
-                case 5: skin.sprites.c5.draw(layout, z, a); break;
-                case 6: skin.sprites.c6.draw(layout, z, a); break;
-                case 7: skin.sprites.c7.draw(layout, z, a); break;
-                case 8: skin.sprites.c8.draw(layout, z, a); break;
-                case 9: skin.sprites.c9.draw(layout, z, a); break;
-            }
-        }
-        else {
+        if (!this.AP && options.ap) {
             switch (digit) {
                 case 0: skin.sprites.ap0.draw(layout, z, a); break;
                 case 1: skin.sprites.ap1.draw(layout, z, a); break;
