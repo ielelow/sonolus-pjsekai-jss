@@ -49,7 +49,7 @@ export class ComboNumberGlow extends SpawnableArchetype({
         const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
         const a = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const digitWidth = h * 0.773 * 6.65
-        const digitGap = digitWidth * options.comboDistance;
+        const digitGap = digitWidth * (options.comboDistance - 0.1);
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
         const startX = centerX - totalWidth / 2;
         if (digitCount === 1) {
