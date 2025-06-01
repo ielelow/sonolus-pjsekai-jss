@@ -30,9 +30,9 @@ export class Note extends Archetype {
     updateSequentialOrder = 2;
     terminate() {
         if (options.customJudgment) {
-            archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.JudgmentText.spawn({ j: this.result.judgment, t: time.now });
             if (options.fastLate) {
-                archetypes.FastLate.spawn({
+                archetypes.JudgmentAccuracy.spawn({
                     j: this.result.judgment,
                     t: time.now,
                     accuracy: this.result.accuracy,
@@ -43,9 +43,9 @@ export class Note extends Archetype {
             }
         }
         if (options.customCombo) {
-            archetypes.ComboN.spawn({ j: this.result.judgment, t: time.now });
-            archetypes.ComboE.spawn({ j: this.result.judgment, t: time.now });
-            archetypes.ComboG.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboNumber.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboNumberEffect.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboNumberGlow.spawn({ j: this.result.judgment, t: time.now });
         }
     }
 }

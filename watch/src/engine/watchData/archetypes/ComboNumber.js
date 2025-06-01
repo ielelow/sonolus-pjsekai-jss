@@ -1,7 +1,7 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { options } from '../../configuration/options.js';
-export class ComboG extends SpawnableArchetype({
+export class ComboNumber extends SpawnableArchetype({
     t: Number,
     i: Number
 })
@@ -22,7 +22,7 @@ export class ComboG extends SpawnableArchetype({
         ap: Boolean
     })
     initialize() {
-        this.z = getZ(layer.judgment + 1, -this.spawnData.t, 0);
+        this.z = getZ(layer.judgment, -this.spawnData.t, 0);
     }
     spawnTime() {
         return timeScaleChanges.at(this.spawnData.t).scaledTime;
@@ -46,12 +46,12 @@ export class ComboG extends SpawnableArchetype({
             if (digits[0] === 0) digitCount = 3;
             if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
             if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
-            const h = 0.14 * ui.configuration.combo.scale
-            const centerX = 5.15
-            const centerY = 0.575
+            const h = 0.13 * ui.configuration.combo.scale
+            const centerX = 5.45
+            const centerY = 0.585
             // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
             const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
-            const a = ui.configuration.combo.alpha * 0.6 * ((Math.cos(time.now * Math.PI) + 1) / 2)
+            const a = ui.configuration.combo.alpha * (0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now))))
             const digitWidth = h * 0.773 * 6.65
             const digitGap = digitWidth * options.comboDistance;
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
@@ -150,37 +150,51 @@ export class ComboG extends SpawnableArchetype({
         }
     }
     drawDigit(digit, layout, z, a) {
-        if (!this.entityArray.get(this.spawnData.i).ap && options.ap) {
+        if (this.entityArray.get(this.spawnData.i).ap || !options.ap) {
+            switch (digit) {
+                case 0: skin.sprites.c0.draw(layout, z, a); break;
+                case 1: skin.sprites.c1.draw(layout, z, a); break;
+                case 2: skin.sprites.c2.draw(layout, z, a); break;
+                case 3: skin.sprites.c3.draw(layout, z, a); break;
+                case 4: skin.sprites.c4.draw(layout, z, a); break;
+                case 5: skin.sprites.c5.draw(layout, z, a); break;
+                case 6: skin.sprites.c6.draw(layout, z, a); break;
+                case 7: skin.sprites.c7.draw(layout, z, a); break;
+                case 8: skin.sprites.c8.draw(layout, z, a); break;
+                case 9: skin.sprites.c9.draw(layout, z, a); break;
+            }
+        }
+        else {
             switch (digit) {
                 case 0:
-                    skin.sprites.glow0.draw(layout, z, a);
+                    skin.sprites.ap0.draw(layout, z, a);
                     break;
                 case 1:
-                    skin.sprites.glow1.draw(layout, z, a);
+                    skin.sprites.ap1.draw(layout, z, a);
                     break;
                 case 2:
-                    skin.sprites.glow2.draw(layout, z, a);
+                    skin.sprites.ap2.draw(layout, z, a);
                     break;
                 case 3:
-                    skin.sprites.glow3.draw(layout, z, a);
+                    skin.sprites.ap3.draw(layout, z, a);
                     break;
                 case 4:
-                    skin.sprites.glow4.draw(layout, z, a);
+                    skin.sprites.ap4.draw(layout, z, a);
                     break;
                 case 5:
-                    skin.sprites.glow5.draw(layout, z, a);
+                    skin.sprites.ap5.draw(layout, z, a);
                     break;
                 case 6:
-                    skin.sprites.glow6.draw(layout, z, a);
+                    skin.sprites.ap6.draw(layout, z, a);
                     break;
                 case 7:
-                    skin.sprites.glow7.draw(layout, z, a);
+                    skin.sprites.ap7.draw(layout, z, a);
                     break;
                 case 8:
-                    skin.sprites.glow8.draw(layout, z, a);
+                    skin.sprites.ap8.draw(layout, z, a);
                     break;
                 case 9:
-                    skin.sprites.glow9.draw(layout, z, a);
+                    skin.sprites.ap9.draw(layout, z, a);
                     break;
             }
         }

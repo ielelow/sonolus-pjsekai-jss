@@ -1,7 +1,7 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { options } from '../../configuration/options.js';
-export class ComboE extends SpawnableArchetype({
+export class ComboNumberEffect extends SpawnableArchetype({
     t: Number,
     i: Number
 })
@@ -47,8 +47,8 @@ export class ComboE extends SpawnableArchetype({
             if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
             if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
             const h = 0.19 * ui.configuration.combo.scale
-            const centerX = 5.15
-            const centerY = 0.575
+            const centerX = 5.45
+            const centerY = 0.585
             // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
             const s = 0.7 + 0.3 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t + 0.1, this.spawnData.t + 0.15, time.now)))
             const a = time.now >= this.spawnData.t + 0.1 ? 0.45 * ui.configuration.combo.alpha * Math.ease('Out', 'Cubic', Math.unlerp(this.spawnData.t + 0.15, this.spawnData.t + 0.1, time.now)) : 0

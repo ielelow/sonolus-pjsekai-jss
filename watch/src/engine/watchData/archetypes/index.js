@@ -38,12 +38,12 @@ import { FlickSlotGlowEffect } from './slotGlowEffects/FlickSlotGlowEffect.js';
 import { NormalSlotGlowEffect } from './slotGlowEffects/NormalSlotGlowEffect.js';
 import { SlideSlotGlowEffect } from './slotGlowEffects/SlideSlotGlowEffect.js';
 import { LaneEffectSpawner } from './/notes/flatNotes/flickNotes/LaneEffectSpawner.js';
-import { Judg } from './Judgment.js';
-import { FastLate } from './JudgmentFS.js';
-import { ComboN } from './ComboN.js';
-import { ComboT } from './ComboT.js';
-import { ComboE } from './ComboE.js';
-import { ComboG } from './ComboG.js';
+import { JudgmentText } from './JudgmentText.js';
+import { JudgmentAccuracy } from './JudgmentAccuracy.js';
+import { ComboNumber } from './ComboNumber.js';
+import { ComboLabel } from './ComboLabel.js';
+import { ComboNumberEffect } from './ComboNumberEffect.js';
+import { ComboNumberGlow } from './ComboNumberGlow.js';
 export const archetypes = defineArchetypes({
     Initialization,
     Stage,
@@ -85,10 +85,10 @@ export const archetypes = defineArchetypes({
     FlickSlotGlowEffect,
     CriticalSlotGlowEffect,
     LaneEffectSpawner,
-    Judg,
-    FastLate,
-    ComboN,
-    ComboT,
-    ComboG,
-    ComboE,
+    JudgmentText,
+    JudgmentAccuracy,
+    ComboNumber,
+    ComboLabel,
+    ComboNumberGlow,
+    ComboNumberEffect,
 });

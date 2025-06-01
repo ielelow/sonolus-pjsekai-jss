@@ -2,7 +2,7 @@ import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 import { archetypes } from './index.js';
 import { options } from '../../configuration/options.js';
-export class ComboN extends SpawnableArchetype({
+export class ComboNumber extends SpawnableArchetype({
     j: Number,
     t: Number,
 })
@@ -44,13 +44,12 @@ export class ComboN extends SpawnableArchetype({
         if (digits[0] === 0) digitCount = 3;
         if (digits[0] === 0 && digits[1] === 0) digitCount = 2;
         if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1;
-        const h = 0.14 * ui.configuration.combo.scale
-        const centerX = 5.15
-        const centerY = 0.575
+        const h = 0.13 * ui.configuration.combo.scale
+        const centerX = 5.45
+        const centerY = 0.585
         // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
         const s = 0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)))
         const a = ui.configuration.combo.alpha * (0.6 + 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now))))
-        const a2 = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const digitWidth = h * 0.773 * 6.65
         const digitGap = digitWidth * options.comboDistance;
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap;
@@ -161,7 +160,7 @@ export class ComboN extends SpawnableArchetype({
         if (this.spawnData.j != Judgment.Perfect) {
             this.AP = true
         }
-        archetypes.ComboT.spawn({ c: this.combo, t: time.now, ap: this.AP })
+        archetypes.ComboLabel.spawn({ c: this.combo, t: time.now, ap: this.AP })
         this.check = true
     }
     drawDigit(digit, layout, z, a) {

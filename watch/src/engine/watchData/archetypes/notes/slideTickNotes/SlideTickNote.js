@@ -14,16 +14,16 @@ export class SlideTickNote extends Note {
         if (this.hasInput)
             this.result.time = this.targetTime;
         if (options.customJudgment) {
-            archetypes.Judg.spawn({ t: this.targetTime, j: this.import.judgment });
+            archetypes.JudgmentText.spawn({ t: this.targetTime, j: this.import.judgment });
         }
         if (options.customCombo) {
             if (!options.autoCombo || replay.isReplay) {
                 this.entityArray.get(this.info.index).time = timeScaleChanges.at(this.targetTime).scaledTime
                 this.entityArray.get(this.info.index).Judgment = this.import.judgment
-                archetypes.ComboN.spawn({ t: this.targetTime, i: this.info.index })
-                archetypes.ComboG.spawn({ t: this.targetTime, i: this.info.index })
-                archetypes.ComboE.spawn({ t: this.targetTime, i: this.info.index })
-                archetypes.ComboT.spawn({ t: this.targetTime, i: this.info.index })
+                archetypes.ComboNumber.spawn({ t: this.targetTime, i: this.info.index })
+                archetypes.ComboNumberGlow.spawn({ t: this.targetTime, i: this.info.index })
+                archetypes.ComboNumberEffect.spawn({ t: this.targetTime, i: this.info.index })
+                archetypes.ComboLabel.spawn({ t: this.targetTime, i: this.info.index })
             }
         }
     }

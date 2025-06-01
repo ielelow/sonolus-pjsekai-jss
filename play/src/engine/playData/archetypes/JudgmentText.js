@@ -1,7 +1,7 @@
 import { skin, getZ, layer } from '../skin.js';
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js';
 
-export class Judg extends SpawnableArchetype({
+export class JudgmentText extends SpawnableArchetype({
     j: Number,
     t: Number
 })

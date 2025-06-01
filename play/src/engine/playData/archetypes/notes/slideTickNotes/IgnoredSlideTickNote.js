@@ -12,12 +12,12 @@ export class IgnoredSlideTickNote extends Note {
     }
     terminate() {
         if (options.customJudgment) {
-            archetypes.Judg.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.JudgmentText.spawn({ j: this.result.judgment, t: time.now });
         }
         if (options.customCombo) {
-            archetypes.ComboN.spawn({ j: this.result.judgment, t: time.now });
-            archetypes.ComboE.spawn({ j: this.result.judgment, t: time.now });
-            archetypes.ComboG.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboNumber.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboNumberEffect.spawn({ j: this.result.judgment, t: time.now });
+            archetypes.ComboNumberGlow.spawn({ j: this.result.judgment, t: time.now });
         }
     }
 }
