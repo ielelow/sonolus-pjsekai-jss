@@ -159,17 +159,21 @@ export class SlideConnector extends Archetype {
                 y3: y.max,
                 y4: y.min,
             };
-            const a = this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) * options.connectorAlpha;
+            const a = this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) *
+                entityInfos.get(this.info.index).archetype == archetypes.CriticalSlideConnector.index
+                || entityInfos.get(this.info.index).archetype == archetypes.NormalSlideConnector.index
+                ? options.guideAlpha
+                : options.connectorAlpha * 0.85
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a);
             }
             else if (options.connectorAnimation && this.visual === VisualType.Activated) {
                 const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2;
-                this.sprites.normal.draw(layout, this.z, a * 0.85 * Math.ease('Out', 'Cubic', normalA));
-                this.sprites.active.draw(layout, this.z, a * 0.85 * (1 - normalA));
+                this.sprites.normal.draw(layout, this.z, a * Math.ease('Out', 'Quad', normalA));
+                this.sprites.active.draw(layout, this.z, a * (1 - normalA));
             }
             else {
-                this.sprites.normal.draw(layout, this.z, a * 0.85);
+                this.sprites.normal.draw(layout, this.z, a);
             }
         }
     }

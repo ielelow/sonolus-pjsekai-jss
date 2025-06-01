@@ -138,6 +138,16 @@ export const optionsDefinition = {
         step: 0.05,
         unit: Text.PercentageUnit,
     },
+    guideAlpha: {
+        name: 'Guide Opacity',
+        scope: 'Sekai',
+        type: 'slider',
+        def: 0.6,
+        min: 0.1,
+        max: 1,
+        step: 0.05,
+        unit: Text.PercentageUnit,
+    },
     connectorAnimation: {
         name: Text.ConnectorAnimation,
         scope: 'Sekai',
