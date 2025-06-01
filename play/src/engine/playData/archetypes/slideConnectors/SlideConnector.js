@@ -206,8 +206,10 @@ export class SlideConnector extends Archetype {
                 y4: y.min,
             };
             const a = this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) *
-                entityInfos.get(this.info.index).archetype == archetypes.CriticalSlideConnector.index
-                || entityInfos.get(this.info.index).archetype == archetypes.NormalSlideConnector.index
+                (entityInfos.get(this.info.index).archetype == archetypes.CriticalSlideConnector.index
+                    && entityInfos.get(this.info.index).archetype != archetypes.CriticalActiveSlideConnector.index)
+                || (entityInfos.get(this.info.index).archetype == archetypes.NormalSlideConnector.index
+                    && entityInfos.get(this.info.index).archetype != archetypes.NormalActiveSlideConnector.index)
                 ? options.guideAlpha
                 : options.connectorAlpha * 0.85
             if (this.useFallbackSprite) {
