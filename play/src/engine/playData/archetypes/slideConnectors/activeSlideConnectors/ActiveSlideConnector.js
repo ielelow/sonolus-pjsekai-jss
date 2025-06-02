@@ -153,8 +153,9 @@ export class ActiveSlideConnector extends SlideConnector {
         const s = this.getScale(time.scaled);
         const l = this.getL(s);
         const r = this.getR(s);
-        const shear = 1 + 0.25 * options.slotEffectSize;
-        const h = 4 * options.slotEffectSize * scaledScreen.wToH;
+        const dynamicHeight = 3 + (Math.cos(((time.now - this.start.time)) * 4 * Math.PI) + 1) / 2;
+        const h = dynamicHeight * options.slotEffectSize * scaledScreen.wToH;
+        const shear = 1 + (0.25 * (dynamicHeight / 4)) * options.slotEffectSize;
         const w = 0.15;
         this.glowSprite.draw({
             x1: l - w,
