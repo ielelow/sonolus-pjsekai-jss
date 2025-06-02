@@ -159,13 +159,15 @@ export class SlideConnector extends Archetype {
                 y3: y.max,
                 y4: y.min,
             };
-            const a = this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) *
-                (entityInfos.get(this.info.index).archetype == archetypes.CriticalSlideConnector.index
-                    && entityInfos.get(this.info.index).archetype != archetypes.CriticalActiveSlideConnector.index)
+            let alpha = 0
+            if ((entityInfos.get(this.info.index).archetype == archetypes.CriticalSlideConnector.index
+                && entityInfos.get(this.info.index).archetype != archetypes.CriticalActiveSlideConnector.index)
                 || (entityInfos.get(this.info.index).archetype == archetypes.NormalSlideConnector.index
-                    && entityInfos.get(this.info.index).archetype != archetypes.NormalActiveSlideConnector.index)
-                ? options.guideAlpha
-                : options.connectorAlpha
+                    && entityInfos.get(this.info.index).archetype != archetypes.NormalActiveSlideConnector.index))
+                alpha = options.guideAlpha
+            else
+                alpha = options.connectorAlpha
+            const a = this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) * alpha
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a);
             }
