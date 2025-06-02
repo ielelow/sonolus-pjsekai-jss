@@ -199,13 +199,13 @@ export class ActiveSlideConnector extends SlideConnector {
             else {
                 this.slideSprites.tleft.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1);
                 this.slideSprites.tmiddle.draw(perspectiveLayout({ l: ml, r: mr, b, t }), this.slideZ, 1);
+                this.slideSprites.tright.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1);
                 this.slideSprites.tdiamond.draw(new Rect({
                     l: lane - w,
                     r: lane + w,
                     b: 1 + note.h,
                     t: 1 - note.h,
                 }), this.diamondZ, 1);
-                this.slideSprites.tright.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1);
             }
         }
     }

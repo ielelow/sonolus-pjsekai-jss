@@ -166,7 +166,7 @@ export class SlideConnector extends Archetype {
                     && entityInfos.get(this.info.index).archetype != archetypes.NormalActiveSlideConnector.index))
                 alpha = options.guideAlpha
             else
-                alpha = options.connectorAlpha
+                alpha = options.connectorAlpha * 0.85
             const a = this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) * alpha
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a);
@@ -174,7 +174,7 @@ export class SlideConnector extends Archetype {
             else if (options.connectorAnimation && this.visual === VisualType.Activated) {
                 const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2;
                 this.sprites.normal.draw(layout, this.z, a * Math.ease('Out', 'Quad', normalA));
-                this.sprites.active.draw(layout, this.z, a * (1 - normalA));
+                this.sprites.active.draw(layout, this.z, a * 0.9 * (1 - normalA));
             }
             else {
                 this.sprites.normal.draw(layout, this.z, a);
