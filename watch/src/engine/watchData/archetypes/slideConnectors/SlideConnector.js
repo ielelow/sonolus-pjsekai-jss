@@ -166,7 +166,7 @@ export class SlideConnector extends Archetype {
                     && entityInfos.get(this.info.index).archetype != archetypes.NormalActiveSlideConnector.index))
                 alpha = options.guideAlpha
             else
-                alpha = options.connectorAlpha * 0.85
+                alpha = options.connectorAlpha
             const a = this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) * alpha
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a);
