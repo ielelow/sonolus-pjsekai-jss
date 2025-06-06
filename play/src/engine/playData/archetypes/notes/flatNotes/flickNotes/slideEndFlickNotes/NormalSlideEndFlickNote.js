@@ -20,6 +20,7 @@ export class NormalSlideEndFlickNote extends SlideEndFlickNote {
     effects = {
         circular: particle.effects.flickNoteCircular,
         linear: particle.effects.flickNoteLinear,
+        slotEffects: particle.effects.slotEffectFlickRed,
     };
     arrowSprites = {
         up: [

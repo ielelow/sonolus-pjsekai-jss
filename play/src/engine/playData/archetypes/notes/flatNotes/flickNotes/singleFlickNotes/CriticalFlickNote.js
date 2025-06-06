@@ -24,6 +24,7 @@ export class CriticalFlickNote extends SingleFlickNote {
         circularFallback: particle.effects.criticalNoteCircular,
         linear: particle.effects.criticalFlickNoteLinear,
         linearFallback: particle.effects.criticalNoteLinear,
+        slotEffects: particle.effects.slotEffectFlickYellow,
     };
     arrowSprites = {
         up: [
