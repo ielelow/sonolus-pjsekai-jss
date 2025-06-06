@@ -84,6 +84,9 @@ export class TraceFlickNote extends FlickNote {
     playSlotEffects() {
         // removed
     }
+    playSlotLinears() {
+        // removed
+    }
     playLaneEffects() {
         // removed
     }

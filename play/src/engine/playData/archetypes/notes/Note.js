@@ -9,7 +9,8 @@ export class Note extends Archetype {
         size: { name: 'size', type: Number },
     });
     sharedMemory = this.defineSharedMemory({
-        lastActiveTime: Number
+        lastActiveTime: Number,
+        exportStartTime: Number,
     });
     targetTime = this.entityMemory(Number);
     spawnTime = this.entityMemory(Number);
@@ -18,6 +19,7 @@ export class Note extends Archetype {
     flick = this.entityMemory(Boolean);
     preprocess() {
         this.sharedMemory.lastActiveTime = -1000;
+        this.sharedMemory.exportStartTime = -1000;
         this.targetTime = bpmChanges.at(this.import.beat).time;
         if (options.mirror) { this.import.lane *= -1; }
     }

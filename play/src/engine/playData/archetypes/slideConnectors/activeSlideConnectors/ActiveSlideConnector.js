@@ -28,7 +28,6 @@ export class ActiveSlideConnector extends SlideConnector {
         this.diamondZ = getZ(layer.note.tick, this.head.time, this.headImport.lane);
     }
     updateParallel() {
-        this.updateExport();
         if (time.now >= this.tail.time) {
             this.despawn = true;
             return;
@@ -39,12 +38,25 @@ export class ActiveSlideConnector extends SlideConnector {
         this.renderConnector();
         if (time.now < this.head.time)
             return;
-        if (this.effectInstanceIds.circular)
-            this.updateCircularEffect();
-        if (this.effectInstanceIds.linear)
-            this.updateLinearEffect();
-        this.renderGlow();
-        this.renderSlide();
+        if (this.visual === VisualType.Activated) {
+            if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX()
+            if (this.shouldPlayCircularEffect) {
+                if (!this.effectInstanceIds.circular) this.spawnCircularEffect()
+                this.updateCircularEffect()
+            }
+            if (this.shouldPlayLinearEffect) {
+                if (!this.effectInstanceIds.linear) this.spawnLinearEffect()
+                this.updateLinearEffect()
+            }
+        } else {
+            if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
+            if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)
+                this.destroyCircularEffect()
+            if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear)
+                this.destroyLinearEffect()
+        }
+        this.renderGlow()
+        this.renderSlide()
     }
     terminate() {
         if (this.shouldPlaySFX && this.sfxInstanceId)

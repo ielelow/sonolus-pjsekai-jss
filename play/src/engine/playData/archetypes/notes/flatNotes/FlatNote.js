@@ -120,7 +120,7 @@ export class FlatNote extends Note {
         if (options.slotEffectEnabled)
             this.playSlotEffects(hitTime);
         if (options.slotEffectEnabled)
-            this.playSlotLinears
+            this.playSlotLinears();
         if (options.laneEffectEnabled)
             this.playLaneEffects();
     }
