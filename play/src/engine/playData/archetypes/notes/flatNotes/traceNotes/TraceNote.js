@@ -95,6 +95,9 @@ export class TraceNote extends FlatNote {
     playSlotEffects() {
         // removed
     }
+    playSlotLinears() {
+        // removed
+    }
     playLaneEffects() {
         // removed
     }

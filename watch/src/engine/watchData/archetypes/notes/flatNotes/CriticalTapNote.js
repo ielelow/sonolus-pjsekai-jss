@@ -21,7 +21,7 @@ export class CriticalTapNote extends FlatNote {
     effects = {
         circular: particle.effects.criticalNoteCircular,
         linear: particle.effects.criticalNoteLinear,
-        slotEffects: particle.effects.slotEffectSlideTapYellow,
+        slotEffects: particle.effects.slotEffectYellow,
     };
     windows = windows.tapNote.critical;
     bucket = buckets.criticalTapNote;
