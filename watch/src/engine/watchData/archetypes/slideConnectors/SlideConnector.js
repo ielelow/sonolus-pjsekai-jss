@@ -1,7 +1,5 @@
 import { ease } from '../../../../../../shared/src/engine/data/EaseType.js';
-import { lane } from '../../../../../../shared/src/engine/data/lane.js';
 import { approach } from '../../../../../../shared/src/engine/data/note.js';
-import { slideConnectorReplayImport, slideConnectorReplayKeys, } from '../../../../../../shared/src/engine/data/slideConnector.js';
 import { options } from '../../../configuration/options.js';
 import { note } from '../../note.js';
 import { getZ, layer } from '../../skin.js';
@@ -20,7 +18,6 @@ export class SlideConnector extends Archetype {
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: (DataType) },
         lane: { name: 'lane', type: Number },
-        ...slideConnectorReplayImport,
     });
     initialized = this.entityMemory(Boolean);
     start = this.entityMemory({
@@ -52,6 +49,7 @@ export class SlideConnector extends Archetype {
     z = this.entityMemory(Number);
     visual = this.entityMemory((DataType));
     preprocess() {
+        this.end.time = bpmChanges.at(this.endImport.beat).time
         this.head.time = bpmChanges.at(this.headImport.beat).time;
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime;
         this.tail.time = bpmChanges.at(this.tailImport.beat).time;
@@ -92,7 +90,6 @@ export class SlideConnector extends Archetype {
     globalInitialize() {
         this.start.time = bpmChanges.at(this.startImport.beat).time;
         this.start.scaledTime = timeScaleChanges.at(this.start.time).scaledTime;
-        this.end.time = bpmChanges.at(this.endImport.beat).time;
         this.end.scaledTime = timeScaleChanges.at(this.end.time).scaledTime;
         this.head.lane = this.headImport.lane;
         this.head.l = this.head.lane - this.headImport.size;
@@ -115,13 +112,13 @@ export class SlideConnector extends Archetype {
             this.visual = time.now >= this.start.time ? VisualType.Activated : VisualType.Waiting;
             return;
         }
-        for (const [, start, end] of slideConnectorReplayKeys) {
-            const startTime = this.import[start];
-            const endTime = this.import[end];
-            if (time.now < startTime || time.now >= endTime)
-                continue;
-            this.visual = VisualType.Activated;
-            return;
+        const startTime = streams.getPreviousKey(this.import.startRef, time.now)
+        if (startTime < time.now) {
+            const endTime = streams.getValue(this.import.startRef, startTime)
+            if (time.now < endTime) {
+                this.visual = VisualType.Activated
+                return
+            }
         }
         this.visual =
             time.now >= this.start.time + this.slideStartNote.windows.good.max + input.offset

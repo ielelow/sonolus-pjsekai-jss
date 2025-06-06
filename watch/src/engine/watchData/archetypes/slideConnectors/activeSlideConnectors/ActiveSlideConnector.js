@@ -1,4 +1,3 @@
-import { slideConnectorReplayKeys } from '../../../../../../../shared/src/engine/data/slideConnector.js';
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.js';
 import { options } from '../../../../configuration/options.js';
 import { effect } from '../../../effect.js';
@@ -20,13 +19,7 @@ export class ActiveSlideConnector extends SlideConnector {
         super.preprocess();
         if (options.sfxEnabled) {
             if (replay.isReplay && !options.autoSFX) {
-                for (const [, start, end] of slideConnectorReplayKeys) {
-                    const startTime = this.import[start];
-                    const endTime = this.import[end];
-                    if (startTime >= endTime)
-                        continue;
-                    this.scheduleSFX(startTime, endTime);
-                }
+                this.scheduleReplaySFX()
             }
             else {
                 this.scheduleSFX(this.head.time, this.tail.time);
@@ -44,17 +37,22 @@ export class ActiveSlideConnector extends SlideConnector {
         if (time.now < this.head.time)
             return;
         if (this.visual === VisualType.Activated) {
-            if (this.shouldScheduleCircularEffect && !this.effectInstanceIds.circular)
-                this.spawnCircularEffect();
-            if (this.shouldScheduleLinearEffect && !this.effectInstanceIds.linear)
-                this.spawnLinearEffect();
-            if (this.effectInstanceIds.circular)
-                this.updateCircularEffect();
-            if (this.effectInstanceIds.linear)
-                this.updateLinearEffect();
+            if (this.shouldScheduleCircularEffect) {
+                if (!this.effectInstanceIds.circular) this.spawnCircularEffect()
+                this.updateCircularEffect()
+            }
+            if (this.shouldScheduleLinearEffect) {
+                if (!this.effectInstanceIds.linear) this.spawnLinearEffect()
+                this.updateLinearEffect()
+            }
+        } else {
+            if (this.shouldScheduleCircularEffect && this.effectInstanceIds.circular)
+                this.destroyCircularEffect()
+            if (this.shouldScheduleLinearEffect && this.effectInstanceIds.linear)
+                this.destroyLinearEffect()
         }
-        this.renderGlow();
-        this.renderSlide();
+        this.renderGlow()
+        this.renderSlide()
     }
     terminate() {
         if (this.shouldScheduleCircularEffect && this.effectInstanceIds.circular)
@@ -147,6 +145,18 @@ export class ActiveSlideConnector extends SlideConnector {
                     t: 1 - note.h,
                 }), this.diamondZ, 1);
             }
+        }
+    }
+    scheduleReplaySFX() {
+        if (this.import.startRef !== this.import.headRef) return
+        let key = -999999
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        while (true) {
+            const startTime = streams.getNextKey(this.import.startRef, key)
+            if (startTime === key) break
+            const endTime = streams.getValue(this.import.startRef, startTime)
+            this.scheduleSFX(startTime, Math.min(endTime, this.end.time))
+            key = startTime
         }
     }
     scheduleSFX(startTime, endTime) {
