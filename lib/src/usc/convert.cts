@@ -11,6 +11,7 @@ import {
     USCSingleNote,
     USCSlideNote,
     USCTimeScaleChange,
+    USCGuideNote,
 } from './index.cjs'
 
 type Intermediate = {
@@ -127,10 +128,12 @@ const directions = {
 } as const
 
 const eases = {
+    outin: -2,
     out: -1,
     linear: 0,
     in: 1,
-} as const
+    inout: 2,
+} as const;
 
 const bpm: Handler<USCBpmChange> = (object, append) => {
     append({
@@ -198,27 +201,51 @@ const slide: Handler<USCSlideNote> = (object, append) => {
         if (i === 0) {
             switch (connection.type) {
                 case 'start': {
-                    const ci: ConnectionIntermediate = {
-                        archetype: connection.trace
-                            ? connection.critical
-                                ? 'CriticalSlideTraceNote'
-                                : 'NormalSlideTraceNote'
-                            : connection.critical
-                                ? 'CriticalSlideStartNote'
-                                : 'NormalSlideStartNote',
-                        data: {
-                            [EngineArchetypeDataName.Beat]: connection.beat,
-                            lane: connection.lane,
-                            size: connection.size,
-                        },
-                        sim: true,
-                        ease: connection.ease,
-                    }
+                    let archetype: string
+            let sim = true
 
-                    cis.push(ci)
-                    joints.push(ci)
-                    continue
+            if ('judgeType' in connection) {
+                if (connection.judgeType === "none") {
+                    archetype = "HiddenSlideStartNote"
+                    sim = false
+                } else if (connection.judgeType === "trace") {
+                    if (connection.critical) {
+                        archetype = "CriticalTraceSlideStartNote"
+                    } else {
+                        archetype = "NormalTraceSlideStartNote"
+                    }
+                } else {
+                    if (connection.critical) {
+                        archetype = "CriticalSlideStartNote"
+                    } else {
+                        archetype = "NormalSlideStartNote"
+                    }
                 }
+            } else {
+                archetype = connection.trace
+                    ? connection.critical
+                        ? 'CriticalSlideTraceNote'
+                        : 'NormalSlideTraceNote'
+                    : connection.critical
+                        ? 'CriticalSlideStartNote'
+                        : 'NormalSlideStartNote'
+            }
+
+            const ci: ConnectionIntermediate = {
+                archetype,
+                data: {
+                    [EngineArchetypeDataName.Beat]: connection.beat,
+                    lane: connection.lane,
+                    size: connection.size,
+                },
+                sim,
+                ease: connection.ease
+            }
+
+            cis.push(ci)
+            joints.push(ci)
+            continue
+        }
                 case 'ignore': {
                     const ci: ConnectionIntermediate = {
                         archetype: 'IgnoredSlideTickNote',
@@ -416,6 +443,59 @@ const slide: Handler<USCSlideNote> = (object, append) => {
     }
 }
 
+const guide: Handler<USCGuideNote> = (object, append) => {
+    const active = object.color === 'yellow' ? true : false
+
+    // midpoints를 slide의 connections 형태로 변환
+    const connections = object.midpoints.map((midpoint, i) => {
+        if (i === 0) {
+            return {
+                type: 'start',
+                beat: midpoint.beat,
+                lane: midpoint.lane,
+                size: midpoint.size,
+                trace: false,
+                critical: false,
+                ease: midpoint.ease === 'out' ? 'out'
+                    : midpoint.ease === 'linear' ? 'linear'
+                    : midpoint.ease === 'in' ? 'in'
+                    : 'linear',
+            }
+        } else if (i === object.midpoints.length - 1) {
+            return {
+                type: 'end',
+                beat: midpoint.beat,
+                lane: midpoint.lane,
+                size: midpoint.size,
+                trace: false,
+                critical: false,
+                direction: undefined,
+            }
+        } else {
+            return {
+                type: 'tick',
+                beat: midpoint.beat,
+                lane: midpoint.lane,
+                size: midpoint.size,
+                trace: false,
+                critical: false,
+                ease: midpoint.ease === 'out' ? 'out'
+                    : midpoint.ease === 'linear' ? 'linear'
+                    : midpoint.ease === 'in' ? 'in'
+                    : 'linear',
+            }
+        }
+    }) as USCSlideNote['connections']
+
+    const slideObj: USCSlideNote = {
+        type: 'slide',
+        active,
+        critical: false,
+        connections,
+    }
+    slide(slideObj, append)
+}
+
 const handlers: {
     [K in USCObject['type']]: Handler<Extract<USCObject, { type: K }>>
 } = {
@@ -423,6 +503,7 @@ const handlers: {
     single,
     timeScale,
     slide,
+    guide,
 }
 
 const getConnections = (object: USCSlideNote) => {
