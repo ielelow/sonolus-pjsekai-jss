@@ -206,7 +206,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
 
             if ('judgeType' in connection) {
                 if (connection.judgeType === "none") {
-                    archetype = "HiddenSlideStartNote"
+                    archetype = "IgnoredSlideStartNote"
                     sim = false
                 } else if (connection.judgeType === "trace") {
                     if (connection.critical) {
@@ -444,7 +444,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
 }
 
 const guide: Handler<USCGuideNote> = (object, append) => {
-    const active = object.color === 'yellow' ? true : false
+    const critical = object.color === 'yellow' ? true : false
 
     // midpoints를 slide의 connections 형태로 변환
     const connections = object.midpoints.map((midpoint, i) => {
@@ -489,8 +489,8 @@ const guide: Handler<USCGuideNote> = (object, append) => {
 
     const slideObj: USCSlideNote = {
         type: 'slide',
-        active,
-        critical: false,
+        active: true,
+        critical,
         connections,
     }
     slide(slideObj, append)
