@@ -4,7 +4,7 @@ export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.1.0'
+export const version = '1.1.1'
 
 export const databaseEngineItem = {
     name: 'prosekaR',
@@ -37,7 +37,7 @@ export const databaseEngineItem = {
             'Github:',
             'https://github.com/hyeon2006/sonolus-pjsekai-js'
         ].join('\n'),
-        ko: [   
+        ko: [
             '프로젝트 세카이: 컬러풀 스테이지! 엔진을 Sonolus로 재현했습니다.',
             `버전: ${version}`,
             '',

@@ -66,24 +66,6 @@ export class ActiveSlideConnector extends SlideConnector {
         if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear)
             this.destroyLinearEffect();
     }
-    onActivate() {
-        super.onActivate();
-        if (this.shouldPlaySFX && !this.sfxInstanceId)
-            this.playSFX();
-        if (this.shouldPlayCircularEffect && !this.effectInstanceIds.circular)
-            this.spawnCircularEffect();
-        if (this.shouldPlayLinearEffect && !this.effectInstanceIds.linear)
-            this.spawnLinearEffect();
-    }
-    onDeactivate() {
-        super.onDeactivate();
-        if (this.shouldPlaySFX && this.sfxInstanceId)
-            this.stopSFX();
-        if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)
-            this.destroyCircularEffect();
-        if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear)
-            this.destroyLinearEffect();
-    }
     get shouldScheduleSFX() {
         return (options.sfxEnabled &&
             (this.useFallbackClip ? this.clips.fallback.exists : this.clips.hold.exists) &&

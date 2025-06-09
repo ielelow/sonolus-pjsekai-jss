@@ -199,6 +199,18 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    hideUi: {
+        name: 'Hide UI',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 0,
+    },
+    stage: {
+        name: Text.Stage,
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
     previewVerticalScale: {
         name: Text.PreviewScaleVertical,
         scope: 'Sekai',
