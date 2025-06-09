@@ -46,7 +46,7 @@ export class Initialization extends Archetype {
             pivot: { x: 1, y: 1 },
             size: new Vec(0.15, 0.15).mul(ui.configuration.menu.scale),
             rotation: 0,
-            alpha: ui.configuration.menu.alpha,
+            alpha: options.hideUi ? 0 : ui.configuration.menu.alpha,
             horizontalAlign: HorizontalAlign.Center,
             background: true,
         });
@@ -55,7 +55,7 @@ export class Initialization extends Archetype {
             pivot: { x: 0, y: 1 },
             size: new Vec(0.75, 0.15).mul(ui.configuration.metric.primary.scale),
             rotation: 0,
-            alpha: ui.configuration.metric.primary.alpha,
+            alpha: options.hideUi ? 0 : ui.configuration.metric.primary.alpha,
             horizontalAlign: HorizontalAlign.Left,
             background: true,
         });
@@ -64,7 +64,7 @@ export class Initialization extends Archetype {
             pivot: { x: 1, y: 1 },
             size: new Vec(0, 0.08).mul(ui.configuration.metric.primary.scale),
             rotation: 0,
-            alpha: ui.configuration.metric.primary.alpha,
+            alpha: options.hideUi ? 0 : ui.configuration.metric.primary.alpha,
             horizontalAlign: HorizontalAlign.Right,
             background: false,
         });
@@ -75,7 +75,7 @@ export class Initialization extends Archetype {
             pivot: { x: 1, y: 1 },
             size: new Vec(0.55, 0.15).mul(ui.configuration.metric.secondary.scale),
             rotation: 0,
-            alpha: ui.configuration.metric.secondary.alpha,
+            alpha: options.hideUi ? 0 : ui.configuration.metric.secondary.alpha,
             horizontalAlign: HorizontalAlign.Left,
             background: true,
         });
@@ -87,7 +87,7 @@ export class Initialization extends Archetype {
             pivot: { x: 1, y: 1 },
             size: new Vec(0, 0.08).mul(ui.configuration.metric.secondary.scale),
             rotation: 0,
-            alpha: ui.configuration.metric.secondary.alpha,
+            alpha: options.hideUi ? 0 : ui.configuration.metric.secondary.alpha,
             horizontalAlign: HorizontalAlign.Right,
             background: false,
         });
@@ -96,7 +96,7 @@ export class Initialization extends Archetype {
             pivot: { x: 0.5, y: 0.5 },
             size: new Vec(0, stage.h * 0.14).mul(ui.configuration.combo.scale),
             rotation: 0,
-            alpha: options.customCombo ? 0 : ui.configuration.combo.alpha,
+            alpha: options.hideUi ? 0 : options.customCombo ? 0 : ui.configuration.combo.alpha,
             horizontalAlign: HorizontalAlign.Center,
             background: false,
         });
@@ -105,7 +105,7 @@ export class Initialization extends Archetype {
             pivot: { x: 0.5, y: -2.25 },
             size: new Vec(0, stage.h * 0.14 * 0.25).mul(ui.configuration.combo.scale),
             rotation: 0,
-            alpha: options.customCombo ? 0 : ui.configuration.combo.alpha,
+            alpha: options.hideUi ? 0 : options.customCombo ? 0 : ui.configuration.combo.alpha,
             horizontalAlign: HorizontalAlign.Center,
             background: false,
         });
@@ -114,7 +114,7 @@ export class Initialization extends Archetype {
             pivot: { x: 0.5, y: 0.5 },
             size: new Vec(0, stage.h * 0.0475).mul(ui.configuration.judgment.scale),
             rotation: 0,
-            alpha: options.customJudgment ? 0 : ui.configuration.judgment.alpha,
+            alpha: options.hideUi ? 0 : options.customJudgment ? 0 : ui.configuration.judgment.alpha,
             horizontalAlign: HorizontalAlign.Center,
             background: false,
         });
