@@ -7,8 +7,6 @@ import { particle } from '../../../../particle.js';
 import { skin } from '../../../../skin.js';
 import { archetypes } from '../../../index.js';
 import { FlickNote } from './FlickNote.js';
-import { SharedLaneEffectUtils } from './SharedLaneEffectUtils.js';
-import { options } from '../../../../../configuration/options.js'
 
 export class CriticalSlideEndFlickNote extends FlickNote {
     sprites = {

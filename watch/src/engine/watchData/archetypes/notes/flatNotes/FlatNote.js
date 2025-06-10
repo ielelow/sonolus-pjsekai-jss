@@ -12,6 +12,9 @@ export class FlatNote extends Note {
     layer = layer.note.body;
     sharedMemory = this.defineSharedMemory({
         despawnTime: Number,
+        circular: ParticleEffectInstanceId,
+        linear: ParticleEffectInstanceId,
+        check: Boolean,
     });
     visualTime = this.entityMemory(Range);
     hiddenTime = this.entityMemory(Number);

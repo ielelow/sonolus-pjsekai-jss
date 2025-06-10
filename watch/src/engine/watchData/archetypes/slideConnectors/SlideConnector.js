@@ -72,6 +72,9 @@ export class SlideConnector extends Archetype {
         this.updateVisualType();
         this.renderConnector();
     }
+    get startSharedMemory() {
+        return this.slideStartNote.sharedMemory.get(this.import.startRef);
+    }
     get startImport() {
         return this.slideStartNote.import.get(this.import.startRef);
     }

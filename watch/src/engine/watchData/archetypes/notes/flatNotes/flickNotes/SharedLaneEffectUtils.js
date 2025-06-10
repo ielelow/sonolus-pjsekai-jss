@@ -1,7 +1,4 @@
 import { particle } from '../../../../particle.js';
-import { lane } from '../../../../../../../../shared/src/engine/data/lane.js';
-import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.js';
-import { effect } from '../../../../effect.js';
 
 export const SharedLaneEffectUtils = {
     isLaneOverlapping(newLeft, newRight, existingLeft, existingRight) {

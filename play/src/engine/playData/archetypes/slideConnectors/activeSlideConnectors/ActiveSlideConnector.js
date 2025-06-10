@@ -38,33 +38,43 @@ export class ActiveSlideConnector extends SlideConnector {
         this.renderConnector();
         if (time.now < this.head.time)
             return;
+        this.renderGlow()
+        this.renderSlide()
+    }
+    updateSequential() {
+        super.updateSequential()
+        if (time.now < this.head.time)
+            return;
         if (this.visual === VisualType.Activated) {
-            if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX()
+            if (this.shouldPlaySFX && !this.sfxInstanceId)
+                this.playSFX()
             if (this.shouldPlayCircularEffect) {
-                if (!this.effectInstanceIds.circular) this.spawnCircularEffect()
+                if (!this.startSharedMemory.circular)
+                    this.spawnCircularEffect()
                 this.updateCircularEffect()
             }
             if (this.shouldPlayLinearEffect) {
-                if (!this.effectInstanceIds.linear) this.spawnLinearEffect()
+                if (!this.startSharedMemory.linear)
+                    this.spawnLinearEffect()
                 this.updateLinearEffect()
             }
         } else {
             if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
-            if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)
+            if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
                 this.destroyCircularEffect()
-            if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear)
+            if (this.shouldPlayLinearEffect && this.startSharedMemory.linear)
                 this.destroyLinearEffect()
         }
-        this.renderGlow()
-        this.renderSlide()
     }
     terminate() {
         if (this.shouldPlaySFX && this.sfxInstanceId)
             this.stopSFX();
-        if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)
-            this.destroyCircularEffect();
-        if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear)
-            this.destroyLinearEffect();
+        if (this.import.endRef == this.import.tailRef) {
+            if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
+                this.destroyCircularEffect();
+            if (this.shouldPlayLinearEffect && this.startSharedMemory.linear)
+                this.destroyLinearEffect();
+        }
     }
     get shouldScheduleSFX() {
         return (options.sfxEnabled &&
@@ -106,35 +116,33 @@ export class ActiveSlideConnector extends SlideConnector {
         this.sfxInstanceId = 0;
     }
     spawnCircularEffect() {
-        this.effectInstanceIds.circular = this.effects.circular.spawn(new Quad(), 1, true);
+        this.startSharedMemory.circular = this.effects.circular.spawn(new Quad(), 1, true);
     }
     updateCircularEffect() {
         const s = this.getScale(time.scaled);
         const lane = this.getLane(s);
-        particle.effects.move(this.effectInstanceIds.circular, circularEffectLayout({
+        particle.effects.move(this.startSharedMemory.circular, circularEffectLayout({
             lane,
             w: 3.5,
             h: 2.1,
         }));
     }
     destroyCircularEffect() {
-        particle.effects.destroy(this.effectInstanceIds.circular);
-        this.effectInstanceIds.circular = 0;
+        particle.effects.destroy(this.startSharedMemory.circular);
     }
     spawnLinearEffect() {
-        this.effectInstanceIds.linear = this.effects.linear.spawn(new Quad(), 1, true);
+        this.startSharedMemory.linear = this.effects.linear.spawn(new Quad(), 1, true);
     }
     updateLinearEffect() {
         const s = this.getScale(time.scaled);
         const lane = this.getLane(s);
-        particle.effects.move(this.effectInstanceIds.linear, linearEffectLayout({
+        particle.effects.move(this.startSharedMemory.linear, linearEffectLayout({
             lane,
             shear: 0,
         }));
     }
     destroyLinearEffect() {
-        particle.effects.destroy(this.effectInstanceIds.linear);
-        this.effectInstanceIds.linear = 0;
+        particle.effects.destroy(this.startSharedMemory.linear);
     }
     getAlpha() {
         return this.visual === VisualType.NotActivated ? 0.5 : 1;
