@@ -23,7 +23,7 @@ export class ActiveSlideConnector extends SlideConnector {
         }
         if (this.import.endRef == this.import.tailRef)
             archetypes.SlideParticleManager.spawn({
-                t: this.tail.time,
+                t: this.end.time,
                 startRef: this.import.startRef
             });
     }
@@ -60,8 +60,8 @@ export class ActiveSlideConnector extends SlideConnector {
             }
         } else {
             if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular) {
-                this.startSharedMemory.circular = 0;
                 this.destroyCircularEffect()
+                this.startSharedMemory.circular = 0;
             }
             if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear) {
                 this.destroyLinearEffect()
