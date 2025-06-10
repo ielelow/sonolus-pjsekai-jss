@@ -37,35 +37,36 @@ export class ActiveSlideConnector extends SlideConnector {
     updateSequential() {
         if (time.skip) {
             if (this.shouldScheduleCircularEffect) {
-                this.startSharedMemory.circular = 0;
-                this.startSharedMemory.check = false
                 this.destroyCircularEffect()
+                this.startSharedMemory.circular = 0;
             }
             if (this.shouldScheduleLinearEffect) {
                 this.destroyCircularEffect()
                 this.startSharedMemory.linear = 0;
-                this.startSharedMemory.check = false
             }
         }
         if (time.now < this.head.time)
             return;
         if (this.visual === VisualType.Activated) {
             if (this.shouldScheduleCircularEffect) {
-                if (!this.startSharedMemory.circular || !this.startSharedMemory.check)
+                if (!this.startSharedMemory.circular)
                     this.spawnCircularEffect()
                 this.updateCircularEffect()
             }
             if (this.shouldScheduleLinearEffect) {
-                if (!this.startSharedMemory.linear || !this.startSharedMemory.check)
+                if (!this.startSharedMemory.linear)
                     this.spawnLinearEffect()
                 this.updateLinearEffect()
             }
-            this.startSharedMemory.check = true
         } else {
-            if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular)
+            if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular) {
+                this.startSharedMemory.circular = 0;
                 this.destroyCircularEffect()
-            if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear)
+            }
+            if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear) {
                 this.destroyLinearEffect()
+                this.startSharedMemory.linear = 0;
+            }
         }
     }
     terminate() {

@@ -129,6 +129,10 @@ export class ActiveSlideConnector extends SlideConnector {
     }
     destroyCircularEffect() {
         particle.effects.destroy(this.startSharedMemory.circular);
+        archetypes.SlideParticleManager.spawn({
+            startRef: this.import.startRef,
+            function: 0
+        });
     }
     spawnLinearEffect() {
         this.startSharedMemory.linear = this.effects.linear.spawn(new Quad(), 1, true);
@@ -143,6 +147,11 @@ export class ActiveSlideConnector extends SlideConnector {
     }
     destroyLinearEffect() {
         particle.effects.destroy(this.startSharedMemory.linear);
+        archetypes.SlideParticleManager.spawn({
+            startRef: this.import.startRef,
+            function: 1,
+            t: time.now
+        });
     }
     getAlpha() {
         return this.visual === VisualType.NotActivated ? 0.5 : 1;

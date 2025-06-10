@@ -44,6 +44,7 @@ import { ComboNumber } from './ComboNumber.js';
 import { ComboLabel } from './ComboLabel.js';
 import { ComboNumberEffect } from './ComboNumberEffect.js';
 import { ComboNumberGlow } from './ComboNumberGlow.js';
+import { SlideParticleManager } from './slideConnectors/activeSlideConnectors/SlideParticleManager.js';
 export const archetypes = defineArchetypes({
     Initialization,
     InputManager,
@@ -91,4 +92,5 @@ export const archetypes = defineArchetypes({
     ComboNumberGlow,
     ComboNumberEffect,
     ComboLabel,
+    SlideParticleManager,
 });
