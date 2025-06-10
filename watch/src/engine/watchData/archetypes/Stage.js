@@ -5,7 +5,6 @@ import { note } from '../note.js';
 import { scaledScreen } from '../scaledScreen.js';
 import { layer, skin } from '../skin.js';
 import { archetypes } from './index.js';
-import { EngineArchetypeDataName } from '@sonolus/core';
 export class Stage extends Archetype {
     preprocessOrder = 3;
     entityArray = this.defineSharedMemory({
