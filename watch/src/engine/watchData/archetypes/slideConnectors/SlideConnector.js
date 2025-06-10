@@ -19,11 +19,6 @@ export class SlideConnector extends Archetype {
         ease: { name: 'ease', type: (DataType) },
         lane: { name: 'lane', type: Number },
     });
-    sharedMemory = this.defineSharedMemory({
-        despawnTime: Number,
-        circular: ParticleEffectInstanceId,
-        linear: ParticleEffectInstanceId,
-    });
     initialized = this.entityMemory(Boolean);
     start = this.entityMemory({
         time: Number,

@@ -14,6 +14,7 @@ export class FlatNote extends Note {
         despawnTime: Number,
         circular: ParticleEffectInstanceId,
         linear: ParticleEffectInstanceId,
+        check: Boolean,
     });
     visualTime = this.entityMemory(Range);
     hiddenTime = this.entityMemory(Number);
