@@ -11,6 +11,8 @@ export class Note extends Archetype {
     sharedMemory = this.defineSharedMemory({
         lastActiveTime: Number,
         exportStartTime: Number,
+        circular: ParticleEffectInstanceId,
+        linear: ParticleEffectInstanceId,
     });
     targetTime = this.entityMemory(Number);
     spawnTime = this.entityMemory(Number);

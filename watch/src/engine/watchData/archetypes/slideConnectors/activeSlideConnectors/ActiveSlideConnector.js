@@ -8,10 +8,6 @@ import { getZ, layer } from '../../../skin.js';
 import { SlideConnector, VisualType } from '../SlideConnector.js';
 import { archetypes } from '../../index.js';
 export class ActiveSlideConnector extends SlideConnector {
-    effectInstanceIds = this.entityMemory({
-        circular: ParticleEffectInstanceId,
-        linear: ParticleEffectInstanceId,
-    });
     glowZ = this.entityMemory(Number);
     slideZ = this.entityMemory(Number);
     diamondZ = this.entityMemory(Number);
@@ -28,37 +24,39 @@ export class ActiveSlideConnector extends SlideConnector {
     }
     updateParallel() {
         super.updateParallel();
-        if (time.skip) {
-            if (this.shouldScheduleCircularEffect)
-                this.effectInstanceIds.circular = 0;
-            if (this.shouldScheduleLinearEffect)
-                this.effectInstanceIds.linear = 0;
-        }
+        if (time.now < this.head.time)
+            return;
+        this.renderGlow()
+        this.renderSlide()
+    }
+    updateSequential() {
         if (time.now < this.head.time)
             return;
         if (this.visual === VisualType.Activated) {
             if (this.shouldScheduleCircularEffect) {
-                if (!this.effectInstanceIds.circular) this.spawnCircularEffect()
+                if (!this.startSharedMemory.circular)
+                    this.spawnCircularEffect()
                 this.updateCircularEffect()
             }
             if (this.shouldScheduleLinearEffect) {
-                if (!this.effectInstanceIds.linear) this.spawnLinearEffect()
+                if (!this.startSharedMemory.linear)
+                    this.spawnLinearEffect()
                 this.updateLinearEffect()
             }
         } else {
-            if (this.shouldScheduleCircularEffect && this.effectInstanceIds.circular)
+            if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular)
                 this.destroyCircularEffect()
-            if (this.shouldScheduleLinearEffect && this.effectInstanceIds.linear)
+            if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear)
                 this.destroyLinearEffect()
         }
-        this.renderGlow()
-        this.renderSlide()
     }
     terminate() {
-        if (this.shouldScheduleCircularEffect && this.effectInstanceIds.circular)
-            this.destroyCircularEffect();
-        if (this.shouldScheduleLinearEffect && this.effectInstanceIds.linear)
-            this.destroyLinearEffect();
+        if (this.import.endRef == this.import.tailRef) {
+            if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular)
+                this.destroyCircularEffect();
+            if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear)
+                this.destroyLinearEffect();
+        }
     }
     get useFallbackSlideSprite() {
         return (!this.slideSprites.left.exists ||
@@ -166,34 +164,32 @@ export class ActiveSlideConnector extends SlideConnector {
         effect.clips.scheduleStopLoop(id, endTime);
     }
     spawnCircularEffect() {
-        this.effectInstanceIds.circular = this.effects.circular.spawn(new Quad(), 1, true);
+        this.startSharedMemory.circular = this.effects.circular.spawn(new Quad(), 1, true);
     }
     updateCircularEffect() {
         const s = this.getScale(time.scaled);
         const lane = this.getLane(s);
-        particle.effects.move(this.effectInstanceIds.circular, circularEffectLayout({
+        particle.effects.move(this.startSharedMemory.circular, circularEffectLayout({
             lane,
             w: 3.5,
             h: 2.1,
         }));
     }
     destroyCircularEffect() {
-        particle.effects.destroy(this.effectInstanceIds.circular);
-        this.effectInstanceIds.circular = 0;
+        particle.effects.destroy(this.startSharedMemory.circular);
     }
     spawnLinearEffect() {
-        this.effectInstanceIds.linear = this.effects.linear.spawn(new Quad(), 1, true);
+        this.startSharedMemory.linear = this.effects.linear.spawn(new Quad(), 1, true);
     }
     updateLinearEffect() {
         const s = this.getScale(time.scaled);
         const lane = this.getLane(s);
-        particle.effects.move(this.effectInstanceIds.linear, linearEffectLayout({
+        particle.effects.move(this.startSharedMemory.linear, linearEffectLayout({
             lane,
             shear: 0,
         }));
     }
     destroyLinearEffect() {
-        particle.effects.destroy(this.effectInstanceIds.linear);
-        this.effectInstanceIds.linear = 0;
+        particle.effects.destroy(this.startSharedMemory.linear);
     }
 }
