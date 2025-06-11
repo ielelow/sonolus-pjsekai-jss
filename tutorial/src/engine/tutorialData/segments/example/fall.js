@@ -1,7 +1,7 @@
 export const exampleFall = {
-    enter() {},
+  enter() {},
 
-    update() {},
+  update() {},
 
-    exit() {},
-}
+  exit() {},
+};
