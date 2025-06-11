@@ -26,7 +26,7 @@ export class ActiveSlideConnector extends SlideConnector {
     }
     if (this.import.endRef == this.import.tailRef)
       archetypes.SlideParticleManager.spawn({
-        t: this.end.time,
+        t: this.tail.time,
         startRef: this.import.startRef,
       });
   }
@@ -134,8 +134,8 @@ export class ActiveSlideConnector extends SlideConnector {
       (options.lightweight
         ? Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25)) * 0.25
         : Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25))) *
-        ((Math.cos(((time.now - this.start.time) * 8 * Math.PI) / 2) + 1) / 20 +
-          0.2),
+      ((Math.cos(((time.now - this.start.time) * 8 * Math.PI) / 2) + 1) / 20 +
+        0.2),
     );
   }
   renderSlide() {
@@ -162,9 +162,9 @@ export class ActiveSlideConnector extends SlideConnector {
         //None
       } else if (
         entityInfos.get(this.import.startRef).archetype ===
-          archetypes.NormalSlideStartNote.index ||
+        archetypes.NormalSlideStartNote.index ||
         entityInfos.get(this.import.startRef).archetype ===
-          archetypes.CriticalSlideStartNote.index
+        archetypes.CriticalSlideStartNote.index
       ) {
         this.slideSprites.left.draw(
           perspectiveLayout({ l, r: ml, b, t }),
