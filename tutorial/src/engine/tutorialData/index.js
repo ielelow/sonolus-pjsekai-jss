@@ -1,13 +1,13 @@
-import { effect } from './effect.js';
-import { instruction } from './instruction.js';
-import { particle } from './particle.js';
-import { skin } from './skin.js';
-import { tutorial } from './tutorial.js';
+import { effect } from "./effect.js";
+import { instruction } from "./instruction.js";
+import { particle } from "./particle.js";
+import { skin } from "./skin.js";
+import { tutorial } from "./tutorial.js";
 export const tutorialData = {
-    skin,
-    effect,
-    particle,
-    instruction,
-    tutorial,
-    globalResolver: (name) => eval(name),
+  skin,
+  effect,
+  particle,
+  instruction,
+  tutorial,
+  globalResolver: (name) => eval(name),
 };

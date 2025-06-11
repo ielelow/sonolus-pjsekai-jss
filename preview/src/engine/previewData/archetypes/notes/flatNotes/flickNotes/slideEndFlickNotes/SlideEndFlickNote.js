@@ -1,3 +1,2 @@
-import { FlickNote } from '../FlickNote.js';
-export class SlideEndFlickNote extends FlickNote {
-}
+import { FlickNote } from "../FlickNote.js";
+export class SlideEndFlickNote extends FlickNote {}

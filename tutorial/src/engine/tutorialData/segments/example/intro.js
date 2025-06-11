@@ -1,7 +1,7 @@
 export const exampleIntro = {
-    enter() {},
+  enter() {},
 
-    update() {},
+  update() {},
 
-    exit() {},
-}
+  exit() {},
+};

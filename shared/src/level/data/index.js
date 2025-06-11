@@ -1,2 +1,2 @@
-import chart from './append.json';
+import chart from "./append.json";
 export const data = chart;

@@ -1,7 +1,7 @@
 export const exampleHit = {
-    enter() {},
+  enter() {},
 
-    update() {},
+  update() {},
 
-    exit() {},
-}
+  exit() {},
+};
