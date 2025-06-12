@@ -299,7 +299,7 @@ export class ActiveSlideConnector extends SlideConnector {
       0.5,
       false,
     );
-    this.effectTimer.noneMoveLinear = time.now + 0.1;
+    this.startSharedMemory.noneMoveLinear = time.now + 0.1;
   }
   spawnSlotEffects() {
     const s = this.getScale(time.scaled);
@@ -315,6 +315,6 @@ export class ActiveSlideConnector extends SlideConnector {
         false,
       );
     }
-    this.effectTimer.slotEffects = time.now + 0.2;
+    this.startSharedMemory.slotEffects = time.now + 0.2;
   }
 }
