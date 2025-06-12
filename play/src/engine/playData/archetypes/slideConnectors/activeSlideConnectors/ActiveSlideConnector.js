@@ -13,10 +13,6 @@ import { SlideConnector, VisualType } from "../SlideConnector.js";
 import { archetypes } from "../../index.js";
 export class ActiveSlideConnector extends SlideConnector {
   sfxInstanceId = this.entityMemory(LoopedEffectClipInstanceId);
-  effectTimer = this.entityMemory({
-    noneMoveLinear: Number,
-    slotEffects: Number,
-  });
   glowZ = this.entityMemory(Number);
   slideZ = this.entityMemory(Number);
   diamondZ = this.entityMemory(Number);
@@ -45,16 +41,6 @@ export class ActiveSlideConnector extends SlideConnector {
     if (time.now < this.head.time) return;
     if (this.visual === VisualType.Activated) {
       if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX();
-      if (
-        this.shouldPlayNoneMoveLinearEffect &&
-        time.now >= this.effectTimer.noneMoveLinear
-      )
-        this.spawnNoneMoveLinearEffect();
-      if (
-        this.shouldPlaySlotEffects &&
-        time.now >= this.effectTimer.slotEffects
-      )
-        this.spawnSlotEffects();
     } else {
       if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX();
     }
@@ -73,6 +59,16 @@ export class ActiveSlideConnector extends SlideConnector {
         if (!this.startSharedMemory.linear) this.spawnLinearEffect();
         this.updateLinearEffect();
       }
+      if (
+        this.shouldPlayNoneMoveLinearEffect &&
+        time.now >= this.startSharedMemory.noneMoveLinear
+      )
+        this.spawnNoneMoveLinearEffect();
+      if (
+        this.shouldPlaySlotEffects &&
+        time.now >= this.startSharedMemory.slotEffects
+      )
+        this.spawnSlotEffects();
     } else {
       if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
         this.destroyCircularEffect();
@@ -188,7 +184,7 @@ export class ActiveSlideConnector extends SlideConnector {
       0.5,
       false,
     );
-    this.effectTimer.noneMoveLinear = time.now + 0.1;
+    this.startSharedMemory.noneMoveLinear = time.now + 0.1;
   }
   spawnSlotEffects() {
     const s = this.getScale(time.scaled);
@@ -204,7 +200,7 @@ export class ActiveSlideConnector extends SlideConnector {
         false,
       );
     }
-    this.effectTimer.slotEffects = time.now + 0.2;
+    this.startSharedMemory.slotEffects = time.now + 0.2;
   }
   updateLinearEffect() {
     const s = this.getScale(time.scaled);

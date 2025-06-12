@@ -18,6 +18,8 @@ export class SlideParticleManager extends SpawnableArchetype({
     this.check = true;
     this.startSharedMemory.circular = 0;
     this.startSharedMemory.linear = 0;
+    this.startSharedMemory.slotEffects = 0;
+    this.startSharedMemory.noneMoveLinear = 0;
   }
   get startSharedMemory() {
     return archetypes.NormalSlideStartNote.sharedMemory.get(

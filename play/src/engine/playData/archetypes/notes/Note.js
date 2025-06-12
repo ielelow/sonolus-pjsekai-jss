@@ -13,6 +13,8 @@ export class Note extends Archetype {
     exportStartTime: Number,
     circular: ParticleEffectInstanceId,
     linear: ParticleEffectInstanceId,
+    noneMoveLinear: Number,
+    slotEffects: Number,
   });
   targetTime = this.entityMemory(Number);
   spawnTime = this.entityMemory(Number);
