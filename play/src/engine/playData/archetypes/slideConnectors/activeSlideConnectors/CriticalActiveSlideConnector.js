@@ -27,6 +27,8 @@ export class CriticalActiveSlideConnector extends ActiveSlideConnector {
   effects = {
     circular: particle.effects.criticalSlideConnectorCircular,
     linear: particle.effects.criticalSlideConnectorLinear,
+    noneMoveLinear: particle.effects.criticalSlideConnectorNoneMoveLinear,
+    slotEffects: particle.effects.slotEffectCriticalSlideConnector,
   };
   get slideStartNote() {
     return archetypes.CriticalSlideStartNote;
