@@ -43,6 +43,11 @@ export class ActiveSlideConnector extends SlideConnector {
     this.updateVisualType();
     this.renderConnector();
     if (time.now < this.head.time) return;
+    if (this.visual === VisualType.Activated) {
+      if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX();
+    } else {
+      if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX();
+    }
     this.renderGlow();
     this.renderSlide();
   }
@@ -50,7 +55,6 @@ export class ActiveSlideConnector extends SlideConnector {
     super.updateSequential();
     if (time.now < this.head.time) return;
     if (this.visual === VisualType.Activated) {
-      if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX();
       if (this.shouldPlayCircularEffect) {
         if (!this.startSharedMemory.circular) this.spawnCircularEffect();
         this.updateCircularEffect();
@@ -60,7 +64,6 @@ export class ActiveSlideConnector extends SlideConnector {
         this.updateLinearEffect();
       }
     } else {
-      if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX();
       if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
         this.destroyCircularEffect();
       if (this.shouldPlayLinearEffect && this.startSharedMemory.linear)
