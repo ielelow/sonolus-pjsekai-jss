@@ -15,10 +15,6 @@ export class ActiveSlideConnector extends SlideConnector {
   glowZ = this.entityMemory(Number);
   slideZ = this.entityMemory(Number);
   diamondZ = this.entityMemory(Number);
-  effectTimer = this.entityMemory({
-    noneMoveLinear: Number,
-    slotEffects: Number,
-  });
   preprocess() {
     super.preprocess();
     if (options.sfxEnabled) {
@@ -37,18 +33,6 @@ export class ActiveSlideConnector extends SlideConnector {
   updateParallel() {
     super.updateParallel();
     if (time.now < this.head.time) return;
-    if (this.visual === VisualType.Activated) {
-      if (
-        this.shouldPlayNoneMoveLinearEffect &&
-        time.now >= this.effectTimer.noneMoveLinear
-      )
-        this.spawnNoneMoveLinearEffect();
-      if (
-        this.shouldPlaySlotEffects &&
-        time.now >= this.effectTimer.slotEffects
-      )
-        this.spawnSlotEffects();
-    }
     this.renderGlow();
     this.renderSlide();
   }
@@ -73,6 +57,16 @@ export class ActiveSlideConnector extends SlideConnector {
         if (!this.startSharedMemory.linear) this.spawnLinearEffect();
         this.updateLinearEffect();
       }
+      if (
+        this.shouldPlayNoneMoveLinearEffect &&
+        time.now >= this.startSharedMemory.noneMoveLinear
+      )
+        this.spawnNoneMoveLinearEffect();
+      if (
+        this.shouldPlaySlotEffects &&
+        time.now >= this.startSharedMemory.slotEffects
+      )
+        this.spawnSlotEffects();
     } else {
       if (
         this.shouldScheduleCircularEffect &&
@@ -94,8 +88,6 @@ export class ActiveSlideConnector extends SlideConnector {
       if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear)
         this.destroyLinearEffect();
     }
-    this.effectTimer.noneMoveLinear = 0;
-    this.effectTimer.slotEffects = 0;
   }
   get useFallbackSlideSprite() {
     return (
