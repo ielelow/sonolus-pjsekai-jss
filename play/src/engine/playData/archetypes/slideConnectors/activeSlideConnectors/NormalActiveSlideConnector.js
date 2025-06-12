@@ -27,6 +27,8 @@ export class NormalActiveSlideConnector extends ActiveSlideConnector {
   effects = {
     circular: particle.effects.normalSlideConnectorCircular,
     linear: particle.effects.normalSlideConnectorLinear,
+    noneMoveLinear: particle.effects.normalSlideConnectorNoneMoveLinear,
+    slotEffects: particle.effects.slotEffectNormalSlideConnector,
   };
   get slideStartNote() {
     return archetypes.NormalSlideStartNote;

@@ -29,14 +29,19 @@ export const particle = defineParticle({
     criticalSlideTickNote: ParticleEffectName.NoteCircularAlternativeYellow,
     normalSlideConnectorCircular: ParticleEffectName.NoteCircularHoldGreen,
     normalSlideConnectorLinear: ParticleEffectName.NoteLinearHoldGreen,
+    normalSlideConnectorNoneMoveLinear: "Sekai Normal Slide Connector Linear",
     criticalSlideConnectorCircular: ParticleEffectName.NoteCircularHoldYellow,
     criticalSlideConnectorLinear: ParticleEffectName.NoteLinearHoldYellow,
+    criticalSlideConnectorNoneMoveLinear:
+      "Sekai Critical Slide Connector Linear",
     slotEffectCyan: "Sekai Slot Linear Tap Cyan",
     slotEffectYellow: "Sekai Slot Linear Tap Yellow",
     slotEffectSlideTapGreen: "Sekai Slot Linear Slide Tap Green",
     slotEffectSlideTapYellow: "Sekai Slot Linear Slide Tap Yellow",
     slotEffectFlickRed: "Sekai Slot Linear Alternative Red",
     slotEffectFlickYellow: "Sekai Slot Linear Alternative Yellow",
+    slotEffectNormalSlideConnector: "Sekai Slot Linear Slide Green",
+    slotEffectCriticalSlideConnector: "Sekai Slot Linear Slide Yellow",
   },
 });
 export const circularEffectLayout = ({ lane, w, h }) => {

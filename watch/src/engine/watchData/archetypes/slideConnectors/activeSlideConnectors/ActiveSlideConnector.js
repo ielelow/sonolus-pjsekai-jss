@@ -15,6 +15,10 @@ export class ActiveSlideConnector extends SlideConnector {
   glowZ = this.entityMemory(Number);
   slideZ = this.entityMemory(Number);
   diamondZ = this.entityMemory(Number);
+  effectTimer = this.entityMemory({
+    noneMoveLinear: Number,
+    slotEffects: Number,
+  });
   preprocess() {
     super.preprocess();
     if (options.sfxEnabled) {
@@ -33,6 +37,18 @@ export class ActiveSlideConnector extends SlideConnector {
   updateParallel() {
     super.updateParallel();
     if (time.now < this.head.time) return;
+    if (this.visual === VisualType.Activated) {
+      if (
+        this.shouldPlayNoneMoveLinearEffect &&
+        time.now >= this.effectTimer.noneMoveLinear
+      )
+        this.spawnNoneMoveLinearEffect();
+      if (
+        this.shouldPlaySlotEffects &&
+        time.now >= this.effectTimer.slotEffects
+      )
+        this.spawnSlotEffects();
+    }
     this.renderGlow();
     this.renderSlide();
   }
@@ -78,6 +94,8 @@ export class ActiveSlideConnector extends SlideConnector {
       if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear)
         this.destroyLinearEffect();
     }
+    this.effectTimer.noneMoveLinear = 0;
+    this.effectTimer.slotEffects = 0;
   }
   get useFallbackSlideSprite() {
     return (
@@ -94,6 +112,12 @@ export class ActiveSlideConnector extends SlideConnector {
   }
   get shouldScheduleLinearEffect() {
     return options.noteEffectEnabled && this.effects.linear.exists;
+  }
+  get shouldPlayNoneMoveLinearEffect() {
+    return options.noteEffectEnabled && this.effects.noneMoveLinear.exists;
+  }
+  get shouldPlaySlotEffects() {
+    return options.slotEffectEnabled && this.effects.slotEffects.exists;
   }
   globalInitialize() {
     super.globalInitialize();
@@ -271,5 +295,34 @@ export class ActiveSlideConnector extends SlideConnector {
   }
   destroyLinearEffect() {
     particle.effects.destroy(this.startSharedMemory.linear);
+  }
+  spawnNoneMoveLinearEffect() {
+    const s = this.getScale(time.scaled);
+    const lane = this.getLane(s);
+    this.effects.noneMoveLinear.spawn(
+      linearEffectLayout({
+        lane,
+        shear: 0,
+      }),
+      0.5,
+      false,
+    );
+    this.effectTimer.noneMoveLinear = time.now + 0.1;
+  }
+  spawnSlotEffects() {
+    const s = this.getScale(time.scaled);
+    const l = this.getL(s);
+    const r = this.getR(s);
+    for (let i = l; i < r; i++) {
+      this.effects.slotEffects.spawn(
+        linearEffectLayout({
+          lane: i + 0.5,
+          shear: 0,
+        }),
+        0.5,
+        false,
+      );
+    }
+    this.effectTimer.slotEffects = time.now + 0.2;
   }
 }
