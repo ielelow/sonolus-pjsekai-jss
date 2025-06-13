@@ -218,7 +218,6 @@ export class ActiveSlideConnector extends SlideConnector {
     archetypes.SlideParticleManager.spawn({
       startRef: this.import.startRef,
       function: 1,
-      t: time.now,
     });
   }
   getAlpha() {
