@@ -26,7 +26,7 @@ export class ActiveSlideConnector extends SlideConnector {
     }
     if (this.import.endRef == this.import.tailRef)
       archetypes.SlideParticleManager.spawn({
-        t: this.tail.time,
+        t: this.tail.scaledTime,
         startRef: this.import.startRef,
       });
   }
@@ -308,7 +308,7 @@ export class ActiveSlideConnector extends SlideConnector {
     for (let i = l; i < r; i++) {
       this.effects.slotEffects.spawn(
         linearEffectLayout({
-          lane: i + 0.5,
+          lane: i,
           shear: 0,
         }),
         0.5,
