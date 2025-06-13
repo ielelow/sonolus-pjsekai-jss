@@ -9,7 +9,7 @@ export class SlideParticleManager extends SpawnableArchetype({
     return timeScaleChanges.at(this.spawnData.t + 0.016).scaledTime;
   }
   despawnTime() {
-    return timeScaleChanges.at(this.spawnData.t + 0.1).scaledTime;
+    return timeScaleChanges.at(this.spawnData.t + 1).scaledTime;
   }
   terminate() {
     this.check = false;
