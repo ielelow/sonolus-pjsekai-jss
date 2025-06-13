@@ -190,7 +190,7 @@ export class ActiveSlideConnector extends SlideConnector {
     const s = this.getScale(time.scaled);
     const l = this.getL(s);
     const r = this.getR(s);
-    for (let i = l; i < r; i++) {
+    for (let i = l + 0.5; i < r - 0.5; i++) {
       this.effects.slotEffects.spawn(
         linearEffectLayout({
           lane: i,
