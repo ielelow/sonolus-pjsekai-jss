@@ -1,1 +1,1 @@
-export const minFlickVR = 0.5;
+export const minFlickVR = 0.5

@@ -1,6 +1,6 @@
-import { SlideConnector } from "../SlideConnector.js";
+import { SlideConnector } from '../SlideConnector.js'
 export class ActiveSlideConnector extends SlideConnector {
-  getAlpha() {
-    return 1;
-  }
+    getAlpha() {
+        return 1
+    }
 }

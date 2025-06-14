@@ -1,7 +1,7 @@
 export const exampleFrozen = {
-  enter() {},
+    enter() {},
 
-  update() {},
+    update() {},
 
-  exit() {},
-};
+    exit() {},
+}

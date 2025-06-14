@@ -1,61 +1,61 @@
-import { getHitbox } from "../../../lane.js";
-import { disallowEmpty } from "../../InputManager.js";
-import { Note } from "../Note.js";
-import { archetypes } from "../../index.js";
-import { options } from "../../../../configuration/options.js";
+import { options } from '../../../../configuration/options.js'
+import { getHitbox } from '../../../lane.js'
+import { archetypes } from '../../index.js'
+import { disallowEmpty } from '../../InputManager.js'
+import { Note } from '../Note.js'
 export class SlideTickNote extends Note {
-  leniency = 1;
-  inputTime = this.entityMemory(Number);
-  globalPreprocess() {
-    if (this.hasInput) this.life.miss = -40;
-  }
-  preprocess() {
-    super.preprocess();
-    this.inputTime = this.targetTime + input.offset;
-    this.spawnTime = timeScaleChanges.at(this.inputTime).scaledTime;
-  }
-  initialize() {
-    getHitbox({
-      l: this.import.lane - this.import.size,
-      r: this.import.lane + this.import.size,
-      leniency: this.leniency,
-    }).copyTo(this.fullHitbox);
-    this.result.accuracy = 0.125;
-  }
-  touch() {
-    if (time.now < this.inputTime) return;
-    for (const touch of touches) {
-      if (!this.fullHitbox.contains(touch.position)) continue;
-      this.complete(touch);
-      return;
+    leniency = 1
+    inputTime = this.entityMemory(Number)
+    globalPreprocess() {
+        if (this.hasInput) this.life.miss = -40
     }
-  }
-  updateParallel() {
-    if (time.now > this.inputTime) this.despawn = true;
-  }
-  complete(touch) {
-    disallowEmpty(touch);
-    this.result.judgment = Judgment.Perfect;
-    this.result.accuracy = 0;
-    this.playHitEffects();
-    this.despawn = true;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  playHitEffects() {}
-  terminate() {
-    if (options.customJudgment) {
-      archetypes.JudgmentText.spawn({ j: this.result.judgment, t: time.now });
+    preprocess() {
+        super.preprocess()
+        this.inputTime = this.targetTime + input.offset
+        this.spawnTime = timeScaleChanges.at(this.inputTime).scaledTime
     }
-    if (options.customCombo) {
-      archetypes.ComboNumber.spawn({ j: this.result.judgment, t: time.now });
-      archetypes.ComboNumberEffect.spawn({
-        j: this.result.judgment,
-        t: time.now,
-      });
-      archetypes.ComboNumberGlow.spawn({
-        j: this.result.judgment,
-        t: time.now,
-      });
+    initialize() {
+        getHitbox({
+            l: this.import.lane - this.import.size,
+            r: this.import.lane + this.import.size,
+            leniency: this.leniency,
+        }).copyTo(this.fullHitbox)
+        this.result.accuracy = 0.125
     }
-  }
+    touch() {
+        if (time.now < this.inputTime) return
+        for (const touch of touches) {
+            if (!this.fullHitbox.contains(touch.position)) continue
+            this.complete(touch)
+            return
+        }
+    }
+    updateParallel() {
+        if (time.now > this.inputTime) this.despawn = true
+    }
+    complete(touch) {
+        disallowEmpty(touch)
+        this.result.judgment = Judgment.Perfect
+        this.result.accuracy = 0
+        this.playHitEffects()
+        this.despawn = true
+    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    playHitEffects() {}
+    terminate() {
+        if (options.customJudgment) {
+            archetypes.JudgmentText.spawn({ j: this.result.judgment, t: time.now })
+        }
+        if (options.customCombo) {
+            archetypes.ComboNumber.spawn({ j: this.result.judgment, t: time.now })
+            archetypes.ComboNumberEffect.spawn({
+                j: this.result.judgment,
+                t: time.now,
+            })
+            archetypes.ComboNumberGlow.spawn({
+                j: this.result.judgment,
+                t: time.now,
+            })
+        }
+    }
 }
