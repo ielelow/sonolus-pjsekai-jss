@@ -2,6 +2,23 @@ import { DatabaseEngineItem } from '@sonolus/core'
 
 export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
+export { uscToSUS } from './sus/decode.cjs'
+export {
+    USC,
+    USCBpmChange,
+    USCColor,
+    USCConnectionAttachNote,
+    USCConnectionEndNote,
+    USCConnectionStartNote,
+    USCConnectionTickNote,
+    USCFade,
+    USCGuideMidpointNote,
+    USCGuideNote,
+    USCObject,
+    USCSingleNote,
+    USCSlideNote,
+    USCTimeScaleChange,
+} from './sus/index.cjs'
 export * from './usc/index.cjs'
 
 export const version = '1.1.12'
