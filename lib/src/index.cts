@@ -21,7 +21,7 @@ export {
 } from './sus/index.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.1.12'
+export const version = '1.1.13'
 
 export const databaseEngineItem = {
     name: 'prosekaR',
