@@ -103,61 +103,64 @@ export const uscToSUS = (uscData: any): string => {
     }
 
     // ▼▼▼ 노트 겹침 및 BPM 겹침 오류를 모두 해결한 최종 렌더링 로직 ▼▼▼
-  const sortedMeasures = Array.from(noteData.keys()).sort((a, b) => a - b);
-  let activeTimeScaleGroup = -1;
+    const sortedMeasures = Array.from(noteData.keys()).sort((a, b) => a - b)
+    let activeTimeScaleGroup = -1
 
-  for (const measure of sortedMeasures) {
-    const headerMap = noteData.get(measure)!;
-    const sortedHeaders = Array.from(headerMap.keys()).sort();
-    for (const header of sortedHeaders) {
-      const notes = headerMap.get(header)!;
-      if (!notes || notes.length === 0) continue;
-      
-      const noteTimeScaleGroup = notes[0].timeScaleGroup;
-      const tilId = tilIdMap.get(noteTimeScaleGroup);
-      if (noteTimeScaleGroup !== activeTimeScaleGroup && tilId !== undefined) {
-          susLines.push(`#HISPEED ${tilId}`);
-          activeTimeScaleGroup = noteTimeScaleGroup;
-      }
-      
-      if (header.endsWith("02")) {
-        susLines.push(`#${header}: ${notes[0].value}`);
-        continue;
-      }
+    for (const measure of sortedMeasures) {
+        const headerMap = noteData.get(measure)!
+        const sortedHeaders = Array.from(headerMap.keys()).sort()
+        for (const header of sortedHeaders) {
+            const notes = headerMap.get(header)!
+            if (!notes || notes.length === 0) continue
 
-      const granularity = 1920;
-      const data = Array(granularity).fill("00");
-      const finalNotes = new Map<number, string>();
+            const noteTimeScaleGroup = notes[0].timeScaleGroup
+            const tilId = tilIdMap.get(noteTimeScaleGroup)
+            if (noteTimeScaleGroup !== activeTimeScaleGroup && tilId !== undefined) {
+                susLines.push(`#HISPEED ${tilId}`)
+                activeTimeScaleGroup = noteTimeScaleGroup
+            }
 
-      const getPriority = (value: string): number => {
-        const typeChar = value.charAt(0);
-        // Hidden 노트(타입 5)는 우선순위가 낮습니다.
-        if (typeChar === '5') return 2;
-        // 그 외 모든 노트(BPM 변경 포함)는 우선순위가 높습니다.
-        return 1;
-      };
+            if (header.endsWith('02')) {
+                susLines.push(`#${header}: ${notes[0].value}`)
+                continue
+            }
 
-      for (const note of notes) {
-        const index = Math.floor((note.tick / ticksPerMeasure) * granularity);
-        if (index >= granularity) continue;
+            const granularity = 1920
+            const data = Array(granularity).fill('00')
+            const finalNotes = new Map<number, string>()
 
-        const existingNoteValue = finalNotes.get(index);
-        const newNoteValue = note.value;
-        
-        if (!existingNoteValue || getPriority(newNoteValue) <= getPriority(existingNoteValue)) {
-          finalNotes.set(index, newNoteValue);
+            const getPriority = (value: string): number => {
+                const typeChar = value.charAt(0)
+                // Hidden 노트(타입 5)는 우선순위가 낮습니다.
+                if (typeChar === '5') return 2
+                // 그 외 모든 노트(BPM 변경 포함)는 우선순위가 높습니다.
+                return 1
+            }
+
+            for (const note of notes) {
+                const index = Math.floor((note.tick / ticksPerMeasure) * granularity)
+                if (index >= granularity) continue
+
+                const existingNoteValue = finalNotes.get(index)
+                const newNoteValue = note.value
+
+                if (
+                    !existingNoteValue ||
+                    getPriority(newNoteValue) <= getPriority(existingNoteValue)
+                ) {
+                    finalNotes.set(index, newNoteValue)
+                }
+            }
+
+            for (const [index, value] of finalNotes.entries()) {
+                data[index] = value
+            }
+
+            susLines.push(`#${header}: ${data.join('')}`)
         }
-      }
-
-      for (const [index, value] of finalNotes.entries()) {
-        data[index] = value;
-      }
-      
-      susLines.push(`#${header}: ${data.join("")}`);
     }
-  }
 
-  return susLines.join("\r\n");
+    return susLines.join('\r\n')
 
     // --- Helper Functions ---
 
@@ -237,7 +240,7 @@ export const uscToSUS = (uscData: any): string => {
     // ▼▼▼ `ease` 처리 로직을 최종 수정한 `processSlide` 함수 ▼▼▼
     function processSlide(slide: USCSlideNote) {
         const channel = (slideChannelCounter % 36).toString(36)
-        const sortedConnections = [...slide.connections].sort((a, b) => a.beat - b.beat);
+        const sortedConnections = [...slide.connections].sort((a, b) => a.beat - b.beat)
         let lastKnownLane: number = 0
         let lastKnownWidth: number = 0
 
@@ -345,7 +348,7 @@ export const uscToSUS = (uscData: any): string => {
 
     function processGuide(guide: USCGuideNote) {
         const channel = (slideChannelCounter % 36).toString(36)
-        const sortedMidpoints = [...guide.midpoints].sort((a, b) => a.beat - b.beat);
+        const sortedMidpoints = [...guide.midpoints].sort((a, b) => a.beat - b.beat)
         sortedMidpoints.forEach((midpoint, index) => {
             const tick = midpoint.beat * TICKS_PER_BEAT
             const measure = Math.floor(tick / ticksPerMeasure)
