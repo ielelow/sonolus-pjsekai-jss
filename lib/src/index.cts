@@ -1,27 +1,11 @@
 import { DatabaseEngineItem } from '@sonolus/core'
 
 export { susToUSC } from './sus/convert.cjs'
+export { uscToSUS } from './sus/revert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
-export { uscToSUS } from './sus/decode.cjs'
-export {
-    USC,
-    USCBpmChange,
-    USCColor,
-    USCConnectionAttachNote,
-    USCConnectionEndNote,
-    USCConnectionStartNote,
-    USCConnectionTickNote,
-    USCFade,
-    USCGuideMidpointNote,
-    USCGuideNote,
-    USCObject,
-    USCSingleNote,
-    USCSlideNote,
-    USCTimeScaleChange,
-} from './sus/index.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.1.13'
+export const version = '1.2.0'
 
 export const databaseEngineItem = {
     name: 'prosekaR',
