@@ -7,20 +7,6 @@ import * as A from './index.cjs'
  * @param ease B 타입의 Easing 값
  * @returns A 타입의 Easing 값
  */
-const convertEase = (ease: B.USCConnectionTickNote['ease']): A.USCConnectionTickNote['ease'] => {
-    switch (ease) {
-        case 'inout':
-            return 'in'
-        case 'outin':
-            return 'out'
-        case 'in':
-        case 'out':
-        case 'linear':
-            return ease
-        default:
-            return 'linear'
-    }
-}
 
 /**
  * B 타입의 USC 슬라이드 연결 노드를 A 타입으로 변환합니다.
@@ -38,7 +24,7 @@ const convertConnection = (
                     beat: connection.beat,
                     lane: connection.lane,
                     size: connection.size,
-                    ease: convertEase(connection.ease),
+                    ease: connection.ease,
                 }
             }
             return {
@@ -48,7 +34,7 @@ const convertConnection = (
                 size: connection.size,
                 critical: connection.critical,
                 trace: connection.judgeType === 'trace',
-                ease: convertEase(connection.ease),
+                ease: connection.ease,
             }
         case 'tick':
             // B타입 tick 노트의 critical 유무에 따라 A타입의 tick 또는 hidden으로 분기합니다.
@@ -62,7 +48,7 @@ const convertConnection = (
                     // A타입의 tick 노트는 trace 속성을 가지지만 B타입에는 없습니다.
                     // 따라서 false로 기본값을 설정합니다.
                     trace: false,
-                    ease: convertEase(connection.ease),
+                    ease: connection.ease,
                 }
             } else {
                 return {
@@ -70,7 +56,7 @@ const convertConnection = (
                     beat: connection.beat,
                     lane: connection.lane,
                     size: connection.size,
-                    ease: convertEase(connection.ease),
+                    ease: connection.ease,
                 }
             }
         case 'attach':
@@ -170,7 +156,7 @@ export const uscToUSC = (uscB: B.USC): A.USC => {
                             beat: midpoint.beat,
                             lane: midpoint.lane,
                             size: midpoint.size,
-                            ease: convertEase(midpoint.ease),
+                            ease: midpoint.ease,
                         }),
                     )
 

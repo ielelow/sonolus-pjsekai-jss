@@ -35,19 +35,19 @@ export type USCConnectionStartNote = BaseUSCNote & {
     type: 'start'
     trace: boolean
     critical: boolean
-    ease: 'out' | 'linear' | 'in'
+    ease: 'outin' | 'out' | 'linear' | 'in' | 'inout'
 }
 
 export type USCConnectionIgnoreNote = BaseUSCNote & {
     type: 'ignore'
-    ease: 'out' | 'linear' | 'in'
+    ease: 'outin' | 'out' | 'linear' | 'in' | 'inout'
 }
 
 export type USCConnectionTickNote = BaseUSCNote & {
     type: 'tick'
     trace: boolean
     critical: boolean
-    ease: 'out' | 'linear' | 'in'
+    ease: 'outin' | 'out' | 'linear' | 'in' | 'inout'
 }
 
 export type USCConnectionHiddenNote = BaseUSCObject & {

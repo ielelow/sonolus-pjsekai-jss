@@ -127,9 +127,11 @@ const directions = {
 } as const
 
 const eases = {
+    outin: -2,
     out: -1,
     linear: 0,
     in: 1,
+    inout: 2,
 } as const
 
 const bpm: Handler<USCBpmChange> = (object, append) => {
@@ -185,7 +187,7 @@ const single: Handler<USCSingleNote> = (object, append) => {
 
 const slide: Handler<USCSlideNote> = (object, append) => {
     type ConnectionIntermediate = Intermediate & {
-        ease?: 'out' | 'linear' | 'in'
+        ease?: 'outin' | 'out' | 'linear' | 'in' | 'inout'
     }
 
     const cis: ConnectionIntermediate[] = []
