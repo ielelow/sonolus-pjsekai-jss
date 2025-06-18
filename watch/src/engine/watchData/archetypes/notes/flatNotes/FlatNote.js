@@ -37,7 +37,10 @@ export class FlatNote extends Note {
         this.visualTime.copyFrom(
             Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime),
         )
-        this.sharedMemory.despawnTime = timeScaleChanges.at(this.hitTime).scaledTime
+        this.sharedMemory.despawnTime =
+            this.visualTime.min - timeScaleChanges.at(this.hitTime).scaledTime <= 0.016
+                ? timeScaleChanges.at(this.hitTime + 0.016).scaledTime
+                : timeScaleChanges.at(this.hitTime).scaledTime
         if (options.sfxEnabled) {
             if (replay.isReplay && !options.autoSFX) {
                 this.scheduleReplaySFX()

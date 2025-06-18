@@ -2,13 +2,6 @@ import * as B from './ccIndex.cjs'
 import * as A from './index.cjs'
 
 /**
- * B 타입의 USC Easing 값을 A 타입으로 변환합니다.
- * 'inout'은 'in'으로, 'outin'은 'out'으로 매핑됩니다.
- * @param ease B 타입의 Easing 값
- * @returns A 타입의 Easing 값
- */
-
-/**
  * B 타입의 USC 슬라이드 연결 노드를 A 타입으로 변환합니다.
  * @param connection B 타입의 연결 노트
  * @returns A 타입의 연결 노트
@@ -65,7 +58,6 @@ const convertConnection = (
                 beat: connection.beat,
                 critical: connection.critical ?? false,
             }
-
         case 'end':
             if (connection.judgeType === 'none') {
                 return {
@@ -73,8 +65,6 @@ const convertConnection = (
                     beat: connection.beat,
                     lane: connection.lane,
                     size: connection.size,
-                    // A타입의 ignore 노트는 ease 속성이 필요하지만, B의 end 노트는 없습니다.
-                    // 따라서 'linear'를 기본값으로 사용합니다.
                     ease: 'linear',
                 }
             }
@@ -91,12 +81,25 @@ const convertConnection = (
 }
 
 /**
+ * 정렬을 위해 객체의 대표 beat 값을 가져옵니다.
+ * @param obj A 타입 USCObject
+ * @returns 정렬에 사용될 beat 값
+ */
+const getBeatForSort = (obj: A.USCObject): number => {
+    if (obj.type === 'slide') {
+        return obj.connections[0]?.beat ?? 0
+    }
+    return obj.beat
+}
+
+/**
  * B 타입의 USC 객체를 A 타입 USC 객체로 변환합니다.
  * @param uscB B 타입 USC 객체
  * @returns A 타입 USC 객체
  */
 export const uscToUSC = (uscB: B.USC): A.USC => {
     const newObjects: A.USCObject[] = []
+    let timeScaleGroupConverted = false // 첫 번째 timeScaleGroup만 변환하기 위한 플래그
 
     for (const object of uscB.objects) {
         switch (object.type) {
@@ -109,14 +112,10 @@ export const uscToUSC = (uscB: B.USC): A.USC => {
                 break
 
             case 'single':
+                // A타입에는 timeScaleGroup 속성이 없으므로 제거하고 변환합니다.
+                const { timeScaleGroup: _, ...singleProps } = object
                 newObjects.push({
-                    type: 'single',
-                    beat: object.beat,
-                    lane: object.lane,
-                    size: object.size,
-                    critical: object.critical,
-                    trace: object.trace,
-                    // B타입의 'none' 방향은 A타입에 없으므로 undefined로 처리합니다.
+                    ...singleProps,
                     direction: object.direction === 'none' ? undefined : object.direction,
                 })
                 break
@@ -125,7 +124,6 @@ export const uscToUSC = (uscB: B.USC): A.USC => {
                 {
                     const newSlide: A.USCSlideNote = {
                         type: 'slide',
-                        // B타입의 모든 slide는 A타입의 active slide로 간주합니다.
                         active: true,
                         critical: object.critical,
                         connections: object.connections.map(
@@ -137,19 +135,24 @@ export const uscToUSC = (uscB: B.USC): A.USC => {
                 break
 
             case 'timeScaleGroup':
-                // B타입의 timeScaleGroup을 A타입의 개별 timeScale 변경점으로 변환합니다.
-                for (const change of object.changes) {
-                    newObjects.push({
-                        type: 'timeScale',
-                        beat: change.beat,
-                        timeScale: change.timeScale,
-                    })
+                // 첫 번째 timeScaleGroup이 아직 변환되지 않았다면 변환합니다.
+                if (!timeScaleGroupConverted) {
+                    const sortedChanges = [...object.changes].sort((a, b) => a.beat - b.beat)
+
+                    for (const change of sortedChanges) {
+                        newObjects.push({
+                            type: 'timeScale',
+                            beat: change.beat,
+                            timeScale: change.timeScale,
+                        })
+                    }
+                    // 플래그를 true로 설정하여 이후의 timeScaleGroup들은 무시하도록 합니다.
+                    timeScaleGroupConverted = true
                 }
                 break
 
             case 'guide':
                 {
-                    // B타입의 guide를 A타입의 비활성(active: false) 슬라이드로 변환합니다.
                     const guideConnections = object.midpoints.map(
                         (midpoint): A.USCConnectionIgnoreNote => ({
                             type: 'ignore',
@@ -163,7 +166,6 @@ export const uscToUSC = (uscB: B.USC): A.USC => {
                     const newGuideSlide: A.USCSlideNote = {
                         type: 'slide',
                         active: false,
-                        // B타입의 guide color가 'yellow'이면 critical로 판단합니다.
                         critical: object.color === 'yellow',
                         connections: guideConnections as A.USCSlideNote['connections'],
                     }
@@ -171,11 +173,12 @@ export const uscToUSC = (uscB: B.USC): A.USC => {
                 }
                 break
 
-            // 'damage' 노트는 A타입에 없으므로 무시합니다.
             case 'damage':
                 break
         }
     }
+
+    newObjects.sort((a, b) => getBeatForSort(a) - getBeatForSort(b))
 
     return {
         offset: uscB.offset,
