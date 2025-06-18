@@ -49,7 +49,7 @@ export const optionsDefinition = {
         def: 1,
     },
     ap: {
-        name: 'AP Continues To Direct',
+        name: 'AP Effect',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,

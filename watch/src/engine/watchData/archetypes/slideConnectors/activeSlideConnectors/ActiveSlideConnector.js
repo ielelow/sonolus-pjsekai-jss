@@ -42,6 +42,8 @@ export class ActiveSlideConnector extends SlideConnector {
                 this.destroyCircularEffect()
                 this.startSharedMemory.linear = 0
             }
+            this.startSharedMemory.noneMoveLinear = 0
+            this.startSharedMemory.slotEffects = 0
         }
         if (time.now < this.head.time) return
         if (this.visual === VisualType.Activated) {
@@ -55,10 +57,13 @@ export class ActiveSlideConnector extends SlideConnector {
             }
             if (
                 this.shouldPlayNoneMoveLinearEffect &&
-                time.now >= this.startSharedMemory.noneMoveLinear
+                timeScaleChanges.at(time.now).scaledTime >= this.startSharedMemory.noneMoveLinear
             )
                 this.spawnNoneMoveLinearEffect()
-            if (this.shouldPlaySlotEffects && time.now >= this.startSharedMemory.slotEffects)
+            if (
+                this.shouldPlaySlotEffects &&
+                timeScaleChanges.at(time.now).scaledTime >= this.startSharedMemory.slotEffects
+            )
                 this.spawnSlotEffects()
         } else {
             if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular) {
@@ -255,7 +260,7 @@ export class ActiveSlideConnector extends SlideConnector {
             0.5,
             false,
         )
-        this.startSharedMemory.noneMoveLinear = time.now + 0.1
+        this.startSharedMemory.noneMoveLinear = timeScaleChanges.at(time.now + 0.1).scaledTime
     }
     spawnSlotEffects() {
         const s = this.getScale(time.scaled)
@@ -271,6 +276,6 @@ export class ActiveSlideConnector extends SlideConnector {
                 false,
             )
         }
-        this.startSharedMemory.slotEffects = time.now + 0.2
+        this.startSharedMemory.slotEffects = timeScaleChanges.at(time.now + 0.2).scaledTime
     }
 }

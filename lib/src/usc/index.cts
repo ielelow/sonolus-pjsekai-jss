@@ -3,12 +3,7 @@ export type USC = {
     objects: USCObject[]
 }
 
-export type USCObject =
-    | USCBpmChange
-    | USCTimeScaleChange
-    | USCSingleNote
-    | USCSlideNote
-    | USCGuideNote
+export type USCObject = USCBpmChange | USCTimeScaleChange | USCSingleNote | USCSlideNote
 
 type BaseUSCObject = {
     beat: number
@@ -40,19 +35,19 @@ export type USCConnectionStartNote = BaseUSCNote & {
     type: 'start'
     trace: boolean
     critical: boolean
-    ease: 'out' | 'linear' | 'in'
+    ease: 'outin' | 'out' | 'linear' | 'in' | 'inout'
 }
 
 export type USCConnectionIgnoreNote = BaseUSCNote & {
     type: 'ignore'
-    ease: 'out' | 'linear' | 'in'
+    ease: 'outin' | 'out' | 'linear' | 'in' | 'inout'
 }
 
 export type USCConnectionTickNote = BaseUSCNote & {
     type: 'tick'
     trace: boolean
     critical: boolean
-    ease: 'out' | 'linear' | 'in'
+    ease: 'outin' | 'out' | 'linear' | 'in' | 'inout'
 }
 
 export type USCConnectionHiddenNote = BaseUSCObject & {
@@ -85,31 +80,4 @@ export type USCSlideNote = {
         )[],
         USCConnectionEndNote | USCConnectionIgnoreNote,
     ]
-}
-
-export const USCColor = {
-    neutral: 0,
-    red: 1,
-    green: 2,
-    blue: 3,
-    yellow: 4,
-    purple: 5,
-    cyan: 6,
-    black: 7,
-}
-export type USCColor = keyof typeof USCColor
-export type USCGuideMidpointNote = BaseUSCNote & {
-    ease: 'out' | 'linear' | 'in' | 'inOut' | 'outIn'
-}
-export const USCFade = {
-    in: 2,
-    out: 0,
-    none: 1,
-}
-export type USCFade = keyof typeof USCFade
-export type USCGuideNote = {
-    type: 'guide'
-    color: USCColor
-    fade: USCFade
-    midpoints: USCGuideMidpointNote[]
 }
