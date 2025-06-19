@@ -20,15 +20,23 @@ export class ActiveSlideConnector extends SlideConnector {
                 this.scheduleSFX(this.head.time, this.tail.time)
             }
         }
-        if (this.import.endRef == this.import.tailRef)
+        if (this.import.endRef === this.import.tailRef)
             archetypes.SlideParticleManager.spawn({
-                t: this.tail.scaledTime,
+                t: this.tail.time,
                 startRef: this.import.startRef,
             })
     }
     updateParallel() {
         super.updateParallel()
         if (time.now < this.head.time) return
+        if (this.visual === VisualType.Activated) {
+            if (this.shouldScheduleCircularEffect) {
+                if (this.startSharedMemory.circular) this.updateCircularEffect()
+            }
+            if (this.shouldScheduleLinearEffect) {
+                if (this.startSharedMemory.linear) this.updateLinearEffect()
+            }
+        }
         this.renderGlow()
         this.renderSlide()
     }
@@ -46,26 +54,7 @@ export class ActiveSlideConnector extends SlideConnector {
             this.startSharedMemory.slotEffects = 0
         }
         if (time.now < this.head.time) return
-        if (this.visual === VisualType.Activated) {
-            if (this.shouldScheduleCircularEffect) {
-                if (!this.startSharedMemory.circular) this.spawnCircularEffect()
-                this.updateCircularEffect()
-            }
-            if (this.shouldScheduleLinearEffect) {
-                if (!this.startSharedMemory.linear) this.spawnLinearEffect()
-                this.updateLinearEffect()
-            }
-            if (
-                this.shouldPlayNoneMoveLinearEffect &&
-                timeScaleChanges.at(time.now).scaledTime >= this.startSharedMemory.noneMoveLinear
-            )
-                this.spawnNoneMoveLinearEffect()
-            if (
-                this.shouldPlaySlotEffects &&
-                timeScaleChanges.at(time.now).scaledTime >= this.startSharedMemory.slotEffects
-            )
-                this.spawnSlotEffects()
-        } else {
+        if (this.visual !== VisualType.Activated) {
             if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular) {
                 this.destroyCircularEffect()
                 this.startSharedMemory.circular = 0
@@ -74,6 +63,18 @@ export class ActiveSlideConnector extends SlideConnector {
                 this.destroyLinearEffect()
                 this.startSharedMemory.linear = 0
             }
+        } else {
+            if (this.shouldScheduleCircularEffect && !this.startSharedMemory.circular)
+                this.spawnCircularEffect()
+            if (this.shouldScheduleLinearEffect && !this.startSharedMemory.linear)
+                this.spawnLinearEffect()
+            if (
+                this.shouldPlayNoneMoveLinearEffect &&
+                time.scaled > this.startSharedMemory.noneMoveLinear
+            )
+                this.spawnNoneMoveLinearEffect()
+            if (this.shouldPlaySlotEffects && time.scaled > this.startSharedMemory.slotEffects)
+                this.spawnSlotEffects()
         }
     }
     terminate() {
@@ -198,7 +199,6 @@ export class ActiveSlideConnector extends SlideConnector {
     scheduleReplaySFX() {
         if (this.import.startRef !== this.import.headRef) return
         let key = -999999
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         while (true) {
             const startTime = streams.getNextKey(this.import.startRef, key)
             if (startTime === key) break
@@ -250,6 +250,7 @@ export class ActiveSlideConnector extends SlideConnector {
         particle.effects.destroy(this.startSharedMemory.linear)
     }
     spawnNoneMoveLinearEffect() {
+        this.startSharedMemory.noneMoveLinear = timeScaleChanges.at(time.now + 0.1).scaledTime
         const s = this.getScale(time.scaled)
         const lane = this.getLane(s)
         this.effects.noneMoveLinear.spawn(
@@ -260,9 +261,9 @@ export class ActiveSlideConnector extends SlideConnector {
             0.5,
             false,
         )
-        this.startSharedMemory.noneMoveLinear = timeScaleChanges.at(time.now + 0.1).scaledTime
     }
     spawnSlotEffects() {
+        this.startSharedMemory.slotEffects = timeScaleChanges.at(time.now + 0.2).scaledTime
         const s = this.getScale(time.scaled)
         const l = this.getL(s)
         const r = this.getR(s)
@@ -276,6 +277,5 @@ export class ActiveSlideConnector extends SlideConnector {
                 false,
             )
         }
-        this.startSharedMemory.slotEffects = timeScaleChanges.at(time.now + 0.2).scaledTime
     }
 }

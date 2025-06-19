@@ -97,6 +97,13 @@ export class TraceNote extends FlatNote {
     playLaneEffects() {
         // removed
     }
+    playSFX() {
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.play(0.00001)
+        } else {
+            this.clips.perfect.play(0.00001)
+        }
+    }
     get useFallbackSprites() {
         return (
             !this.sprites.left.exists ||

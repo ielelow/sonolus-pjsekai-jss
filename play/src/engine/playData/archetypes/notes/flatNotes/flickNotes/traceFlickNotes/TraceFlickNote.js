@@ -99,6 +99,13 @@ export class TraceFlickNote extends FlickNote {
         this.playHitEffects(time.now)
         this.despawn = true
     }
+    playSFX() {
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.play(0.00001)
+        } else {
+            this.clips.perfect.play(0.00001)
+        }
+    }
     get useFallbackSprites() {
         return (
             !this.sprites.left.exists ||

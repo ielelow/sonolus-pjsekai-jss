@@ -33,8 +33,18 @@ export class ActiveSlideConnector extends SlideConnector {
         if (time.now < this.head.time) return
         if (this.visual === VisualType.Activated) {
             if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX()
+            if (this.shouldPlayCircularEffect) {
+                if (!this.startSharedMemory.circular) this.updateCircularEffect()
+            }
+            if (this.shouldPlayLinearEffect) {
+                if (!this.startSharedMemory.linear) this.updateLinearEffect()
+            }
         } else {
             if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
+            if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
+                this.destroyCircularEffect()
+            if (this.shouldPlayLinearEffect && this.startSharedMemory.linear)
+                this.destroyLinearEffect()
         }
         this.renderGlow()
         this.renderSlide()
@@ -45,11 +55,9 @@ export class ActiveSlideConnector extends SlideConnector {
         if (this.visual === VisualType.Activated) {
             if (this.shouldPlayCircularEffect) {
                 if (!this.startSharedMemory.circular) this.spawnCircularEffect()
-                this.updateCircularEffect()
             }
             if (this.shouldPlayLinearEffect) {
                 if (!this.startSharedMemory.linear) this.spawnLinearEffect()
-                this.updateLinearEffect()
             }
             if (
                 this.shouldPlayNoneMoveLinearEffect &&
@@ -58,11 +66,6 @@ export class ActiveSlideConnector extends SlideConnector {
                 this.spawnNoneMoveLinearEffect()
             if (this.shouldPlaySlotEffects && time.now >= this.startSharedMemory.slotEffects)
                 this.spawnSlotEffects()
-        } else {
-            if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
-                this.destroyCircularEffect()
-            if (this.shouldPlayLinearEffect && this.startSharedMemory.linear)
-                this.destroyLinearEffect()
         }
     }
     terminate() {
