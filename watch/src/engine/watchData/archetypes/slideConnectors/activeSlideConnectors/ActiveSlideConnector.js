@@ -30,12 +30,10 @@ export class ActiveSlideConnector extends SlideConnector {
         super.updateParallel()
         if (time.now < this.head.time) return
         if (this.visual === VisualType.Activated) {
-            if (this.shouldScheduleCircularEffect) {
-                if (this.startSharedMemory.circular) this.updateCircularEffect()
-            }
-            if (this.shouldScheduleLinearEffect) {
-                if (this.startSharedMemory.linear) this.updateLinearEffect()
-            }
+            if (this.shouldScheduleCircularEffect && this.startSharedMemory.circular)
+                this.updateCircularEffect()
+            if (this.shouldScheduleLinearEffect && this.startSharedMemory.linear)
+                this.updateLinearEffect()
         }
         this.renderGlow()
         this.renderSlide()
