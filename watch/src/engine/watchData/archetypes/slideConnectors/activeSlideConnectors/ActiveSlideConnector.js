@@ -22,7 +22,7 @@ export class ActiveSlideConnector extends SlideConnector {
         }
         if (this.import.endRef === this.import.tailRef)
             archetypes.SlideParticleManager.spawn({
-                t: this.tail.scaledTime,
+                t: this.tail.time,
                 startRef: this.import.startRef,
             })
     }
