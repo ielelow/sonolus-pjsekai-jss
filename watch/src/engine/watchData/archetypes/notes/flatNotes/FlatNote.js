@@ -215,7 +215,7 @@ export class FlatNote extends Note {
                     b: lane.b,
                     t: lane.t,
                 }),
-                0.3,
+                0.45,
                 false,
             )
         }
