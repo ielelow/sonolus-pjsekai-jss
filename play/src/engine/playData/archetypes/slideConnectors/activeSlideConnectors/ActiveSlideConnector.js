@@ -33,12 +33,10 @@ export class ActiveSlideConnector extends SlideConnector {
         if (time.now < this.head.time) return
         if (this.visual === VisualType.Activated) {
             if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX()
-            if (this.shouldPlayCircularEffect) {
-                if (!this.startSharedMemory.circular) this.updateCircularEffect()
-            }
-            if (this.shouldPlayLinearEffect) {
-                if (!this.startSharedMemory.linear) this.updateLinearEffect()
-            }
+            if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
+                this.updateCircularEffect()
+            if (this.shouldPlayLinearEffect && this.startSharedMemory.linear)
+                this.updateLinearEffect()
         } else {
             if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
             if (this.shouldPlayCircularEffect && this.startSharedMemory.circular)
@@ -53,12 +51,10 @@ export class ActiveSlideConnector extends SlideConnector {
         super.updateSequential()
         if (time.now < this.head.time) return
         if (this.visual === VisualType.Activated) {
-            if (this.shouldPlayCircularEffect) {
-                if (!this.startSharedMemory.circular) this.spawnCircularEffect()
-            }
-            if (this.shouldPlayLinearEffect) {
-                if (!this.startSharedMemory.linear) this.spawnLinearEffect()
-            }
+            if (this.shouldPlayCircularEffect && !this.startSharedMemory.circular)
+                this.spawnCircularEffect()
+            if (this.shouldPlayLinearEffect && !this.startSharedMemory.linear)
+                this.spawnLinearEffect()
             if (
                 this.shouldPlayNoneMoveLinearEffect &&
                 time.now >= this.startSharedMemory.noneMoveLinear
