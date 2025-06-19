@@ -162,6 +162,8 @@ export class FlatNote extends Note {
     }
     despawnTerminate() {
         if (replay.isReplay && !this.import.judgment) return
+        if (timeScaleChanges.at(time.now).scaledTime < timeScaleChanges.at(this.hitTime).scaledTime)
+            return
         if (options.noteEffectEnabled) this.playNoteEffects()
         if (options.slotEffectEnabled) this.playSlotLinears()
         if (options.laneEffectEnabled) this.playLaneEffects()
