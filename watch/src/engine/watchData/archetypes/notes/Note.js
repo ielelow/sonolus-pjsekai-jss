@@ -15,13 +15,14 @@ export class Note extends Archetype {
     })
     entityArray = this.defineSharedMemory({
         value: Number,
-        time: Number,
+        scaledTime: Number,
         length: Number,
         start: Number,
         combo: Number,
         Judgment: DataType,
         tail: Number,
         ap: Boolean,
+        time: Number,
     })
     targetTime = this.entityMemory(Number)
     check = levelMemory(Boolean)
@@ -32,12 +33,12 @@ export class Note extends Archetype {
         if (this.hasInput) this.result.time = this.targetTime
         if (options.customJudgment) {
             archetypes.JudgmentText.spawn({
-                t: this.targetTime,
+                t: this.hitTime,
                 j: this.import.judgment,
             })
             if (options.fastLate && replay.isReplay) {
                 archetypes.JudgmentAccuracy.spawn({
-                    t: this.targetTime,
+                    t: this.hitTime,
                     j: this.import.judgment,
                     accuracy: this.import.accuracy,
                     fastLate: this.import.jud,
@@ -47,24 +48,28 @@ export class Note extends Archetype {
         }
         if (options.customCombo) {
             if (!options.autoCombo || replay.isReplay) {
-                this.entityArray.get(this.info.index).time = timeScaleChanges.at(
-                    this.targetTime,
+                this.entityArray.get(this.info.index).scaledTime = timeScaleChanges.at(
+                    this.hitTime,
                 ).scaledTime
+                this.entityArray.get(this.info.index).time = this.hitTime
                 this.entityArray.get(this.info.index).Judgment = this.import.judgment
                 archetypes.ComboNumber.spawn({
-                    t: this.targetTime,
+                    t: this.hitTime,
                     i: this.info.index,
                 })
                 archetypes.ComboNumberGlow.spawn({
-                    t: this.targetTime,
+                    t: this.hitTime,
                     i: this.info.index,
                 })
                 archetypes.ComboNumberEffect.spawn({
-                    t: this.targetTime,
+                    t: this.hitTime,
                     i: this.info.index,
                 })
-                archetypes.ComboLabel.spawn({ t: this.targetTime, i: this.info.index })
+                archetypes.ComboLabel.spawn({ t: this.hitTime, i: this.info.index })
             }
         }
+    }
+    get hitTime() {
+        return this.targetTime + (replay.isReplay ? this.import.accuracy : 0)
     }
 }

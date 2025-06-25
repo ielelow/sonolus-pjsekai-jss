@@ -12,13 +12,14 @@ export class ComboNumberEffect extends SpawnableArchetype({
     preprocessOrder = 5
     entityArray = this.defineSharedMemory({
         value: Number,
-        time: Number,
+        scaledTime: Number,
         length: Number,
         start: Number,
         combo: Number,
         Judgment: DataType,
         tail: Number,
         ap: Boolean,
+        time: Number,
     })
     initialize() {
         this.z = getZ(layer.judgment, -this.spawnData.t, 0)
@@ -31,7 +32,7 @@ export class ComboNumberEffect extends SpawnableArchetype({
             this.entityArray.get(this.spawnData.i).value !=
             this.entityArray.get(this.entityArray.get(0).tail).value
         )
-            return this.entityArray.get(this.entityArray.get(this.spawnData.i).value).time
+            return this.entityArray.get(this.entityArray.get(this.spawnData.i).value).scaledTime
         else return 999999
     }
     updateParallel() {
