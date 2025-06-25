@@ -6,7 +6,7 @@ export const panel = {
         return 2 / options.previewVerticalScale
     },
     get count() {
-        return Math.ceil(chart.duration / this.h)
+        return Math.ceil((chart.duration + 1) / this.h)
     },
     getX(time) {
         return Math.floor(time / this.h) * this.w
