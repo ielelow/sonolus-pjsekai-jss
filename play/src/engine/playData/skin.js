@@ -66,6 +66,9 @@ export const skin = defineSkin({
         slideSlotGlow: 'Sekai Slot Glow Green',
         flickSlotGlow: 'Sekai Slot Glow Red',
         criticalSlotGlow: 'Sekai Slot Glow Yellow',
+        criticalFlickSlotGlow: 'Sekai Slot Glow Yellow Flick',
+        criticalSlideConnectorSlotGlow: 'Sekai Slot Glow Yellow Slider Tap',
+        criticalSlideNoteSlotGlow: 'Sekai Slot Glow Yellow Slider Hold',
         normalSlot: 'Sekai Slot Cyan',
         slideSlot: 'Sekai Slot Green',
         flickSlot: 'Sekai Slot Red',
@@ -139,6 +142,7 @@ export const skin = defineSkin({
         glow9: 'Glow9',
         glowCombo: 'GlowCombo',
         damage: 'Damage',
+        autoLive: 'Auto Live',
     },
 })
 export const layer = {

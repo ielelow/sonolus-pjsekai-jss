@@ -41,6 +41,9 @@ import { CriticalSlotEffect } from './slotEffects/CriticalSlotEffect.js'
 import { FlickSlotEffect } from './slotEffects/FlickSlotEffect.js'
 import { NormalSlotEffect } from './slotEffects/NormalSlotEffect.js'
 import { SlideSlotEffect } from './slotEffects/SlideSlotEffect.js'
+import { CriticalFlickSlotGlowEffect } from './slotGlowEffects/CriticalFlickSlotGlowEffect.js'
+import { CriticalSlideConnectorSlotGlowEffect } from './slotGlowEffects/CriticalSlideConnectorSlotGlowEffect.js'
+import { CriticalSlideNoteSlotGlowEffect } from './slotGlowEffects/CriticalSlideNoteSlotGlowEffect.js'
 import { CriticalSlotGlowEffect } from './slotGlowEffects/CriticalSlotGlowEffect.js'
 import { FlickSlotGlowEffect } from './slotGlowEffects/FlickSlotGlowEffect.js'
 import { NormalSlotGlowEffect } from './slotGlowEffects/NormalSlotGlowEffect.js'
@@ -85,6 +88,9 @@ export const archetypes = defineArchetypes({
     SlideSlotGlowEffect,
     FlickSlotGlowEffect,
     CriticalSlotGlowEffect,
+    CriticalSlideConnectorSlotGlowEffect,
+    CriticalSlideNoteSlotGlowEffect,
+    CriticalFlickSlotGlowEffect,
     LaneEffectSpawner,
     JudgmentText,
     JudgmentAccuracy,

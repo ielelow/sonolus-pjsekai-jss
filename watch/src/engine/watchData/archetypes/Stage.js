@@ -1,7 +1,10 @@
+/* eslint-disable no-undef */
 import { lane } from '../../../../../shared/src/engine/data/lane.js'
 import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'
+import { effect, sfxDistance } from '../effect.js'
 import { note } from '../note.js'
+import { particle } from '../particle.js'
 import { scaledScreen } from '../scaledScreen.js'
 import { layer, skin } from '../skin.js'
 import { archetypes } from './index.js'
@@ -65,9 +68,25 @@ export class Stage extends Archetype {
             this.drawSekaiStage()
         }
         this.drawStageCover()
+        this.playEffects()
     }
     get useFallbackStage() {
         return !skin.sprites.sekaiStage.exists
+    }
+    playEffects() {
+        if (!replay.isReplay) return
+        for (let l = -6; l < 6; l++) {
+            let key = streams.getNextKey(l, time.now - time.delta)
+            if (key === time.now - time.delta) continue
+            if (key < time.now) if (options.laneEffectEnabled) this.playEmptyLaneEffects(l)
+        }
+    }
+    playEmptyLaneEffects(l) {
+        particle.effects.lane.spawn(
+            perspectiveLayout({ l, r: l + 1, b: lane.b, t: lane.t }),
+            0.3,
+            false,
+        )
     }
     drawSekaiStage() {
         const w = ((2048 / 1420) * 12) / 2
@@ -113,6 +132,17 @@ export class Stage extends Archetype {
         )
     }
     preprocess() {
+        if (options.sfxEnabled && replay.isReplay) {
+            for (let l = -6; l < 6; l++) {
+                let key = -999999
+                while (true) {
+                    const newKey = streams.getNextKey(l, key)
+                    if (key == newKey) break
+                    effect.clips.stage.schedule(newKey, sfxDistance)
+                    key = newKey
+                }
+            }
+        }
         let entityCount = 0
         while (entityInfos.get(entityCount).index == entityCount) {
             entityCount += 1
