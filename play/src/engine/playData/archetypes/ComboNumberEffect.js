@@ -244,4 +244,7 @@ export class ComboNumberEffect extends SpawnableArchetype({
             }
         }
     }
+    terminate() {
+        this.comboc = 0
+    }
 }
