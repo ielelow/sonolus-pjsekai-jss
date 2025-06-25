@@ -51,7 +51,7 @@ export class CriticalSlideEndFlickNote extends FlickNote {
         return archetypes.CriticalSlotEffect
     }
     get slotGlowEffect() {
-        return archetypes.CriticalSlotGlowEffect
+        return archetypes.CriticalFlickSlotGlowEffect
     }
     playLaneEffects() {}
     preprocess() {

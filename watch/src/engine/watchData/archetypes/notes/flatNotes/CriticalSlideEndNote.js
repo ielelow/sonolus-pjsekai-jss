@@ -30,7 +30,7 @@ export class CriticalSlideEndNote extends FlatNote {
         return archetypes.CriticalSlotEffect
     }
     get slotGlowEffect() {
-        return archetypes.CriticalSlotGlowEffect
+        return archetypes.CriticalSlideNoteSlotGlowEffect
     }
     playLaneEffects() {
         if (particle.effects.criticalLane.exists) {

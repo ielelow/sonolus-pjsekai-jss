@@ -48,7 +48,7 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
         return archetypes.CriticalSlotEffect
     }
     get slotGlowEffect() {
-        return archetypes.CriticalSlotGlowEffect
+        return archetypes.CriticalFlickSlotGlowEffect
     }
 
     playLaneEffects() {

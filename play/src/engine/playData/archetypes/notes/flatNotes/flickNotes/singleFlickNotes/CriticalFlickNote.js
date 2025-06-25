@@ -52,7 +52,7 @@ export class CriticalFlickNote extends SingleFlickNote {
         return archetypes.CriticalSlotEffect
     }
     get slotGlowEffect() {
-        return archetypes.CriticalSlotGlowEffect
+        return archetypes.CriticalFlickSlotGlowEffect
     }
 
     playLaneEffects() {

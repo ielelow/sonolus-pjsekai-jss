@@ -52,7 +52,7 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
         return archetypes.CriticalSlotEffect
     }
     get slotGlowEffect() {
-        return archetypes.CriticalSlotGlowEffect
+        return archetypes.CriticalFlickSlotGlowEffect
     }
     playLaneEffects() {
         if (particle.effects.criticalFlickLane.exists) {
