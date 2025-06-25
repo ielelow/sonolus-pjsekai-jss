@@ -66,6 +66,7 @@ export class Stage extends Archetype {
             0.3,
             false,
         )
+        streams.set(l, time.now, 0)
     }
     drawSekaiStage() {
         const w = ((2048 / 1420) * 12) / 2
