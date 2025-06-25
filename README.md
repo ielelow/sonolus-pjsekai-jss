@@ -55,6 +55,9 @@ npm install sonolus-pjsekai-js
 | `Sekai Slot Glow Red`                         |
 | `Sekai Slot Glow Green`                       |
 | `Sekai Slot Glow Yellow`                      |
+| `Sekai Slot Glow Yellow Flick`                |
+| `Sekai Slot Glow Yellow Slider Tap`           |
+| `Sekai Slot Glow Yellow Slider Hold`          |
 | `Sekai Slot Glow Cyan`                        |
 | `Sekai Slot Red`                              |
 | `Sekai Slot Green`                            |
@@ -90,11 +93,16 @@ npm install sonolus-pjsekai-js
 | `Bad`                                         |
 | `Miss`                                        |
 | `C0 - C9`                                     |
-| `AP0 - AP9`                                   |
 | `Combo`                                       |
+| `AP0 - AP9`                                   |
+| `ApCombo`                                     |
 | `Fast`                                        |
 | `Late`                                        |
 | `Flick`                                       |
+| `Glow0 - Glow9`                               |
+| `GlowCombo`                                   |
+| `Damage`                                      |
+| `Auto Live`                                   |
 
 ### Effect Clips
 
@@ -110,19 +118,29 @@ npm install sonolus-pjsekai-js
 
 ### Particle Effects
 
-| Name                                   |
-| -------------------------------------- |
-| `Sekai Trace Note Circular Green`      |
-| `Sekai Trace Note Linear Green`        |
-| `Sekai Trace Note Circular Yellow`     |
-| `Sekai Trace Note Linear Yellow`       |
-| `Sekai Note Lane Linear`               |
-| `Sekai Critical Lane Linear`           |
-| `Sekai Critical Flick Lane Linear`     |
-| `Sekai Critical Slide Circular Yellow` |
-| `Sekai Critical Slide Linear Yellow`   |
-| `Sekai Critical Flick Circular Yellow` |
-| `Sekai Critical Flick Linear Yellow`   |
+| Name                                    |
+| --------------------------------------- |
+| `Sekai Trace Note Circular Green`       |
+| `Sekai Trace Note Linear Green`         |
+| `Sekai Trace Note Circular Yellow`      |
+| `Sekai Trace Note Linear Yellow`        |
+| `Sekai Note Lane Linear`                |
+| `Sekai Critical Lane Linear`            |
+| `Sekai Critical Flick Lane Linear`      |
+| `Sekai Critical Slide Circular Yellow`  |
+| `Sekai Critical Slide Linear Yellow`    |
+| `Sekai Critical Flick Circular Yellow`  |
+| `Sekai Critical Flick Linear Yellow`    |
+| `Sekai Normal Slide Connector Linear`   |
+| `Sekai Critical Slide Connector Linear` |
+| `Sekai Slot Linear Tap Cyan`            |
+| `Sekai Slot Linear Tap Yellow`          |
+| `Sekai Slot Linear Slide Tap Green`     |
+| `Sekai Slot Linear Slide Tap Yellow`    |
+| `Sekai Slot Linear Alternative Red`     |
+| `Sekai Slot Linear Alternative Yellow`  |
+| `Sekai Slot Linear Slide Green`         |
+| `Sekai Slot Linear Slide Yellow`        |
 
 ## Documentation
 
