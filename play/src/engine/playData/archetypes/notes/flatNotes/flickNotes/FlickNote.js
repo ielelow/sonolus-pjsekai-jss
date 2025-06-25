@@ -82,7 +82,7 @@ export class FlickNote extends FlatNote {
             this.flickExport('flick', true)
             if (this.windows.perfect.min > this.result.accuracy) this.judExport('jud', 1)
             else if (this.windows.perfect.max < this.result.accuracy) this.judExport('jud', 2)
-            this.flick = true
+            this.sharedMemory.get(this.info.index).flick = true
         }
         this.result.bucket.index = this.bucket.index
         this.result.bucket.value = this.result.accuracy * 1000
