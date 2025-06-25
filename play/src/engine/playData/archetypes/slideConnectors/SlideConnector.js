@@ -100,7 +100,17 @@ export class SlideConnector extends Archetype {
         for (const touch of touches) {
             if (touch.ended) continue
             if (!hitbox.contains(touch.position)) continue
-            disallowEmpty(touch)
+            if (
+                (entityInfos.get(this.info.index).archetype !=
+                    archetypes.CriticalSlideConnector.index &&
+                    entityInfos.get(this.info.index).archetype ==
+                        archetypes.CriticalActiveSlideConnector.index) ||
+                (entityInfos.get(this.info.index).archetype !=
+                    archetypes.NormalSlideConnector.index &&
+                    entityInfos.get(this.info.index).archetype ==
+                        archetypes.NormalActiveSlideConnector.index)
+            )
+                disallowEmpty(touch)
             this.startSharedMemory.lastActiveTime = time.now
         }
         if (this.startSharedMemory.lastActiveTime === time.now) {
