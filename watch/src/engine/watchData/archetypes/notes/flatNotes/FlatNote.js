@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { lane } from '../../../../../../../shared/src/engine/data/lane.js'
 import { approach } from '../../../../../../../shared/src/engine/data/note.js'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.js'

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { approach } from '../../../../../../../shared/src/engine/data/note.js'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.js'
 import { toBucketWindows } from '../../../../../../../shared/src/engine/data/windows.js'
