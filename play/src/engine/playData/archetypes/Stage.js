@@ -54,6 +54,7 @@ export class Stage extends Archetype {
         return Math.floor(Math.unlerp(this.hitbox.l, this.hitbox.r, x) * 12 - 6)
     }
     playEmptyEffects(l) {
+        streams.set(l, time.now, 0)
         if (options.sfxEnabled) this.playEmptySFX()
         if (options.laneEffectEnabled) this.playEmptyLaneEffects(l)
     }
@@ -66,7 +67,6 @@ export class Stage extends Archetype {
             0.3,
             false,
         )
-        streams.set(l, time.now, 0)
     }
     drawSekaiStage() {
         const w = ((2048 / 1420) * 12) / 2
