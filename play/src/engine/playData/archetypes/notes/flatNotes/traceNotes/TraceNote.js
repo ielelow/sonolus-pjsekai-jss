@@ -1,3 +1,5 @@
+// @ts-nocheck
+import { sfxDistance } from '../../../../effect.js'
 import { note } from '../../../../note.js'
 import { flatEffectLayout, particle } from '../../../../particle.js'
 import { scaledScreen } from '../../../../scaledScreen.js'
@@ -99,9 +101,9 @@ export class TraceNote extends FlatNote {
     }
     playSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
-            this.clips.fallback.play(0.00001)
+            this.clips.fallback.play(sfxDistance)
         } else {
-            this.clips.perfect.play(0.00001)
+            this.clips.perfect.play(sfxDistance)
         }
     }
     get useFallbackSprites() {

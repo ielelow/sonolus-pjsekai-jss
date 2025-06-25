@@ -1,3 +1,5 @@
+// @ts-nocheck
+import { sfxDistance } from '../../../../../effect.js'
 import { minFlickVR } from '../../../../../flick.js'
 import { note } from '../../../../../note.js'
 import { scaledScreen } from '../../../../../scaledScreen.js'
@@ -101,9 +103,9 @@ export class TraceFlickNote extends FlickNote {
     }
     playSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
-            this.clips.fallback.play(0.00001)
+            this.clips.fallback.play(sfxDistance)
         } else {
-            this.clips.perfect.play(0.00001)
+            this.clips.perfect.play(sfxDistance)
         }
     }
     get useFallbackSprites() {
