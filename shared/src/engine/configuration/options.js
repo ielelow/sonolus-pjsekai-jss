@@ -59,7 +59,7 @@ export const optionsDefinition = {
         scope: 'Sekai',
         advanced: true,
         type: 'slider',
-        def: 0.1,
+        def: 0.25,
         min: -0.5,
         max: 0.5,
         step: 0.01,
