@@ -11,13 +11,14 @@ export class ComboLabel extends SpawnableArchetype({
     z2 = this.entityMemory(Number)
     entityArray = this.defineSharedMemory({
         value: Number,
-        time: Number,
+        scaledTime: Number,
         length: Number,
         start: Number,
         combo: Number,
         Judgment: DataType,
         tail: Number,
         ap: Boolean,
+        time: Number,
     })
     initialize() {
         this.z = getZ(layer.judgment, -this.spawnData.t, 0)
@@ -31,7 +32,7 @@ export class ComboLabel extends SpawnableArchetype({
             this.entityArray.get(this.spawnData.i).value !=
             this.entityArray.get(this.entityArray.get(0).tail).value
         )
-            return this.entityArray.get(this.entityArray.get(this.spawnData.i).value).time
+            return this.entityArray.get(this.entityArray.get(this.spawnData.i).value).scaledTime
         else return 999999
     }
     updateParallel() {
@@ -78,8 +79,8 @@ export class ComboLabel extends SpawnableArchetype({
             t: centerY - (hg * s) / 2,
             b: centerY + (hg * s) / 2,
         })
-        if (c == 0) {
-        } else if (this.entityArray.get(this.spawnData.i).ap == true || !options.ap)
+        if (c == 0) return
+        else if (this.entityArray.get(this.spawnData.i).ap == true || !options.ap)
             skin.sprites.combo.draw(layout, this.z, a)
         else {
             skin.sprites.apCombo.draw(layout, this.z, a)

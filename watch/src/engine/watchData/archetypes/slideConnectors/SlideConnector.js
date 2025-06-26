@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+// @ts-nocheck
 import { ease } from '../../../../../../shared/src/engine/data/EaseType.js'
 import { approach } from '../../../../../../shared/src/engine/data/note.js'
 import { options } from '../../../configuration/options.js'
@@ -50,6 +52,7 @@ export class SlideConnector extends Archetype {
     visual = this.entityMemory(DataType)
     preprocess() {
         this.end.time = bpmChanges.at(this.endImport.beat).time
+        this.end.scaledTime = timeScaleChanges.at(this.end.time).scaledTime
         this.head.time = bpmChanges.at(this.headImport.beat).time
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime
         this.tail.time = bpmChanges.at(this.tailImport.beat).time
@@ -92,7 +95,6 @@ export class SlideConnector extends Archetype {
     globalInitialize() {
         this.start.time = bpmChanges.at(this.startImport.beat).time
         this.start.scaledTime = timeScaleChanges.at(this.start.time).scaledTime
-        this.end.scaledTime = timeScaleChanges.at(this.end.time).scaledTime
         this.head.lane = this.headImport.lane
         this.head.l = this.head.lane - this.headImport.size
         this.head.r = this.head.lane + this.headImport.size

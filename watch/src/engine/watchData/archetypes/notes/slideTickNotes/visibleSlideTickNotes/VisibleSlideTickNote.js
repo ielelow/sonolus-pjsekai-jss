@@ -27,23 +27,24 @@ export class VisibleSlideTickNote extends SlideTickNote {
         }
         if (options.customCombo) {
             if (!options.autoCombo || replay.isReplay) {
-                this.entityArray.get(this.info.index).time = timeScaleChanges.at(
-                    this.targetTime,
+                this.entityArray.get(this.info.index).scaledTime = timeScaleChanges.at(
+                    this.hitTime,
                 ).scaledTime
+                this.entityArray.get(this.info.index).time = this.hitTime
                 this.entityArray.get(this.info.index).Judgment = this.import.judgment
                 archetypes.ComboNumber.spawn({
-                    t: this.targetTime,
+                    t: this.hitTime,
                     i: this.info.index,
                 })
                 archetypes.ComboNumberGlow.spawn({
-                    t: this.targetTime,
+                    t: this.hitTime,
                     i: this.info.index,
                 })
                 archetypes.ComboNumberEffect.spawn({
-                    t: this.targetTime,
+                    t: this.hitTime,
                     i: this.info.index,
                 })
-                archetypes.ComboLabel.spawn({ t: this.targetTime, i: this.info.index })
+                archetypes.ComboLabel.spawn({ t: this.hitTime, i: this.info.index })
             }
         }
         this.visualTime.copyFrom(

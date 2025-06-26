@@ -16,12 +16,12 @@ export class Note extends Archetype {
         linear: ParticleEffectInstanceId,
         noneMoveLinear: Number,
         slotEffects: Number,
+        flick: Boolean,
     })
     targetTime = this.entityMemory(Number)
     spawnTime = this.entityMemory(Number)
     hitbox = this.entityMemory(Rect)
     fullHitbox = this.entityMemory(Rect)
-    flick = this.entityMemory(Boolean)
     preprocess() {
         this.sharedMemory.lastActiveTime = -1000
         this.sharedMemory.exportStartTime = -1000
@@ -47,7 +47,7 @@ export class Note extends Archetype {
                     accuracy: this.result.accuracy,
                     late: this.windows.perfect.max,
                     fast: this.windows.perfect.min,
-                    flick: this.flick,
+                    flick: this.sharedMemory.get(this.info.index).flick,
                 })
             }
         }
