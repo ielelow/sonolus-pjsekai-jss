@@ -26,7 +26,7 @@ export class SlotGlowEffect extends SpawnableArchetype({
         this.layout.l.max = this.layout.l.min * s
         this.layout.r.min = this.spawnData.lane + this.spawnData.size
         this.layout.r.max = this.layout.r.min * s
-        this.layout.h = 4 * options.slotEffectSize * scaledScreen.wToH
+        this.layout.h = 4.25 * options.slotEffectSize * scaledScreen.wToH
         this.z = getZ(
             layer.slotGlowEffect,
             -this.spawnData.startTime,
@@ -38,6 +38,7 @@ export class SlotGlowEffect extends SpawnableArchetype({
         const a = options.lightweight ? baseA * 0.25 : baseA
         const p = options.simplifySlotA ? Math.min(1, a / 0.03) : 1 - a ** 3
         const t = 1 - this.layout.h * p
+        // @ts-ignore
         this.sprite.draw(
             {
                 x1: this.layout.l.min,
