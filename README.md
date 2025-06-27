@@ -54,6 +54,7 @@ npm install sonolus-pjsekai-js
 | `Sekai Active Slide Connection Yellow Active` |
 | `Sekai Slot Glow Red`                         |
 | `Sekai Slot Glow Green`                       |
+| `Sekai Slot Glow Green Slider Hold`           |
 | `Sekai Slot Glow Yellow`                      |
 | `Sekai Slot Glow Yellow Flick`                |
 | `Sekai Slot Glow Yellow Slider Tap`           |

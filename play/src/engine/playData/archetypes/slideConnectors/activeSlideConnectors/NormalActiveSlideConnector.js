@@ -9,7 +9,7 @@ export class NormalActiveSlideConnector extends ActiveSlideConnector {
         active: skin.sprites.normalActiveSlideConnectorActive,
         fallback: skin.sprites.normalActiveSlideConnectorFallback,
     }
-    glowSprite = skin.sprites.slideSlotGlow
+    glowSprite = skin.sprites.normalSlideConnectorSlotGlow
     slideSprites = {
         left: skin.sprites.slideNoteLeft,
         middle: skin.sprites.slideNoteMiddle,
