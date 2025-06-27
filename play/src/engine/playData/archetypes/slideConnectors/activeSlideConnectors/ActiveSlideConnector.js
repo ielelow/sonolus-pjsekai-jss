@@ -76,6 +76,7 @@ export class ActiveSlideConnector extends SlideConnector {
     get shouldScheduleSFX() {
         return (
             options.sfxEnabled &&
+            // @ts-ignore
             (this.useFallbackClip ? this.clips.fallback.exists : this.clips.hold.exists) &&
             options.autoSFX
         )
@@ -83,48 +84,62 @@ export class ActiveSlideConnector extends SlideConnector {
     get shouldPlaySFX() {
         return (
             options.sfxEnabled &&
+            // @ts-ignore
             (this.useFallbackClip ? this.clips.fallback.exists : this.clips.hold.exists) &&
             !options.autoSFX
         )
     }
     get shouldPlayCircularEffect() {
+        // @ts-ignore
         return options.noteEffectEnabled && this.effects.circular.exists
     }
     get shouldPlayLinearEffect() {
+        // @ts-ignore
         return options.noteEffectEnabled && this.effects.linear.exists
     }
     get shouldPlayNoneMoveLinearEffect() {
+        // @ts-ignore
         return options.noteEffectEnabled && this.effects.noneMoveLinear.exists
     }
     get shouldPlaySlotEffects() {
+        // @ts-ignore
         return options.slotEffectEnabled && this.effects.slotEffects.exists
     }
     get useFallbackSlideSprite() {
         return (
+            // @ts-ignore
             !this.slideSprites.left.exists ||
+            // @ts-ignore
             !this.slideSprites.middle.exists ||
+            // @ts-ignore
             !this.slideSprites.right.exists
         )
     }
     get useFallbackClip() {
+        // @ts-ignore
         return !this.clips.hold.exists
     }
     scheduleSFX() {
         const id = this.useFallbackClip
-            ? this.clips.fallback.scheduleLoop(this.head.time)
-            : this.clips.hold.scheduleLoop(this.head.time)
+            ? // @ts-ignore
+              this.clips.fallback.scheduleLoop(this.head.time)
+            : // @ts-ignore
+              this.clips.hold.scheduleLoop(this.head.time)
         effect.clips.scheduleStopLoop(id, this.tail.time)
     }
     playSFX() {
         this.sfxInstanceId = this.useFallbackClip
-            ? this.clips.fallback.loop()
-            : this.clips.hold.loop()
+            ? // @ts-ignore
+              this.clips.fallback.loop()
+            : // @ts-ignore
+              this.clips.hold.loop()
     }
     stopSFX() {
         effect.clips.stopLoop(this.sfxInstanceId)
         this.sfxInstanceId = 0
     }
     spawnCircularEffect() {
+        // @ts-ignore
         this.startSharedMemory.circular = this.effects.circular.spawn(new Quad(), 1, true)
     }
     updateCircularEffect() {
@@ -147,11 +162,13 @@ export class ActiveSlideConnector extends SlideConnector {
         })
     }
     spawnLinearEffect() {
+        // @ts-ignore
         this.startSharedMemory.linear = this.effects.linear.spawn(new Quad(), 1, true)
     }
     spawnNoneMoveLinearEffect() {
         const s = this.getScale(time.scaled)
         const lane = this.getLane(s)
+        // @ts-ignore
         this.effects.noneMoveLinear.spawn(
             linearEffectLayout({
                 lane,
@@ -167,6 +184,7 @@ export class ActiveSlideConnector extends SlideConnector {
         const l = this.getL(s)
         const r = this.getR(s)
         for (let i = l + 0.5; i < r - 0.5; i++) {
+            // @ts-ignore
             this.effects.slotEffects.spawn(
                 linearEffectLayout({
                     lane: i,
@@ -183,6 +201,7 @@ export class ActiveSlideConnector extends SlideConnector {
         const lane = this.getLane(s)
         particle.effects.move(
             this.startSharedMemory.linear,
+            // @ts-ignore
             linearEffectLayout({
                 lane,
                 shear: 0,
@@ -205,10 +224,11 @@ export class ActiveSlideConnector extends SlideConnector {
         const s = this.getScale(time.scaled)
         const l = this.getL(s)
         const r = this.getR(s)
-        const dynamicHeight = 3 + (Math.cos((time.now - this.start.time) * 4 * Math.PI) + 1) / 2
+        const dynamicHeight = 3 + (Math.cos((time.now - this.start.time) * 8 * Math.PI) + 1) / 2
         const h = dynamicHeight * options.slotEffectSize * scaledScreen.wToH
         const shear = 1 + 0.25 * (dynamicHeight / 4) * options.slotEffectSize
         const w = 0.15
+        // @ts-ignore
         this.glowSprite.draw(
             {
                 x1: l - w,
@@ -221,10 +241,7 @@ export class ActiveSlideConnector extends SlideConnector {
                 y4: 1,
             },
             this.glowZ,
-            (options.lightweight
-                ? Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25)) * 0.25
-                : Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25))) *
-                ((Math.cos(((time.now - this.start.time) * 8 * Math.PI) / 2) + 1) / 20 + 0.2),
+            Math.min(0.25, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
         )
     }
     renderSlide() {
@@ -234,6 +251,7 @@ export class ActiveSlideConnector extends SlideConnector {
         const b = 1 + note.h
         const t = 1 - note.h
         if (this.useFallbackSlideSprite) {
+            // @ts-ignore
             this.slideSprites.fallback.draw(perspectiveLayout({ l, r, b, t }), this.slideZ, 1)
         } else {
             const ml = l + 0.25
@@ -251,21 +269,28 @@ export class ActiveSlideConnector extends SlideConnector {
                 entityInfos.get(this.import.startRef).archetype ===
                     archetypes.CriticalSlideStartNote.index
             ) {
+                // @ts-ignore
                 this.slideSprites.left.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1)
+                // @ts-ignore
                 this.slideSprites.middle.draw(
                     perspectiveLayout({ l: ml, r: mr, b, t }),
                     this.slideZ,
                     1,
                 )
+                // @ts-ignore
                 this.slideSprites.right.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1)
             } else {
+                // @ts-ignore
                 this.slideSprites.tleft.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1)
+                // @ts-ignore
                 this.slideSprites.tmiddle.draw(
                     perspectiveLayout({ l: ml, r: mr, b, t }),
                     this.slideZ,
                     1,
                 )
+                // @ts-ignore
                 this.slideSprites.tright.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1)
+                // @ts-ignore
                 this.slideSprites.tdiamond.draw(
                     new Rect({
                         l: lane - w,
