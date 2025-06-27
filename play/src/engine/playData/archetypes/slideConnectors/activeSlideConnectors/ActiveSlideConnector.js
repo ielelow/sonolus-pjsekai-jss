@@ -241,7 +241,7 @@ export class ActiveSlideConnector extends SlideConnector {
                 y4: 1,
             },
             this.glowZ,
-            Math.min(0.25, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
+            Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
         )
     }
     renderSlide() {
