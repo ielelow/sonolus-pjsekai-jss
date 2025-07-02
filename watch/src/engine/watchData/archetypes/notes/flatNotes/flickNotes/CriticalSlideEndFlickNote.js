@@ -1,4 +1,3 @@
-import { lane } from '../../../../../../../../shared/src/engine/data/lane.js'
 import { windows } from '../../../../../../../../shared/src/engine/data/windows.js'
 import { buckets } from '../../../../buckets.js'
 import { effect } from '../../../../effect.js'
@@ -56,17 +55,15 @@ export class CriticalSlideEndFlickNote extends FlickNote {
     playLaneEffects() {}
     preprocess() {
         super.preprocess()
-        const l = this.import.lane - this.import.size
-        const r = this.import.lane + this.import.size
+        const lane = this.import.lane
+        const l = lane - this.import.size
+        const r = lane + this.import.size
         const t = this.hitTime
-        const laneB = lane.b
-        const laneT = lane.t
         archetypes.LaneEffectSpawner.spawn({
-            l: l,
-            r: r,
+            l,
+            r,
+            lane,
             t: t,
-            laneB: laneB,
-            laneT: laneT,
             j: this.import.judgment,
         })
     }

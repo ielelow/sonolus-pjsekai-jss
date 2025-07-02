@@ -59,6 +59,6 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
     touch() {
         super.touch()
         if (!this.check) return
-        SharedLaneEffectUtils.playAndHandleLaneEffect(this, this.laneE)
+        SharedLaneEffectUtils.playAndHandleLaneEffect(this, this.laneEffectId, this.laneEffectLane)
     }
 }

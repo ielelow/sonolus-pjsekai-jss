@@ -1,3 +1,4 @@
+import { lane } from '../../../../../../../../shared/src/engine/data/lane.js'
 import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.js'
 import { particle } from '../../../../particle.js'
 import { SharedLaneEffectUtils } from './SharedLaneEffectUtils.js'
@@ -5,22 +6,12 @@ import { SharedLaneEffectUtils } from './SharedLaneEffectUtils.js'
 export class LaneEffectSpawner extends SpawnableArchetype({
     l: Number,
     r: Number,
+    lane: Number,
     t: Number,
-    laneB: Number,
-    laneT: Number,
     j: DataType,
 }) {
-    laneE = levelMemory({
-        id1: ParticleEffectInstanceId,
-        id2: ParticleEffectInstanceId,
-        id3: ParticleEffectInstanceId,
-        id4: ParticleEffectInstanceId,
-        lanes1: { l: Number, r: Number },
-        lanes2: { l: Number, r: Number },
-        lanes3: { l: Number, r: Number },
-        lanes4: { l: Number, r: Number },
-        count: Number,
-    })
+    laneEffectId = levelMemory(Tuple(12, ParticleEffectInstanceId))
+    laneEffectLane = levelMemory({ l: Tuple(12, Number), r: Tuple(12, Number) })
     check = this.entityMemory(Boolean)
     spawnTime() {
         return timeScaleChanges.at(this.spawnData.t).scaledTime
@@ -39,17 +30,19 @@ export class LaneEffectSpawner extends SpawnableArchetype({
                 perspectiveLayout({
                     l: this.spawnData.l,
                     r: this.spawnData.r,
-                    b: this.spawnData.laneB,
-                    t: this.spawnData.laneT,
+                    b: lane.b,
+                    t: lane.t,
                 }),
                 1,
                 false,
             )
             SharedLaneEffectUtils.playAndHandleLaneEffect(
                 id,
+                this.spawnData.lane,
                 this.spawnData.l,
                 this.spawnData.r,
-                this.laneE,
+                this.laneEffectId,
+                this.laneEffectLane,
             )
         }
     }

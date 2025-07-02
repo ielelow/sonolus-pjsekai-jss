@@ -74,6 +74,6 @@ export class CriticalFlickNote extends SingleFlickNote {
     touch() {
         super.touch()
         if (!this.check) return
-        SharedLaneEffectUtils.playAndHandleLaneEffect(this, this.laneE)
+        SharedLaneEffectUtils.playAndHandleLaneEffect(this, this.laneEffectId, this.laneEffectLane)
     }
 }
