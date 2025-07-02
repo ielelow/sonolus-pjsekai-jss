@@ -166,6 +166,12 @@ Converts USC (Universal Sekai Chart) to Level Data.
 - `usc`: usc chart.
 - `offset`: offset (default: `0`).
 
+### `uscToUSC(usc)`
+
+Converts MMW usc chart to USC (Universal Sekai Chart).
+
+- `usc`: usc chart.
+
 ### Assets
 
 The following assets are exposed as package entry points:
