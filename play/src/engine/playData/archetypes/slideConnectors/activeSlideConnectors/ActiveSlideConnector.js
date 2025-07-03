@@ -119,11 +119,9 @@ export class ActiveSlideConnector extends SlideConnector {
         effect.clips.scheduleStopLoop(id, this.tail.time)
     }
     playSFX() {
-        this.sfxInstanceId = this.sfxInstanceId = this.useFallbackClip
+        this.sfxInstanceId = this.useFallbackClip
             ? this.clips.fallback.loop()
             : this.clips.hold.loop()
-        this.clips.fallback.loop()
-        this.clips.hold.loop()
     }
     stopSFX() {
         effect.clips.stopLoop(this.sfxInstanceId)
