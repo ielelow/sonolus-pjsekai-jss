@@ -114,12 +114,14 @@ export class ActiveSlideConnector extends SlideConnector {
     }
     scheduleSFX() {
         const id = this.useFallbackClip
-        this.clips.fallback.scheduleLoop(this.head.time)
-        this.clips.hold.scheduleLoop(this.head.time)
+            ? this.clips.fallback.scheduleLoop(this.head.time)
+            : this.clips.hold.scheduleLoop(this.head.time)
         effect.clips.scheduleStopLoop(id, this.tail.time)
     }
     playSFX() {
-        this.sfxInstanceId = this.useFallbackClip
+        this.sfxInstanceId = this.sfxInstanceId = this.useFallbackClip
+            ? this.clips.fallback.loop()
+            : this.clips.hold.loop()
         this.clips.fallback.loop()
         this.clips.hold.loop()
     }

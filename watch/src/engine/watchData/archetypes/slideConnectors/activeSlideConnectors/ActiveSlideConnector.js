@@ -222,9 +222,10 @@ export class ActiveSlideConnector extends SlideConnector {
         }
     }
     scheduleSFX(startTime, endTime) {
-        const id = 'fallback' in this.clips && this.useFallbackClip
-        this.clips.fallback.scheduleLoop(startTime)
-        this.clips.hold.scheduleLoop(startTime)
+        const id =
+            'fallback' in this.clips && this.useFallbackClip
+                ? this.clips.fallback.scheduleLoop(startTime)
+                : this.clips.hold.scheduleLoop(startTime)
         effect.clips.scheduleStopLoop(id, endTime)
     }
     spawnCircularEffect() {
