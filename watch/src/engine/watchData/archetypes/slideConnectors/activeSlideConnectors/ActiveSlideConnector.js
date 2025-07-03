@@ -85,32 +85,27 @@ export class ActiveSlideConnector extends SlideConnector {
     }
     get useFallbackSlideSprite() {
         return (
-            // @ts-ignore
             !this.slideSprites.left.exists ||
-            // @ts-ignore
             !this.slideSprites.middle.exists ||
-            // @ts-ignore
             !this.slideSprites.right.exists
         )
     }
+    get useFallbackGlowSprite() {
+        return !this.slideGlowSprite.glow.exists
+    }
     get useFallbackClip() {
-        // @ts-ignore
         return !this.clips.hold.exists
     }
     get shouldScheduleCircularEffect() {
-        // @ts-ignore
         return options.noteEffectEnabled && this.effects.circular.exists
     }
     get shouldScheduleLinearEffect() {
-        // @ts-ignore
         return options.noteEffectEnabled && this.effects.linear.exists
     }
     get shouldPlayNoneMoveLinearEffect() {
-        // @ts-ignore
         return options.noteEffectEnabled && this.effects.noneMoveLinear.exists
     }
     get shouldPlaySlotEffects() {
-        // @ts-ignore
         return options.slotEffectEnabled && this.effects.slotEffects.exists
     }
     globalInitialize() {
@@ -132,21 +127,36 @@ export class ActiveSlideConnector extends SlideConnector {
         const h = dynamicHeight * options.slotEffectSize * scaledScreen.wToH
         const shear = 1 + 0.25 * (dynamicHeight / 4.25) * options.slotEffectSize
         const w = 0.15
-        // @ts-ignore
-        this.glowSprite.draw(
-            {
-                x1: l - w,
-                x2: l * shear - w,
-                x3: r * shear + w,
-                x4: r + w,
-                y1: 1,
-                y2: 1 - h,
-                y3: 1 - h,
-                y4: 1,
-            },
-            this.glowZ,
-            Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
-        )
+        if (this.useFallbackGlowSprite)
+            this.slideGlowSprite.fallback.draw(
+                {
+                    x1: l - w,
+                    x2: l * shear - w,
+                    x3: r * shear + w,
+                    x4: r + w,
+                    y1: 1,
+                    y2: 1 - h,
+                    y3: 1 - h,
+                    y4: 1,
+                },
+                this.glowZ,
+                Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
+            )
+        else
+            this.slideGlowSprite.glow.draw(
+                {
+                    x1: l - w,
+                    x2: l * shear - w,
+                    x3: r * shear + w,
+                    x4: r + w,
+                    y1: 1,
+                    y2: 1 - h,
+                    y3: 1 - h,
+                    y4: 1,
+                },
+                this.glowZ,
+                Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
+            )
     }
     renderSlide() {
         const s = this.getScale(time.scaled)
@@ -155,7 +165,6 @@ export class ActiveSlideConnector extends SlideConnector {
         const b = 1 + note.h
         const t = 1 - note.h
         if (this.useFallbackSlideSprite) {
-            // @ts-ignore
             this.slideSprites.fallback.draw(perspectiveLayout({ l, r, b, t }), this.slideZ, 1)
         } else {
             const ml = l + 0.25
@@ -169,32 +178,25 @@ export class ActiveSlideConnector extends SlideConnector {
                 //None
             } else if (
                 entityInfos.get(this.import.startRef).archetype ===
-                    archetypes.NormalSlideStartNote.index ||
+                archetypes.NormalSlideStartNote.index ||
                 entityInfos.get(this.import.startRef).archetype ===
-                    archetypes.CriticalSlideStartNote.index
+                archetypes.CriticalSlideStartNote.index
             ) {
-                // @ts-ignore
                 this.slideSprites.left.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1)
-                // @ts-ignore
                 this.slideSprites.middle.draw(
                     perspectiveLayout({ l: ml, r: mr, b, t }),
                     this.slideZ,
                     1,
                 )
-                // @ts-ignore
                 this.slideSprites.right.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1)
             } else {
-                // @ts-ignore
                 this.slideSprites.tleft.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1)
-                // @ts-ignore
                 this.slideSprites.tmiddle.draw(
                     perspectiveLayout({ l: ml, r: mr, b, t }),
                     this.slideZ,
                     1,
                 )
-                // @ts-ignore
                 this.slideSprites.tright.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1)
-                // @ts-ignore
                 this.slideSprites.tdiamond.draw(
                     new Rect({
                         l: lane - w,
@@ -222,17 +224,12 @@ export class ActiveSlideConnector extends SlideConnector {
         }
     }
     scheduleSFX(startTime, endTime) {
-        const id =
-            // @ts-ignore
-            'fallback' in this.clips && this.useFallbackClip
-                ? // @ts-ignore
-                  this.clips.fallback.scheduleLoop(startTime)
-                : // @ts-ignore
-                  this.clips.hold.scheduleLoop(startTime)
+        const id = 'fallback' in this.clips && this.useFallbackClip
+        this.clips.fallback.scheduleLoop(startTime)
+        this.clips.hold.scheduleLoop(startTime)
         effect.clips.scheduleStopLoop(id, endTime)
     }
     spawnCircularEffect() {
-        // @ts-ignore
         this.startSharedMemory.circular = this.effects.circular.spawn(new Quad(), 1, true)
     }
     updateCircularEffect() {
@@ -251,7 +248,6 @@ export class ActiveSlideConnector extends SlideConnector {
         particle.effects.destroy(this.startSharedMemory.circular)
     }
     spawnLinearEffect() {
-        // @ts-ignore
         this.startSharedMemory.linear = this.effects.linear.spawn(new Quad(), 1, true)
     }
     updateLinearEffect() {
@@ -259,7 +255,6 @@ export class ActiveSlideConnector extends SlideConnector {
         const lane = this.getLane(s)
         particle.effects.move(
             this.startSharedMemory.linear,
-            // @ts-ignore
             linearEffectLayout({
                 lane,
                 shear: 0,
@@ -273,7 +268,6 @@ export class ActiveSlideConnector extends SlideConnector {
         this.startSharedMemory.noneMoveLinear = timeScaleChanges.at(time.now + 0.1).scaledTime
         const s = this.getScale(time.scaled)
         const lane = this.getLane(s)
-        // @ts-ignore
         this.effects.noneMoveLinear.spawn(
             linearEffectLayout({
                 lane,
@@ -289,7 +283,6 @@ export class ActiveSlideConnector extends SlideConnector {
         const l = this.getL(s)
         const r = this.getR(s)
         for (let i = l + 0.5; i < r - 0.5; i++) {
-            // @ts-ignore
             this.effects.slotEffects.spawn(
                 linearEffectLayout({
                     lane: i,
