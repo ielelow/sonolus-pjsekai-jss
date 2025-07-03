@@ -20,14 +20,12 @@ export class FlickNote extends FlatNote {
     preprocess() {
         super.preprocess()
         if (options.mirror) {
-            // @ts-ignore
             this.flickImport.direction *= -1
         }
     }
     globalInitialize() {
         super.globalInitialize()
         this.arrow.sprite = getArrowSpriteId(
-            // @ts-ignore
             this.arrowSprites,
             this.import.size,
             this.flickImport.direction,
@@ -43,19 +41,16 @@ export class FlickNote extends FlatNote {
                 .toQuad()
                 .copyTo(this.arrow.layout)
         } else {
-            // @ts-ignore
             this.arrow.sprite = this.arrowSprites.fallback.id
             const w = Math.clamp(this.import.size / 2, 1, 2)
             new Rect({ l: -1, r: 1, b: 1, t: -1 })
                 .toQuad()
-                // @ts-ignore
                 .rotate((Math.PI / 6) * this.flickImport.direction)
                 .scale(w, w * scaledScreen.wToH)
                 .translate(this.import.lane, 1 - w * scaledScreen.wToH)
                 .copyTo(this.arrow.layout)
         }
         if (options.markerAnimation)
-            // @ts-ignore
             new Vec(this.flickImport.direction, -2 * scaledScreen.wToH).copyTo(this.arrow.animation)
         this.arrow.z = getZ(layer.note.arrow, this.targetTime, this.import.lane)
     }
@@ -84,7 +79,6 @@ export class FlickNote extends FlatNote {
         this.playDirectionalNoteEffect()
     }
     playDirectionalNoteEffect() {
-        // @ts-ignore
         this.directionalEffect.spawn(
             linearEffectLayout({
                 lane: this.import.lane,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { sfxDistance } from '../../../../effect.js'
 import { note } from '../../../../note.js'
 import { flatEffectLayout, particle } from '../../../../particle.js'

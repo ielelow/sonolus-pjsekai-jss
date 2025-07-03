@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { lane } from '../../../../../shared/src/engine/data/lane.js'
 import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { sfxDistance } from '../../../../../effect.js'
 import { minFlickVR } from '../../../../../flick.js'
 import { note } from '../../../../../note.js'

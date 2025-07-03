@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { EngineArchetypeDataName } from '@sonolus/core'
 import { options } from '../../../configuration/options.js'
 import { archetypes } from '../index.js'
