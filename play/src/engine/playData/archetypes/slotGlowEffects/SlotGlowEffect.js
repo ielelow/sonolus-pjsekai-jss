@@ -36,7 +36,6 @@ export class SlotGlowEffect extends SpawnableArchetype({
         const a = options.lightweight ? baseA * 0.25 : baseA
         const p = options.simplifySlotA ? Math.min(1, a / 0.03) : 1 - a ** 3
         const t = 1 - this.layout.h * p
-        // @ts-ignore
         this.sprite.draw(
             {
                 x1: this.layout.l.min,

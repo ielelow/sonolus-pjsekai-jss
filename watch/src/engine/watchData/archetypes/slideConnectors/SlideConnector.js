@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-// @ts-nocheck
 import { ease } from '../../../../../../shared/src/engine/data/EaseType.js'
 import { approach } from '../../../../../../shared/src/engine/data/note.js'
 import { options } from '../../../configuration/options.js'
