@@ -20,20 +20,16 @@
         "dev:watch": "sonolus-cli --dev ./watch",
         "dev:preview": "sonolus-cli --dev ./preview",
         "dev:tutorial": "sonolus-cli --dev ./tutorial",
-        "format": "prettier . --write",
-        "lint": "eslint .",
-        "lint-fix": "eslint . --fix",
+        "format": "biome format --write",
+        "lint": "biome lint",
+        "lint-fix": "biome lint --write",
+        "biome": "biome check",
         "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./watch && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.mjs"
     },
     "devDependencies": {
+        "@biomejs/biome": "2.0.6",
         "@sonolus/sonolus.js": "~9.5.6",
-        "@eslint/js": "^9.27.0",
-        "eslint": "^9.27.0",
-        "eslint-config-prettier": "^10.1.5",
-        "prettier": "^3.5.3",
-        "prettier-plugin-organize-imports": "^4.1.0",
-        "typescript": "~5.8.3",
-        "typescript-eslint": "^8.33.0"
+        "typescript": "~5.8.3"
     },
     "dependencies": {
         "@sonolus/core": "~7.13.2"
