@@ -40,7 +40,6 @@ export class SlideTickNote extends Note {
         this.playHitEffects()
         this.despawn = true
     }
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     playHitEffects() {}
     terminate() {
         if (options.customJudgment) {

@@ -214,10 +214,8 @@ export class ActiveSlideConnector extends SlideConnector {
         if (this.import.startRef !== this.import.headRef) return
         let key = -999999
         while (true) {
-            // eslint-disable-next-line no-undef
             const startTime = streams.getNextKey(this.import.startRef, key)
             if (startTime === key) break
-            // eslint-disable-next-line no-undef
             const endTime = streams.getValue(this.import.startRef, startTime)
             this.scheduleSFX(startTime, Math.min(endTime, this.end.time))
             key = startTime

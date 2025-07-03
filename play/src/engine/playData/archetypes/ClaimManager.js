@@ -8,7 +8,6 @@ export class ClaimManager {
         }),
     )
     claim(index, time, hitbox, fullHitbox, checkTouch) {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         while (true) {
             const touchIndex = this.findBestTouchIndex(time, hitbox, fullHitbox, checkTouch)
             if (touchIndex === -1) return
