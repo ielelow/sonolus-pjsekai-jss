@@ -193,6 +193,13 @@ export const optionsDefinition = {
         step: 0.01,
         unit: Text.PercentageUnit,
     },
+    optimize: {
+        name: 'Performance Optimization',
+        advanced: true,
+        scope: 'SekaiRush',
+        type: 'toggle',
+        def: 0,
+    },
     lockStageAspectRatio: {
         name: Text.StageAspectratioLock,
         scope: 'Sekai',
