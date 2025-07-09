@@ -182,6 +182,13 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    optimize: {
+        name: 'Performance Optimization',
+        advanced: true,
+        scope: 'SekaiRush',
+        type: 'toggle',
+        def: 0,
+    },
     stageCover: {
         name: Text.StageCoverVertical,
         advanced: true,
@@ -192,13 +199,6 @@ export const optionsDefinition = {
         max: 1,
         step: 0.01,
         unit: Text.PercentageUnit,
-    },
-    optimize: {
-        name: 'Performance Optimization',
-        advanced: true,
-        scope: 'SekaiRush',
-        type: 'toggle',
-        def: 0,
     },
     lockStageAspectRatio: {
         name: Text.StageAspectratioLock,
