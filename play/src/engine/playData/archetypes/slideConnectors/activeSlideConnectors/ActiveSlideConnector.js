@@ -212,35 +212,27 @@ export class ActiveSlideConnector extends SlideConnector {
         const h = dynamicHeight * options.slotEffectSize * scaledScreen.wToH
         const shear = 1 + 0.25 * (dynamicHeight / 4) * options.slotEffectSize
         const w = 0.15
+        const quadLike = {
+            x1: l - w,
+            x2: l * shear - w,
+            x3: r * shear + w,
+            x4: r + w,
+            y1: 1,
+            y2: 1 - h,
+            y3: 1 - h,
+            y4: 1,
+        }
         if (this.useFallbackGlowSprite)
             this.slideGlowSprite.fallback.draw(
-                {
-                    x1: l - w,
-                    x2: l * shear - w,
-                    x3: r * shear + w,
-                    x4: r + w,
-                    y1: 1,
-                    y2: 1 - h,
-                    y3: 1 - h,
-                    y4: 1,
-                },
+                quadLike,
                 this.glowZ,
-                Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
+                Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.15 : 0.3),
             )
         else
             this.slideGlowSprite.glow.draw(
-                {
-                    x1: l - w,
-                    x2: l * shear - w,
-                    x3: r * shear + w,
-                    x4: r + w,
-                    y1: 1,
-                    y2: 1 - h,
-                    y3: 1 - h,
-                    y4: 1,
-                },
+                quadLike,
                 this.glowZ,
-                Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.25 : 0.4),
+                Math.min(1, (time.now - this.start.time) * 4) * (options.lightweight ? 0.15 : 0.3),
             )
     }
     renderSlide() {
@@ -263,9 +255,9 @@ export class ActiveSlideConnector extends SlideConnector {
                 //None
             } else if (
                 entityInfos.get(this.import.startRef).archetype ===
-                    archetypes.NormalSlideStartNote.index ||
+                archetypes.NormalSlideStartNote.index ||
                 entityInfos.get(this.import.startRef).archetype ===
-                    archetypes.CriticalSlideStartNote.index
+                archetypes.CriticalSlideStartNote.index
             ) {
                 this.slideSprites.left.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1)
                 this.slideSprites.middle.draw(
