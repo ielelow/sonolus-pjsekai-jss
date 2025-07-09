@@ -3,36 +3,20 @@ import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
 import { archetypes } from './index.js'
 export class ComboNumber extends SpawnableArchetype({
-    j: Number,
-    t: Number,
 }) {
     endTime = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
     z2 = this.entityMemory(Number)
-    comboc = this.entityMemory(Number)
-    check = this.entityMemory(Boolean)
-    combo = levelMemory(Number)
-    AP = levelMemory(Boolean)
-    comboExport = this.defineExport({
-        combo: { name: 'combo', type: Number },
-        ap: { name: 'ap', type: Boolean },
-    })
-    sharedMemory = this.defineSharedMemory({
-        lastActiveTime: Number,
-        ap: Boolean,
-    })
     initialize() {
         this.endTime = 999999
-        this.z = getZ(layer.judgment, -this.spawnData.t, 0)
-        this.z2 = getZ(layer.judgment + 1, -this.spawnData.t, 0)
+        this.z = getZ(layer.judgment, 0, 0)
+        this.z2 = getZ(layer.judgment + 1, 0, 0)
     }
     updateParallel() {
-        if (this.comboc != this.combo) {
-            this.despawn = true
+        if (this.customCombo.combo == 0)
             return
-        }
-        const c = this.combo
+        const c = this.customCombo.combo
         const digits = [
             Math.floor(c / 1000) % 10,
             Math.floor(c / 100) % 10,
@@ -50,23 +34,22 @@ export class ComboNumber extends SpawnableArchetype({
         const s =
             0.6 +
             0.4 *
+            Math.ease(
+                'Out',
+                'Cubic',
+                Math.min(1, Math.unlerp(this.customCombo.time, this.customCombo.time + 0.15, time.now)),
+            )
+        const a = ui.configuration.combo.alpha *
+            (0.6 +
+                0.4 *
                 Math.ease(
                     'Out',
                     'Cubic',
-                    Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now)),
-                )
-        const a =
-            ui.configuration.combo.alpha *
-            (0.6 +
-                0.4 *
-                    Math.ease(
-                        'Out',
-                        'Cubic',
-                        Math.min(
-                            1,
-                            Math.unlerp(this.spawnData.t, this.spawnData.t + 0.15, time.now),
-                        ),
-                    ))
+                    Math.min(
+                        1,
+                        Math.unlerp(this.customCombo.time, this.customCombo.time + 0.15, time.now),
+                    ),
+                ))
         const digitWidth = h * 0.773 * 6.65
         const digitGap = digitWidth * options.comboDistance
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
@@ -162,24 +145,8 @@ export class ComboNumber extends SpawnableArchetype({
             this.drawDigit(digits[3], digitLayout3, this.z, a)
         }
     }
-    updateSequential() {
-        if (this.spawnData.j != Judgment.Good && this.spawnData.j != Judgment.Miss) {
-            if (!this.check) {
-                this.combo += 1
-                this.comboc = this.combo
-            }
-        } else {
-            this.combo = 0
-            this.comboc = -999
-        }
-        if (this.spawnData.j != Judgment.Perfect) {
-            this.AP = true
-        }
-        archetypes.ComboLabel.spawn({ c: this.combo, t: time.now, ap: this.AP })
-        this.check = true
-    }
     drawDigit(digit, layout, z, a) {
-        if (this.AP || !options.ap) {
+        if (this.customCombo.ap || !options.ap) {
             switch (digit) {
                 case 0:
                     skin.sprites.c0.draw(layout, z, a)
@@ -246,5 +213,8 @@ export class ComboNumber extends SpawnableArchetype({
                     break
             }
         }
+    }
+    get customCombo() {
+        return archetypes.Stage.customCombo.get(0)
     }
 }

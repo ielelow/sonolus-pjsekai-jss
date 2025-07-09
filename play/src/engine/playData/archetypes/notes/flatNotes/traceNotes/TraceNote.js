@@ -12,9 +12,6 @@ export class TraceNote extends FlatNote {
     earlyHitTime = this.entityMemory(Number)
     diamondLayout = this.entityMemory(Rect)
     diamondZ = this.entityMemory(Number)
-    judExport = this.defineExport({
-        jud: { name: 'jud', type: Number },
-    })
     initialize() {
         super.initialize()
         this.earlyInputTime = this.targetTime + input.offset
@@ -78,8 +75,6 @@ export class TraceNote extends FlatNote {
         this.result.bucket.value = this.result.accuracy * 1000
         this.playHitEffects(time.now)
         this.despawn = true
-        if (this.windows.perfect.min > this.result.accuracy) this.judExport('jud', 1)
-        else if (this.windows.perfect.max < this.result.accuracy) this.judExport('jud', 2)
     }
     playCircularNoteEffect() {
         particle.effects.spawn(

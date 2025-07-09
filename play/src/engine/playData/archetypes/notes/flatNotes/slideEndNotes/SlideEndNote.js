@@ -3,9 +3,6 @@ import { archetypes } from '../../../index.js'
 import { FlatNote } from '../FlatNote.js'
 export class SlideEndNote extends FlatNote {
     leniency = 1
-    judExport = this.defineExport({
-        jud: { name: 'jud', type: Number },
-    })
     slideEndImport = this.defineImport({
         slideRef: { name: 'slide', type: Number },
     })
@@ -42,8 +39,6 @@ export class SlideEndNote extends FlatNote {
         this.result.bucket.index = this.bucket.index
         this.result.bucket.value = this.result.accuracy * 1000
         this.playHitEffects(touch.time)
-        if (this.windows.perfect.min > this.result.accuracy) this.judExport('jud', 1)
-        else if (this.windows.perfect.max < this.result.accuracy) this.judExport('jud', 2)
         this.despawn = true
     }
 }

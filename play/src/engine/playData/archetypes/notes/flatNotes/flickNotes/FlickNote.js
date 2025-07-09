@@ -12,10 +12,6 @@ export class FlickNote extends FlatNote {
     })
     flickExport = this.defineExport({
         accuracyDiff: { name: 'accuracyDiff', type: Number },
-        flick: { name: 'flick', type: Boolean },
-    })
-    judExport = this.defineExport({
-        jud: { name: 'jud', type: Number },
     })
     arrow = this.entityMemory({
         sprite: SkinSpriteId,
@@ -70,9 +66,6 @@ export class FlickNote extends FlatNote {
                 this.flickExport('accuracyDiff', this.result.accuracy - this.windows.perfect.max)
                 this.result.accuracy = this.windows.perfect.max
             }
-            this.flickExport('flick', true)
-            if (this.windows.perfect.min > this.result.accuracy) this.judExport('jud', 1)
-            else if (this.windows.perfect.max < this.result.accuracy) this.judExport('jud', 2)
             this.sharedMemory.get(this.info.index).flick = true
         }
         this.result.bucket.index = this.bucket.index

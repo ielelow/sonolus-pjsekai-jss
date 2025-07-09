@@ -2,9 +2,6 @@ import { claimStart, disallowEmpty, getClaimedStart } from '../../../InputManage
 import { FlatNote } from '../FlatNote.js'
 export class SlideStartNote extends FlatNote {
     leniency = 1
-    judExport = this.defineExport({
-        jud: { name: 'jud', type: Number },
-    })
     updateSequential() {
         if (time.now < this.inputTime.min) return
         claimStart(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
@@ -22,8 +19,6 @@ export class SlideStartNote extends FlatNote {
         this.result.bucket.index = this.bucket.index
         this.result.bucket.value = this.result.accuracy * 1000
         this.playHitEffects(touch.startTime)
-        if (this.windows.perfect.min > this.result.accuracy) this.judExport('jud', 1)
-        else if (this.windows.perfect.max < this.result.accuracy) this.judExport('jud', 2)
         this.despawn = true
     }
     render() {

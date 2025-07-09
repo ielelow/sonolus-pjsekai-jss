@@ -37,29 +37,13 @@ export class Note extends Archetype {
     }
     updateSequentialOrder = 2
     terminate() {
-        if (options.customJudgment) {
-            archetypes.JudgmentText.spawn({ j: this.result.judgment, t: time.now })
-            if (options.fastLate) {
-                archetypes.JudgmentAccuracy.spawn({
-                    j: this.result.judgment,
-                    t: time.now,
-                    accuracy: this.result.accuracy,
-                    late: this.windows.perfect.max,
-                    fast: this.windows.perfect.min,
-                    flick: this.sharedMemory.get(this.info.index).flick,
-                })
-            }
-        }
-        if (options.customCombo) {
-            archetypes.ComboNumber.spawn({ j: this.result.judgment, t: time.now })
-            archetypes.ComboNumberEffect.spawn({
-                j: this.result.judgment,
-                t: time.now,
+        if (options.customJudgment || options.customJudgment)
+            archetypes.ComboManager.spawn({
+                judgment: this.result.judgment,
+                flick: this.sharedMemory.get(this.info.index).flick,
+                accuracy: this.result.accuracy,
+                fast: this.windows.perfect.min,
+                late: this.windows.perfect.max,
             })
-            archetypes.ComboNumberGlow.spawn({
-                j: this.result.judgment,
-                t: time.now,
-            })
-        }
     }
 }

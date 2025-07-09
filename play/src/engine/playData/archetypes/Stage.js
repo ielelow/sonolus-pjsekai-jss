@@ -7,7 +7,16 @@ import { particle } from '../particle.js'
 import { scaledScreen } from '../scaledScreen.js'
 import { layer, skin } from '../skin.js'
 import { canEmpty } from './InputManager.js'
+import { archetypes } from './index.js'
 export class Stage extends Archetype {
+    customCombo = this.defineSharedMemory({
+        accuracy: Number,
+        combo: Number,
+        judgment: Number,
+        time: Number,
+        ap: Boolean,
+        accuracyTime: Number,
+    })
     hitbox = this.entityMemory(Rect)
     spawnOrder() {
         return 1
@@ -17,6 +26,16 @@ export class Stage extends Archetype {
     }
     initialize() {
         new Rect(lane.hitbox).transform(skin.transform).copyTo(this.hitbox)
+        if (options.customJudgment)
+            archetypes.JudgmentText.spawn({})
+        if (options.fastLate)
+            archetypes.JudgmentAccuracy.spawn({})
+        if (options.customCombo) {
+            archetypes.ComboNumber.spawn({})
+            archetypes.ComboNumberEffect.spawn({})
+            archetypes.ComboNumberGlow.spawn({})
+            archetypes.ComboLabel.spawn({})
+        }
     }
     touchOrder = 2
     touch() {
