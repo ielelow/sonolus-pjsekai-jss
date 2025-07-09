@@ -6,7 +6,6 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
     endTime = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
-    ratio = this.entityMemory(Number)
     initialize() {
         this.endTime = 999999
         this.z = getZ(layer.judgment, 0, 0)

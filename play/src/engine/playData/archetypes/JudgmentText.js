@@ -6,10 +6,6 @@ export class JudgmentText extends SpawnableArchetype({}) {
     endTime = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
-    combo = levelMemory(Number)
-    comboc = this.entityMemory(Number)
-    check = this.entityMemory(Boolean)
-    ratio = this.entityMemory(Number)
     initialize() {
         this.endTime = 999999
         this.z = getZ(layer.judgment, 0, 0)
@@ -53,13 +49,6 @@ export class JudgmentText extends SpawnableArchetype({}) {
                 skin.sprites.miss.draw(this.layout, this.z, a)
                 break
         }
-    }
-    updateSequential() {
-        if (!this.check) {
-            this.combo += 1
-            this.comboc = this.combo
-        }
-        this.check = true
     }
     get customCombo() {
         return archetypes.Stage.customCombo.get(0)
