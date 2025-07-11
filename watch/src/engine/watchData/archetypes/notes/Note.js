@@ -10,63 +10,43 @@ export class Note extends Archetype {
         size: { name: 'size', type: Number },
         judgment: { name: EngineArchetypeDataName.Judgment, type: DataType },
         accuracy: { name: EngineArchetypeDataName.Accuracy, type: Number },
-        flick: { name: 'flick', type: Boolean },
-        jud: { name: 'jud', type: Number },
+        flickWarning: { name: 'flickWarning', type: Boolean },
+        fast: { name: 'fast', type: Number },
+        late: { name: 'late', type: Number },
     })
-    entityArray = this.defineSharedMemory({
+    customCombo = this.defineSharedMemory({
         value: Number,
+        time: Number,
         scaledTime: Number,
         length: Number,
         start: Number,
         combo: Number,
-        Judgment: DataType,
+        judgment: DataType,
         tail: Number,
         ap: Boolean,
-        time: Number,
+        accuracy: Number,
     })
     targetTime = this.entityMemory(Number)
-    check = levelMemory(Boolean)
-    combo = levelMemory(Number)
     preprocess() {
         if (options.mirror) this.import.lane *= -1
         this.targetTime = bpmChanges.at(this.import.beat).time
         if (this.hasInput) this.result.time = this.targetTime
-        if (options.customJudgment) {
-            archetypes.JudgmentText.spawn({
-                t: this.hitTime,
-                j: this.import.judgment,
-            })
-            if (options.fastLate && replay.isReplay) {
-                archetypes.JudgmentAccuracy.spawn({
-                    t: this.hitTime,
-                    j: this.import.judgment,
-                    accuracy: this.import.accuracy,
-                    fastLate: this.import.jud,
-                    flick: this.import.flick,
-                })
-            }
-        }
-        if (options.customCombo) {
-            if (!options.autoCombo || replay.isReplay) {
-                this.entityArray.get(this.info.index).scaledTime = timeScaleChanges.at(
-                    this.hitTime,
-                ).scaledTime
-                this.entityArray.get(this.info.index).time = this.hitTime
-                this.entityArray.get(this.info.index).Judgment = this.import.judgment
-                archetypes.ComboNumber.spawn({
-                    t: this.hitTime,
-                    i: this.info.index,
-                })
-                archetypes.ComboNumberGlow.spawn({
-                    t: this.hitTime,
-                    i: this.info.index,
-                })
-                archetypes.ComboNumberEffect.spawn({
-                    t: this.hitTime,
-                    i: this.info.index,
-                })
-                archetypes.ComboLabel.spawn({ t: this.hitTime, i: this.info.index })
-            }
+        if (options.customJudgment || options.customCombo) {
+            this.customCombo.get(this.info.index).time = this.hitTime
+            this.customCombo.get(this.info.index).judgment = this.import.judgment
+            this.customCombo.get(this.info.index).ap = replay.isReplay
+                ? this.import.judgment != Judgment.Perfect
+                    ? true
+                    : false
+                : false
+            this.customCombo.get(this.info.index).accuracy =
+                this.import.flickWarning == true
+                    ? 3
+                    : this.import.fast > this.import.accuracy
+                      ? 1
+                      : this.import.late < this.import.accuracy
+                        ? 2
+                        : 0
         }
     }
     get hitTime() {
