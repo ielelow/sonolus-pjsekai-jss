@@ -12,6 +12,7 @@ export class FlickNote extends FlatNote {
     })
     flickExport = this.defineExport({
         accuracyDiff: { name: 'accuracyDiff', type: Number },
+        flickWarning: { name: 'flickWarning', type: Boolean },
     })
     arrow = this.entityMemory({
         sprite: SkinSpriteId,
@@ -67,6 +68,7 @@ export class FlickNote extends FlatNote {
                 this.result.accuracy = this.windows.perfect.max
             }
             this.sharedMemory.get(this.info.index).flick = true
+            this.flickExport('flickWarning', true)
         }
         this.result.bucket.index = this.bucket.index
         this.result.bucket.value = this.result.accuracy * 1000

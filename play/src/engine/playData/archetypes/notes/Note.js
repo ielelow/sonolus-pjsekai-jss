@@ -8,6 +8,10 @@ export class Note extends Archetype {
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
     })
+    accuracyExport = this.defineExport({
+        fast: { name: 'fast', type: Number },
+        late: { name: 'late', type: Number },
+    })
     sharedMemory = this.defineSharedMemory({
         lastActiveTime: Number,
         exportStartTime: Number,
@@ -37,7 +41,9 @@ export class Note extends Archetype {
     }
     updateSequentialOrder = 2
     terminate() {
-        if (options.customJudgment || options.customJudgment)
+        if (options.customJudgment || options.customCombo) {
+            this.accuracyExport('fast', this.windows.perfect.min)
+            this.accuracyExport('late', this.windows.perfect.max)
             archetypes.ComboManager.spawn({
                 judgment: this.result.judgment,
                 flick: this.sharedMemory.get(this.info.index).flick,
@@ -45,5 +51,6 @@ export class Note extends Archetype {
                 fast: this.windows.perfect.min,
                 late: this.windows.perfect.max,
             })
+        }
     }
 }
