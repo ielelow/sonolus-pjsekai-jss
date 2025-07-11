@@ -18,7 +18,7 @@ export class ComboLabel extends SpawnableArchetype({}) {
         const wg = h * 3.22 * 8
         const centerX = 5.45
         const centerY = 0.48
-        const a = ui.configuration.combo.alpha * 1
+        const a = ui.configuration.combo.alpha
         const a2 = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const layout = NormalLayout({
             l: centerX - w / 2,
