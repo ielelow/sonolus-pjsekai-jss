@@ -67,5 +67,7 @@ export class ComboLabel extends SpawnableArchetype({
     }
     terminate() {
         this.check = false
+        this.z = 0
+        this.z2 = 0
     }
 }

@@ -75,5 +75,6 @@ export class JudgmentText extends SpawnableArchetype({
     terminate() {
         this.check = false
         this.combo = 0
+        this.z = 0
     }
 }

@@ -74,5 +74,6 @@ export class JudgmentAccuracy extends SpawnableArchetype({
         this.check = false
         this.combo = 0
         this.accuracy = 0
+        this.z = 0
     }
 }

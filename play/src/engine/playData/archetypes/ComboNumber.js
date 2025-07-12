@@ -250,5 +250,7 @@ export class ComboNumber extends SpawnableArchetype({
     terminate() {
         this.check = false
         this.combo = 0
+        this.z = 0
+        this.z2 = 0
     }
 }
