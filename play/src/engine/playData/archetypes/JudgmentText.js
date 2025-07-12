@@ -26,7 +26,7 @@ export class JudgmentText extends SpawnableArchetype({
         const h = 0.1 * ui.configuration.judgment.scale
         const w = h * 25.5
         const centerX = 0
-        const centerY = 0.78
+        const centerY = 0.79
         const s = Math.ease(
             'Out',
             'Cubic',

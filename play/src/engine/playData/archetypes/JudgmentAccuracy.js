@@ -35,7 +35,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({
         const h = 0.06 * ui.configuration.judgment.scale
         const w = h * 20
         const centerX = 0
-        const centerY = 0.72
+        const centerY = 0.73
         const s = Math.ease(
             'Out',
             'Cubic',

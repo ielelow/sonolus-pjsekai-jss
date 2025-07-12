@@ -38,8 +38,9 @@ export class ComboNumber extends SpawnableArchetype({
         if (digits[0] === 0) digitCount = 3
         if (digits[0] === 0 && digits[1] === 0) digitCount = 2
         if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1
-        const h = 0.13 * ui.configuration.combo.scale
-        const centerX = 5.45
+        const h = 0.13 * ui.configuration.combo.scale * 0.94
+        const digitWidth = h * 0.79 * 7
+        const centerX = 5.337
         const centerY = 0.585
         // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
         const s =
@@ -69,7 +70,6 @@ export class ComboNumber extends SpawnableArchetype({
                         ),
                     ),
                 ))
-        const digitWidth = h * 0.773 * 6.65
         const digitGap = digitWidth * options.comboDistance
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
         const startX = centerX - totalWidth / 2
