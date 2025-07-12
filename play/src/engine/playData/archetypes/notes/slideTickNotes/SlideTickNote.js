@@ -46,14 +46,6 @@ export class SlideTickNote extends Note {
             time: time.now,
             judgment: this.result.judgment
         })
-        if (options.fastLate) archetypes.JudgmentAccuracy.spawn({
-            time: time.now,
-            judgment: this.result.judgment,
-            accuracy: 0,
-            min: 0,
-            max: 0,
-            flick: false
-        })
         if (options.customCombo) {
             archetypes.ComboNumber.spawn({
                 time: time.now,
