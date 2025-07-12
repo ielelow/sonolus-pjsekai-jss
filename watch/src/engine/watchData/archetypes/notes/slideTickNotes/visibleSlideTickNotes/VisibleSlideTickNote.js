@@ -6,7 +6,6 @@ import { note } from '../../../../note.js'
 import { flatEffectLayout } from '../../../../particle.js'
 import { scaledScreen } from '../../../../scaledScreen.js'
 import { getZ, layer } from '../../../../skin.js'
-import { archetypes } from '../../../index.js'
 import { SlideTickNote } from '../SlideTickNote.js'
 export class VisibleSlideTickNote extends SlideTickNote {
     visualTime = this.entityMemory(Range)
@@ -16,37 +15,7 @@ export class VisibleSlideTickNote extends SlideTickNote {
     z = this.entityMemory(Number)
     preprocessOrder = 0.2
     preprocess() {
-        if (options.mirror) this.import.lane *= -1
-        this.targetTime = bpmChanges.at(this.import.beat).time
-        if (this.hasInput) this.result.time = this.targetTime
-        if (options.customJudgment) {
-            archetypes.JudgmentText.spawn({
-                t: this.targetTime,
-                j: this.import.judgment,
-            })
-        }
-        if (options.customCombo) {
-            if (!options.autoCombo || replay.isReplay) {
-                this.entityArray.get(this.info.index).scaledTime = timeScaleChanges.at(
-                    this.hitTime,
-                ).scaledTime
-                this.entityArray.get(this.info.index).time = this.hitTime
-                this.entityArray.get(this.info.index).Judgment = this.import.judgment
-                archetypes.ComboNumber.spawn({
-                    t: this.hitTime,
-                    i: this.info.index,
-                })
-                archetypes.ComboNumberGlow.spawn({
-                    t: this.hitTime,
-                    i: this.info.index,
-                })
-                archetypes.ComboNumberEffect.spawn({
-                    t: this.hitTime,
-                    i: this.info.index,
-                })
-                archetypes.ComboLabel.spawn({ t: this.hitTime, i: this.info.index })
-            }
-        }
+        super.preprocess()
         this.visualTime.copyFrom(
             Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime),
         )

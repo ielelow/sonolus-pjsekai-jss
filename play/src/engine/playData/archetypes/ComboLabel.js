@@ -1,24 +1,27 @@
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { getZ, layer, skin } from '../skin.js'
-
+import { options } from '../../configuration/options.js'
+import { archetypes } from './index.js'
 export class ComboLabel extends SpawnableArchetype({
-    c: Number,
-    t: Number,
-    ap: Boolean,
+    time: Number,
+    judgment: Number
 }) {
-    endTime = this.entityMemory(Number)
     z = this.entityMemory(Number)
     z2 = this.entityMemory(Number)
-    comboc = this.entityMemory(Number)
-    combo = levelMemory(Number)
     check = this.entityMemory(Boolean)
+    comboCheck = levelMemory(Number)
+    combo = this.entityMemory(Number)
+    ap = levelMemory(Boolean)
     initialize() {
-        this.endTime = 999999
-        this.z = getZ(layer.judgment, -this.spawnData.t, 0)
-        this.z2 = getZ(layer.judgment - 1, -this.spawnData.t, 0)
+        this.z = getZ(layer.judgment, this.spawnData.time, 0)
+        this.z2 = getZ(layer.judgment - 1, this.spawnData.time, 0)
     }
     updateParallel() {
-        if (this.comboc != this.combo) {
+        if (this.combo != this.comboCheck) {
+            this.despawn = true
+            return
+        }
+        if (this.combo == 0) {
             this.despawn = true
             return
         }
@@ -28,54 +31,43 @@ export class ComboLabel extends SpawnableArchetype({
         const wg = h * 3.22 * 8
         const centerX = 5.45
         const centerY = 0.48
-        const s =
-            this.spawnData.c == 0
-                ? Math.ease(
-                      'Out',
-                      'Cubic',
-                      Math.min(
-                          1,
-                          Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now),
-                      ),
-                  )
-                : 1
-        const a =
-            ui.configuration.combo.alpha * this.spawnData.c == 0
-                ? Math.ease(
-                      'Out',
-                      'Cubic',
-                      Math.min(
-                          1,
-                          Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now),
-                      ),
-                  )
-                : 1
+        const a = ui.configuration.combo.alpha
         const a2 = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
-        // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
         const layout = NormalLayout({
-            l: centerX - (w * s) / 2,
-            r: centerX + (w * s) / 2,
-            t: centerY - (h * s) / 2,
-            b: centerY + (h * s) / 2,
+            l: centerX - w / 2,
+            r: centerX + w / 2,
+            t: centerY - h / 2,
+            b: centerY + h / 2,
         })
         const glow = NormalLayout({
-            l: centerX - (wg * s) / 2,
-            r: centerX + (wg * s) / 2,
-            t: centerY - (hg * s) / 2,
-            b: centerY + (hg * s) / 2,
+            l: centerX - wg / 2,
+            r: centerX + wg / 2,
+            t: centerY - hg / 2,
+            b: centerY + hg / 2,
         })
-        if (this.spawnData.c == 0) {
-        } else if (this.spawnData.ap) skin.sprites.combo.draw(layout, this.z, a)
+        if (this.ap || !options.ap) skin.sprites.combo.draw(layout, this.z, a)
         else {
             skin.sprites.apCombo.draw(layout, this.z, a)
             skin.sprites.glowCombo.draw(glow, this.z2, a2)
         }
     }
     updateSequential() {
-        if (!this.check) {
-            this.combo += 1
-            this.comboc = this.combo
-        }
+        if (this.check) return
         this.check = true
+        if (this.spawnData.judgment == Judgment.Miss) {
+            this.comboCheck = 0
+            this.combo = this.comboCheck
+        }
+        else {
+            this.comboCheck += 1
+            this.combo = this.comboCheck
+        }
+        if (this.spawnData.judgment != Judgment.Perfect)
+            this.ap = true
+    }
+    terminate() {
+        this.check = false
+        this.z = 0
+        this.z2 = 0
     }
 }

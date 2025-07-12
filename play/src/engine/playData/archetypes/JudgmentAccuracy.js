@@ -1,31 +1,34 @@
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { getZ, layer, skin } from '../skin.js'
+import { archetypes } from './index.js'
 
 export class JudgmentAccuracy extends SpawnableArchetype({
-    j: Number,
-    t: Number,
+    time: Number,
+    judgment: Number,
     accuracy: Number,
-    fast: Number,
-    late: Number,
-    flick: Boolean,
+    min: Number,
+    max: Number,
+    flick: Boolean
 }) {
-    endTime = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
+    accuracy = this.entityMemory(Number)
     z = this.entityMemory(Number)
-    combo = levelMemory(Number)
-    comboc = this.entityMemory(Number)
     check = this.entityMemory(Boolean)
-    ratio = this.entityMemory(Number)
+    combo = this.entityMemory(Number)
+    comboCheck = levelMemory(Number)
     initialize() {
-        this.endTime = this.spawnData.t + 0.5
-        this.z = getZ(layer.judgment, -this.spawnData.t, 0)
+        this.z = getZ(layer.judgment, 0, 0)
     }
     updateParallel() {
-        if (time.now >= this.endTime) {
+        if (this.spawnData.judgment == Judgment.Perfect || this.spawnData.judgment == Judgment.Miss) {
             this.despawn = true
             return
         }
-        if (this.comboc != this.combo) {
+        if (this.combo != this.comboCheck) {
+            this.despawn = true
+            return
+        }
+        if (time.now >= this.spawnData.time + 1) {
             this.despawn = true
             return
         }
@@ -36,14 +39,14 @@ export class JudgmentAccuracy extends SpawnableArchetype({
         const s = Math.ease(
             'Out',
             'Cubic',
-            Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)),
+            Math.min(1, Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now)),
         )
         const a =
             ui.configuration.judgment.alpha *
             Math.ease(
                 'Out',
                 'Cubic',
-                Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)),
+                Math.min(1, Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now)),
             )
         NormalLayout({
             l: centerX - (w * s) / 2,
@@ -51,20 +54,26 @@ export class JudgmentAccuracy extends SpawnableArchetype({
             t: centerY - (h * s) / 2,
             b: centerY + (h * s) / 2,
         }).copyTo(this.layout)
-        if (this.spawnData.j != Judgment.Perfect && this.spawnData.j != Judgment.Miss) {
-            if (this.spawnData.flick == true) skin.sprites.flick.draw(this.layout, this.z, a)
-            else if (this.spawnData.fast > this.spawnData.accuracy)
-                skin.sprites.fast.draw(this.layout, this.z, a)
-            else if (this.spawnData.late < this.spawnData.accuracy)
-                skin.sprites.late.draw(this.layout, this.z, a)
-        }
+        if (this.accuracy == 3) skin.sprites.flick.draw(this.layout, this.z, a)
+        else if (this.accuracy == 1) skin.sprites.fast.draw(this.layout, this.z, a)
+        else if (this.accuracy == 2) skin.sprites.late.draw(this.layout, this.z, a)
     }
     updateSequential() {
-        if (this.spawnData.j != Judgment.Perfect && this.spawnData.j != Judgment.Miss)
-            if (!this.check) {
-                this.combo += 1
-                this.comboc = this.combo
-            }
+        if (this.check) return
         this.check = true
+        if (this.spawnData.judgment == Judgment.Perfect || this.spawnData.judgment == Judgment.Miss) return
+        this.comboCheck += 1
+        this.combo = this.comboCheck
+        if (this.spawnData.judgment == Judgment.Great || this.spawnData.judgment == Judgment.Good) {
+            if (this.spawnData.flick == true) this.accuracy = 3
+            else if (this.spawnData.min > this.spawnData.accuracy) this.accuracy = 1
+            else if (this.spawnData.max < this.spawnData.accuracy) this.accuracy = 2
+        } else this.accuracy = 0
+    }
+    terminate() {
+        this.check = false
+        this.combo = 0
+        this.accuracy = 0
+        this.z = 0
     }
 }

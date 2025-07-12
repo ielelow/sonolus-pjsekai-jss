@@ -182,6 +182,13 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    optimize: {
+        name: 'Performance Optimization(Not Working yet)',
+        advanced: true,
+        scope: 'SekaiRush',
+        type: 'toggle',
+        def: 0,
+    },
     stageCover: {
         name: Text.StageCoverVertical,
         advanced: true,
@@ -201,13 +208,13 @@ export const optionsDefinition = {
     },
     hideUi: {
         name: 'Hide UI',
-        scope: 'Sekai',
+        scope: 'Sekai+',
         type: 'toggle',
         def: 0,
     },
-    stage: {
+    showLane: {
         name: Text.Stage,
-        scope: 'Sekai',
+        scope: 'Sekai+',
         type: 'toggle',
         def: 1,
     },

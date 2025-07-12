@@ -8,6 +8,10 @@ export class Note extends Archetype {
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
     })
+    accuracyExport = this.defineExport({
+        fast: { name: 'fast', type: Number },
+        late: { name: 'late', type: Number },
+    })
     sharedMemory = this.defineSharedMemory({
         lastActiveTime: Number,
         exportStartTime: Number,
@@ -37,28 +41,36 @@ export class Note extends Archetype {
     }
     updateSequentialOrder = 2
     terminate() {
-        if (options.customJudgment) {
-            archetypes.JudgmentText.spawn({ j: this.result.judgment, t: time.now })
-            if (options.fastLate) {
-                archetypes.JudgmentAccuracy.spawn({
-                    j: this.result.judgment,
-                    t: time.now,
-                    accuracy: this.result.accuracy,
-                    late: this.windows.perfect.max,
-                    fast: this.windows.perfect.min,
-                    flick: this.sharedMemory.get(this.info.index).flick,
-                })
-            }
-        }
+        this.accuracyExport('fast', this.windows.perfect.min)
+        this.accuracyExport('late', this.windows.perfect.max)
+        if (options.customJudgment) archetypes.JudgmentText.spawn({
+            time: time.now,
+            judgment: this.result.judgment
+        })
+        if (options.fastLate) archetypes.JudgmentAccuracy.spawn({
+            time: time.now,
+            judgment: this.result.judgment,
+            accuracy: this.result.accuracy,
+            min: this.windows.perfect.min,
+            max: this.windows.perfect.max,
+            flick: this.sharedMemory.get(this.info.index).flick
+        })
         if (options.customCombo) {
-            archetypes.ComboNumber.spawn({ j: this.result.judgment, t: time.now })
+            archetypes.ComboNumber.spawn({
+                time: time.now,
+                judgment: this.result.judgment
+            })
             archetypes.ComboNumberEffect.spawn({
-                j: this.result.judgment,
-                t: time.now,
+                time: time.now,
+                judgment: this.result.judgment
             })
             archetypes.ComboNumberGlow.spawn({
-                j: this.result.judgment,
-                t: time.now,
+                time: time.now,
+                judgment: this.result.judgment
+            })
+            archetypes.ComboLabel.spawn({
+                time: time.now,
+                judgment: this.result.judgment
             })
         }
     }

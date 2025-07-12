@@ -2,50 +2,67 @@ import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
 
-export class JudgmentText extends SpawnableArchetype({
-    t: Number,
-    j: DataType,
-}) {
-    endTime = this.entityMemory(Number)
+export class JudgmentText extends SpawnableArchetype({}) {
+    preprocessOrder = 5
+    check = this.entityMemory(Boolean)
+    head = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
-    combo = levelMemory(Number)
-    comboc = this.entityMemory(Number)
-    check = this.entityMemory(Boolean)
-    ratio = this.entityMemory(Number)
+    customCombo = this.defineSharedMemory({
+        value: Number,
+        time: Number,
+        scaledTime: Number,
+        length: Number,
+        start: Number,
+        combo: Number,
+        judgment: DataType,
+        tail: Number,
+        ap: Boolean,
+        accuracy: Number,
+    })
     initialize() {
-        this.endTime = this.spawnData.t + 0.5
-        this.z = getZ(layer.judgment, -this.spawnData.t, 0)
+        this.z = getZ(layer.judgment, 0, 0)
+        this.head = this.customCombo.get(0).start
     }
     spawnTime() {
-        return timeScaleChanges.at(this.spawnData.t).scaledTime
+        return -999999
     }
     despawnTime() {
-        if (this.check == true && this.comboc != this.combo)
-            return timeScaleChanges.at(bpmChanges.at(time.now).time).scaledTime
-        else return timeScaleChanges.at(this.spawnData.t + 0.5).scaledTime
+        return 999999
     }
     updateParallel() {
-        if (this.check == true && this.comboc != this.combo) {
-            this.despawnTime
-            return
+        if (time.skip) {
+            let ptr = this.customCombo.get(0).start
+            const tail = this.customCombo.get(0).tail
+            while (ptr != tail) {
+                const currentNodeTime = this.customCombo.get(ptr).time
+                if (currentNodeTime > time.now) {
+                    this.head = ptr
+                    this.check = true
+                    break
+                }
+                ptr = this.customCombo.get(ptr).value
+            }
         }
+        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
+            this.head = this.customCombo.get(0).start
+            this.check = false
+        }
+        while (time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time) {
+            this.head = this.customCombo.get(this.head).value
+            this.check = true
+        }
+        if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
+        if (this.customCombo.get(this.head).time + 1 < time.now) return
+        const t = this.customCombo.get(this.head).time
         const h = 0.1 * ui.configuration.judgment.scale
         const w = h * 25.5
         const centerX = 0
         const centerY = 0.78
-        const s = Math.ease(
-            'Out',
-            'Cubic',
-            Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)),
-        )
+        const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.066, time.now)))
         const a =
             ui.configuration.judgment.alpha *
-            Math.ease(
-                'Out',
-                'Cubic',
-                Math.min(1, Math.unlerp(this.spawnData.t, this.spawnData.t + 0.066, time.now)),
-            )
+            Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.066, time.now)))
         NormalLayout({
             l: centerX - (w * s) / 2,
             r: centerX + (w * s) / 2,
@@ -53,7 +70,7 @@ export class JudgmentText extends SpawnableArchetype({
             b: centerY + (h * s) / 2,
         }).copyTo(this.layout)
         if (replay.isReplay) {
-            switch (this.spawnData.j) {
+            switch (this.customCombo.get(this.head).judgment) {
                 case Judgment.Perfect:
                     skin.sprites.perfect.draw(this.layout, this.z, a)
                     break
@@ -71,15 +88,5 @@ export class JudgmentText extends SpawnableArchetype({
             if (options.auto) skin.sprites.auto.draw(this.layout, this.z, a)
             else skin.sprites.perfect.draw(this.layout, this.z, a)
         }
-    }
-    updateSequential() {
-        if (!this.check) {
-            this.combo += 1
-            this.comboc = this.combo
-        }
-        this.check = true
-    }
-    terminate() {
-        this.check = false
     }
 }

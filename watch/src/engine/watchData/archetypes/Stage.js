@@ -9,16 +9,18 @@ import { layer, skin } from '../skin.js'
 import { archetypes } from './index.js'
 export class Stage extends Archetype {
     preprocessOrder = 3
-    entityArray = this.defineSharedMemory({
+    customCombo = this.defineSharedMemory({
         value: Number,
+        time: Number,
         scaledTime: Number,
         length: Number,
         start: Number,
         combo: Number,
-        Judgment: DataType,
+        judgment: DataType,
         tail: Number,
         ap: Boolean,
-        time: Number,
+        accuracy: Number,
+        accuracyTime: Number,
     })
     ap = this.entityMemory(Boolean)
     cache = this.entityMemory(Tuple(32, Number))
@@ -59,30 +61,30 @@ export class Stage extends Archetype {
         const w = ((2048 / 1420) * 12) / 2
         const h = 1176 / 850
         const layout = new Rect({ l: -w, r: w, t: lane.t, b: lane.t + h })
-        skin.sprites.sekaiStage.draw(layout, layer.stage, !options.stage ? 0 : 1)
+        skin.sprites.sekaiStage.draw(layout, layer.stage, !options.showLane ? 0 : 1)
     }
     drawFallbackStage() {
         skin.sprites.stageLeftBorder.draw(
             perspectiveLayout({ l: -6.5, r: -6, b: lane.b, t: lane.t }),
             layer.stage,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
         skin.sprites.stageRightBorder.draw(
             perspectiveLayout({ l: 6, r: 6.5, b: lane.b, t: lane.t }),
             layer.stage,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
         for (let i = 0; i < 6; i++) {
             skin.sprites.lane.draw(
                 perspectiveLayout({ l: i * 2 - 6, r: i * 2 - 4, b: lane.b, t: lane.t }),
                 layer.stage,
-                !options.stage ? 0 : 1,
+                !options.showLane ? 0 : 1,
             )
         }
         skin.sprites.judgmentLine.draw(
             perspectiveLayout({ l: -6, r: 6, b: 1 + note.h, t: 1 - note.h }),
             layer.judgmentLine,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
     }
     drawStageCover() {
@@ -95,7 +97,7 @@ export class Stage extends Archetype {
                 b: Math.lerp(lane.t, 1, options.stageCover),
             }),
             layer.cover,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
     }
     preprocess() {
@@ -108,6 +110,20 @@ export class Stage extends Archetype {
                     effect.clips.stage.schedule(newKey, sfxDistance)
                     key = newKey
                 }
+            }
+        }
+        if (options.customJudgment) {
+            archetypes.JudgmentText.spawn({})
+            if (options.fastLate && replay.isReplay) {
+                archetypes.JudgmentAccuracy.spawn({})
+            }
+        }
+        if (options.customCombo) {
+            if (!options.autoCombo || replay.isReplay) {
+                archetypes.ComboNumber.spawn({})
+                archetypes.ComboNumberGlow.spawn({})
+                archetypes.ComboNumberEffect.spawn({})
+                archetypes.ComboLabel.spawn({})
             }
         }
         let entityCount = 0
@@ -145,14 +161,14 @@ export class Stage extends Archetype {
                 archetypeIndex == archetypes.CriticalAttachedSlideTickNote.index
             ) {
                 lineLength += 1
-                this.entityArray.get(ii).value = next
+                this.customCombo.get(ii).value = next
                 next = ii
             }
         }
         let currentEntity = next
         for (let i = 0; i < lineLength; i++) {
             let currentHead = currentEntity
-            currentEntity = this.entityArray.get(currentEntity).value
+            currentEntity = this.customCombo.get(currentEntity).value
             for (let j = 0; j < 32; j++) {
                 if (this.cache.get(j) == 0) {
                     this.cache.set(j, currentHead)
@@ -181,31 +197,28 @@ export class Stage extends Archetype {
             head = this.merge(A, B, Asize, Bsize)
             currentLen = Asize + Bsize
         }
-        this.entityArray.get(0).start = head
-        this.entityArray.get(0).length = lineLength
+        this.customCombo.get(0).start = head
+        this.customCombo.get(0).length = lineLength
         let idx = 0
         let ptr = head
         let combo = 0
         while (
             idx < lineLength &&
-            ptr != this.entityArray.get(this.entityArray.get(0).tail).value
+            ptr != this.customCombo.get(this.customCombo.get(0).tail).value
         ) {
-            if (
-                replay.isReplay &&
-                (this.entityArray.get(ptr).Judgment != Judgment.Perfect || this.ap == true)
-            ) {
-                this.entityArray.get(ptr).ap = true
+            if ((replay.isReplay && this.customCombo.get(ptr).ap == true) || this.ap == true) {
                 this.ap = true
+                this.customCombo.get(ptr).ap = true
             }
             if (
                 replay.isReplay &&
-                (this.entityArray.get(ptr).Judgment == Judgment.Good ||
-                    this.entityArray.get(ptr).Judgment == Judgment.Miss)
+                (this.customCombo.get(ptr).judgment == Judgment.Good ||
+                    this.customCombo.get(ptr).judgment == Judgment.Miss)
             )
                 combo = 0
             else combo += 1
-            this.entityArray.get(ptr).combo = combo
-            ptr = this.entityArray.get(ptr).value
+            this.customCombo.get(ptr).combo = combo
+            ptr = this.customCombo.get(ptr).value
             idx++
         }
     }
@@ -214,48 +227,48 @@ export class Stage extends Archetype {
         let Blen = 0
         let A = a
         let B = b
-        let newHead = this.entityArray.get(A).time > this.entityArray.get(B).time ? B : A
+        let newHead = this.customCombo.get(A).time > this.customCombo.get(B).time ? B : A
         let pointer = newHead
-        if (this.entityArray.get(A).time > this.entityArray.get(B).time) {
+        if (this.customCombo.get(A).time > this.customCombo.get(B).time) {
             Blen += 1
-            B = this.entityArray.get(B).value
+            B = this.customCombo.get(B).value
         } else {
             Alen += 1
-            A = this.entityArray.get(A).value
+            A = this.customCombo.get(A).value
         }
         while (Alen < Asize && Blen < Bsize) {
-            if (this.entityArray.get(A).time > this.entityArray.get(B).time) {
-                this.entityArray.get(pointer).value = B
+            if (this.customCombo.get(A).time > this.customCombo.get(B).time) {
+                this.customCombo.get(pointer).value = B
                 pointer = B
-                B = this.entityArray.get(B).value
+                B = this.customCombo.get(B).value
                 Blen += 1
             } else {
-                this.entityArray.get(pointer).value = A
+                this.customCombo.get(pointer).value = A
                 pointer = A
-                A = this.entityArray.get(A).value
+                A = this.customCombo.get(A).value
                 Alen += 1
             }
         }
         if (Alen < Asize) {
-            this.entityArray.get(pointer).value = A
+            this.customCombo.get(pointer).value = A
             // 마지막 노드 찾기
             while (Alen < Asize) {
                 pointer = A
-                A = this.entityArray.get(A).value
+                A = this.customCombo.get(A).value
                 Alen += 1
             }
         }
         if (Blen < Bsize) {
-            this.entityArray.get(pointer).value = B
+            this.customCombo.get(pointer).value = B
             // 마지막 노드 찾기
             while (Blen < Bsize) {
                 pointer = B
-                B = this.entityArray.get(B).value
+                B = this.customCombo.get(B).value
                 Blen += 1
             }
         }
-        this.entityArray.get(pointer).value = -1
-        this.entityArray.get(0).tail = pointer
+        this.customCombo.get(pointer).value = -1
+        this.customCombo.get(0).tail = pointer
         return newHead
     }
 }

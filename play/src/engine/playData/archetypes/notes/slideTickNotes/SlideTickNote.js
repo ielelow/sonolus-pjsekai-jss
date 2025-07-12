@@ -40,20 +40,36 @@ export class SlideTickNote extends Note {
         this.playHitEffects()
         this.despawn = true
     }
-    playHitEffects() {}
+    playHitEffects() { }
     terminate() {
-        if (options.customJudgment) {
-            archetypes.JudgmentText.spawn({ j: this.result.judgment, t: time.now })
-        }
+        if (options.customJudgment) archetypes.JudgmentText.spawn({
+            time: time.now,
+            judgment: this.result.judgment
+        })
+        if (options.fastLate) archetypes.JudgmentAccuracy.spawn({
+            time: time.now,
+            judgment: this.result.judgment,
+            accuracy: 0,
+            min: 0,
+            max: 0,
+            flick: false
+        })
         if (options.customCombo) {
-            archetypes.ComboNumber.spawn({ j: this.result.judgment, t: time.now })
+            archetypes.ComboNumber.spawn({
+                time: time.now,
+                judgment: this.result.judgment
+            })
             archetypes.ComboNumberEffect.spawn({
-                j: this.result.judgment,
-                t: time.now,
+                time: time.now,
+                judgment: this.result.judgment
             })
             archetypes.ComboNumberGlow.spawn({
-                j: this.result.judgment,
-                t: time.now,
+                time: time.now,
+                judgment: this.result.judgment
+            })
+            archetypes.ComboLabel.spawn({
+                time: time.now,
+                judgment: this.result.judgment
             })
         }
     }
