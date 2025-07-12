@@ -20,6 +20,10 @@ export class JudgmentAccuracy extends SpawnableArchetype({
         this.z = getZ(layer.judgment, 0, 0)
     }
     updateParallel() {
+        if (this.spawnData.judgment == Judgment.Perfect || this.spawnData.judgment == Judgment.Miss) {
+            this.despawn = true
+            return
+        }
         if (this.combo != this.comboCheck) {
             this.despawn = true
             return
@@ -57,6 +61,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({
     updateSequential() {
         if (this.check) return
         this.check = true
+        if (this.spawnData.judgment == Judgment.Perfect || this.spawnData.judgment == Judgment.Miss) return
         this.comboCheck += 1
         this.combo = this.comboCheck
         if (this.spawnData.judgment == Judgment.Great || this.spawnData.judgment == Judgment.Good) {
@@ -68,5 +73,6 @@ export class JudgmentAccuracy extends SpawnableArchetype({
     terminate() {
         this.check = false
         this.combo = 0
+        this.accuracy = 0
     }
 }
