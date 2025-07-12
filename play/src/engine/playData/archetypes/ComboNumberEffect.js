@@ -1,21 +1,29 @@
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
-import { archetypes } from './index.js'
 export class ComboNumberEffect extends SpawnableArchetype({
+    time: Number,
+    judgment: Number
 }) {
-    endTime = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
-    AP = levelMemory(Boolean)
+    check = this.entityMemory(Boolean)
+    combo = this.entityMemory(Number)
+    comboCheck = levelMemory(Number)
+    ap = levelMemory(Boolean)
     initialize() {
-        this.endTime = 999999
-        this.z = getZ(layer.judgment, 0, 0)
+        this.z = getZ(layer.judgment, this.spawnData.time, 0)
     }
     updateParallel() {
-        if (this.customCombo.combo == 0)
+        if (this.combo != this.comboCheck) {
+            this.despawn = true
             return
-        const c = this.customCombo.combo
+        }
+        if (this.combo == 0) {
+            this.despawn = true
+            return
+        }
+        const c = this.combo
         const digits = [
             Math.floor(c / 1000) % 10,
             Math.floor(c / 100) % 10,
@@ -38,17 +46,25 @@ export class ComboNumberEffect extends SpawnableArchetype({
                 'Cubic',
                 Math.min(
                     1,
-                    Math.unlerp(this.customCombo.time + 0.1, this.customCombo.time + 0.15, time.now),
+                    Math.unlerp(
+                        this.spawnData.time + 0.1,
+                        this.spawnData.time + 0.15,
+                        time.now,
+                    ),
                 ),
             )
         const a =
-            time.now >= this.customCombo.time + 0.1
+            time.now >= this.spawnData.time + 0.1
                 ? 0.45 *
                 ui.configuration.combo.alpha *
                 Math.ease(
                     'Out',
                     'Cubic',
-                    Math.unlerp(this.customCombo.time + 0.15, this.customCombo.time + 0.1, time.now),
+                    Math.unlerp(
+                        this.spawnData.time + 0.15,
+                        this.spawnData.time + 0.1,
+                        time.now,
+                    ),
                 )
                 : 0
         const digitWidth = h * 0.773 * 6.65
@@ -147,7 +163,7 @@ export class ComboNumberEffect extends SpawnableArchetype({
         }
     }
     drawDigit(digit, layout, z, a, skin) {
-        if (this.customCombo.ap || !options.ap) {
+        if (this.ap || !options.ap) {
             switch (digit) {
                 case 0:
                     skin.sprites.c0.draw(layout, z, a)
@@ -215,7 +231,22 @@ export class ComboNumberEffect extends SpawnableArchetype({
             }
         }
     }
-    get customCombo() {
-        return archetypes.Stage.customCombo.get(0)
+    updateSequential() {
+        if (this.check) return
+        this.check = true
+        if (this.spawnData.judgment == Judgment.Good || this.spawnData.judgment == Judgment.Miss) {
+            this.comboCheck = 0
+            this.combo = this.comboCheck
+        }
+        else {
+            this.comboCheck += 1
+            this.combo = this.comboCheck
+        }
+        if (this.spawnData.judgment != Judgment.Perfect)
+            this.ap = true
+    }
+    terminate() {
+        this.check = false
+        this.combo = 0
     }
 }

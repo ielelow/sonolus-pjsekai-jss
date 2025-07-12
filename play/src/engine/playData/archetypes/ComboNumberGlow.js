@@ -2,18 +2,29 @@ import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
 import { archetypes } from './index.js'
-export class ComboNumberGlow extends SpawnableArchetype({}) {
-    endTime = this.entityMemory(Number)
+export class ComboNumberGlow extends SpawnableArchetype({
+    time: Number,
+    judgment: Number
+}) {
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
+    check = this.entityMemory(Boolean)
+    combo = this.entityMemory(Number)
+    comboCheck = levelMemory(Number)
+    ap = levelMemory(Boolean)
     initialize() {
-        this.endTime = 999999
-        this.z = getZ(layer.judgment + 1, 0, 0)
+        this.z = getZ(layer.judgment + 1, this.spawnData.time, 0)
     }
     updateParallel() {
-        if (this.customCombo.combo == 0)
+        if (this.combo != this.comboCheck) {
+            this.despawn = true
             return
-        const c = this.customCombo.combo
+        }
+        if (this.combo == 0) {
+            this.despawn = true
+            return
+        }
+        const c = this.combo
         const digits = [
             Math.floor(c / 1000) % 10,
             Math.floor(c / 100) % 10,
@@ -34,7 +45,10 @@ export class ComboNumberGlow extends SpawnableArchetype({}) {
             Math.ease(
                 'Out',
                 'Cubic',
-                Math.min(1, Math.unlerp(this.customCombo.time, this.customCombo.time + 0.15, time.now)),
+                Math.min(
+                    1,
+                    Math.unlerp(this.spawnData.time, this.spawnData.time + 0.15, time.now),
+                ),
             )
         const a = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const digitWidth = h * 0.773 * 6.65
@@ -133,7 +147,7 @@ export class ComboNumberGlow extends SpawnableArchetype({}) {
         }
     }
     drawDigit(digit, layout, z, a) {
-        if (!this.customCombo.ap && options.ap) {
+        if (!this.ap && options.ap) {
             switch (digit) {
                 case 0:
                     skin.sprites.glow0.draw(layout, z, a)
@@ -168,7 +182,22 @@ export class ComboNumberGlow extends SpawnableArchetype({}) {
             }
         }
     }
-    get customCombo() {
-        return archetypes.Stage.customCombo.get(0)
+    updateSequential() {
+        if (this.check) return
+        this.check = true
+        if (this.spawnData.judgment == Judgment.Good || this.spawnData.judgment == Judgment.Miss) {
+            this.comboCheck = 0
+            this.combo = this.comboCheck
+        }
+        else {
+            this.comboCheck += 1
+            this.combo = this.comboCheck
+        }
+        if (this.spawnData.judgment != Judgment.Perfect)
+            this.ap = true
+    }
+    terminate() {
+        this.check = false
+        this.combo = 0
     }
 }

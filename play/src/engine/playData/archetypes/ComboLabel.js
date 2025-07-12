@@ -2,16 +2,29 @@ import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { getZ, layer, skin } from '../skin.js'
 import { options } from '../../configuration/options.js'
 import { archetypes } from './index.js'
-export class ComboLabel extends SpawnableArchetype({}) {
-    endTime = this.entityMemory(Number)
+export class ComboLabel extends SpawnableArchetype({
+    time: Number,
+    judgment: Number
+}) {
     z = this.entityMemory(Number)
     z2 = this.entityMemory(Number)
+    check = this.entityMemory(Boolean)
+    comboCheck = levelMemory(Number)
+    combo = this.entityMemory(Number)
+    ap = levelMemory(Boolean)
     initialize() {
-        this.endTime = 999999
-        this.z = getZ(layer.judgment, 0, 0)
-        this.z2 = getZ(layer.judgment - 1, 0, 0)
+        this.z = getZ(layer.judgment, this.spawnData.time, 0)
+        this.z2 = getZ(layer.judgment - 1, this.spawnData.time, 0)
     }
     updateParallel() {
+        if (this.combo != this.comboCheck) {
+            this.despawn = true
+            return
+        }
+        if (this.combo == 0) {
+            this.despawn = true
+            return
+        }
         const h = 0.0425 * ui.configuration.combo.scale
         const w = h * 3.22 * 6.65
         const hg = 0.06 * ui.configuration.combo.scale
@@ -32,16 +45,27 @@ export class ComboLabel extends SpawnableArchetype({}) {
             t: centerY - hg / 2,
             b: centerY + hg / 2,
         })
-        if (this.customCombo.combo == 0)
-            return
-        else if (this.customCombo.ap || !options.ap)
-            skin.sprites.combo.draw(layout, this.z, a)
+        if (this.ap || !options.ap) skin.sprites.combo.draw(layout, this.z, a)
         else {
             skin.sprites.apCombo.draw(layout, this.z, a)
             skin.sprites.glowCombo.draw(glow, this.z2, a2)
         }
     }
-    get customCombo() {
-        return archetypes.Stage.customCombo.get(0)
+    updateSequential() {
+        if (this.check) return
+        this.check = true
+        if (this.spawnData.judgment == Judgment.Miss) {
+            this.comboCheck = 0
+            this.combo = this.comboCheck
+        }
+        else {
+            this.comboCheck += 1
+            this.combo = this.comboCheck
+        }
+        if (this.spawnData.judgment != Judgment.Perfect)
+            this.ap = true
+    }
+    terminate() {
+        this.check = false
     }
 }

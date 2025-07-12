@@ -42,13 +42,35 @@ export class SlideTickNote extends Note {
     }
     playHitEffects() { }
     terminate() {
-        if (options.customJudgment || options.customJudgment)
-            archetypes.ComboManager.spawn({
-                judgment: this.result.judgment,
-                flick: this.sharedMemory.get(this.info.index).flick,
-                accuracy: this.result.accuracy,
-                fast: 0,
-                late: 0,
+        if (options.customJudgment) archetypes.JudgmentText.spawn({
+            time: time.now,
+            judgment: this.result.judgment
+        })
+        if (options.fastLate) archetypes.JudgmentAccuracy.spawn({
+            time: time.now,
+            judgment: this.result.judgment,
+            accuracy: 0,
+            min: 0,
+            max: 0,
+            flick: false
+        })
+        if (options.customCombo) {
+            archetypes.ComboNumber.spawn({
+                time: time.now,
+                judgment: this.result.judgment
             })
+            archetypes.ComboNumberEffect.spawn({
+                time: time.now,
+                judgment: this.result.judgment
+            })
+            archetypes.ComboNumberGlow.spawn({
+                time: time.now,
+                judgment: this.result.judgment
+            })
+            archetypes.ComboLabel.spawn({
+                time: time.now,
+                judgment: this.result.judgment
+            })
+        }
     }
 }

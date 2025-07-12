@@ -255,9 +255,9 @@ export class ActiveSlideConnector extends SlideConnector {
                 //None
             } else if (
                 entityInfos.get(this.import.startRef).archetype ===
-                archetypes.NormalSlideStartNote.index ||
+                    archetypes.NormalSlideStartNote.index ||
                 entityInfos.get(this.import.startRef).archetype ===
-                archetypes.CriticalSlideStartNote.index
+                    archetypes.CriticalSlideStartNote.index
             ) {
                 this.slideSprites.left.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1)
                 this.slideSprites.middle.draw(

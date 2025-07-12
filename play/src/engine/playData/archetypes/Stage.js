@@ -7,16 +7,7 @@ import { particle } from '../particle.js'
 import { scaledScreen } from '../scaledScreen.js'
 import { layer, skin } from '../skin.js'
 import { canEmpty } from './InputManager.js'
-import { archetypes } from './index.js'
 export class Stage extends Archetype {
-    customCombo = this.defineSharedMemory({
-        accuracy: Number,
-        combo: Number,
-        judgment: Number,
-        time: Number,
-        ap: Boolean,
-        accuracyTime: Number,
-    })
     hitbox = this.entityMemory(Rect)
     spawnOrder() {
         return 1
@@ -26,16 +17,6 @@ export class Stage extends Archetype {
     }
     initialize() {
         new Rect(lane.hitbox).transform(skin.transform).copyTo(this.hitbox)
-        if (options.customJudgment)
-            archetypes.JudgmentText.spawn({})
-        if (options.fastLate)
-            archetypes.JudgmentAccuracy.spawn({})
-        if (options.customCombo) {
-            archetypes.ComboNumber.spawn({})
-            archetypes.ComboNumberEffect.spawn({})
-            archetypes.ComboNumberGlow.spawn({})
-            archetypes.ComboLabel.spawn({})
-        }
     }
     touchOrder = 2
     touch() {
@@ -91,30 +72,30 @@ export class Stage extends Archetype {
         const w = ((2048 / 1420) * 12) / 2
         const h = 1176 / 850
         const layout = new Rect({ l: -w, r: w, t: lane.t, b: lane.t + h })
-        skin.sprites.sekaiStage.draw(layout, layer.stage, !options.stage ? 0 : 1)
+        skin.sprites.sekaiStage.draw(layout, layer.stage, !options.showLane ? 0 : 1)
     }
     drawFallbackStage() {
         skin.sprites.stageLeftBorder.draw(
             perspectiveLayout({ l: -6.5, r: -6, b: lane.b, t: lane.t }),
             layer.stage,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
         skin.sprites.stageRightBorder.draw(
             perspectiveLayout({ l: 6, r: 6.5, b: lane.b, t: lane.t }),
             layer.stage,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
         for (let i = 0; i < 6; i++) {
             skin.sprites.lane.draw(
                 perspectiveLayout({ l: i * 2 - 6, r: i * 2 - 4, b: lane.b, t: lane.t }),
                 layer.stage,
-                !options.stage ? 0 : 1,
+                !options.showLane ? 0 : 1,
             )
         }
         skin.sprites.judgmentLine.draw(
             perspectiveLayout({ l: -6, r: 6, b: 1 + note.h, t: 1 - note.h }),
             layer.judgmentLine,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
     }
     drawStageCover() {
@@ -127,7 +108,7 @@ export class Stage extends Archetype {
                 b: Math.lerp(lane.t, 1, options.stageCover),
             }),
             layer.cover,
-            !options.stage ? 0 : 1,
+            !options.showLane ? 0 : 1,
         )
     }
 }
