@@ -47,7 +47,7 @@ export class ComboNumber extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(0).start
             this.check = false
         }
-        while (time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time) {
+        while (time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time && this.head != this.customCombo.get(0).tail) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }
@@ -77,7 +77,7 @@ export class ComboNumber extends SpawnableArchetype({}) {
                 ui.configuration.combo.alpha *
                 (0.6 +
                     0.4 *
-                        Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.15, time.now))))
+                    Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.15, time.now))))
             const digitWidth = h * 0.773 * 6.65
             const digitGap = digitWidth * options.comboDistance
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
