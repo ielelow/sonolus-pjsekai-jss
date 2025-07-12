@@ -54,7 +54,7 @@ export class ComboLabel extends SpawnableArchetype({
     updateSequential() {
         if (this.check) return
         this.check = true
-        if (this.spawnData.judgment == Judgment.Miss) {
+        if (this.spawnData.judgment == Judgment.Miss || this.spawnData.judgment == Judgment.Good) {
             this.comboCheck = 0
             this.combo = this.comboCheck
         }
