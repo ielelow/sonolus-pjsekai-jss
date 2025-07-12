@@ -4,7 +4,7 @@ import { options } from '../../configuration/options.js'
 import { archetypes } from './index.js'
 export class ComboLabel extends SpawnableArchetype({
     time: Number,
-    judgment: Number
+    judgment: Number,
 }) {
     z = this.entityMemory(Number)
     z2 = this.entityMemory(Number)
@@ -58,13 +58,11 @@ export class ComboLabel extends SpawnableArchetype({
         if (this.spawnData.judgment == Judgment.Miss || this.spawnData.judgment == Judgment.Good) {
             this.comboCheck = 0
             this.combo = this.comboCheck
-        }
-        else {
+        } else {
             this.comboCheck += 1
             this.combo = this.comboCheck
         }
-        if (this.spawnData.judgment != Judgment.Perfect)
-            this.ap = true
+        if (this.spawnData.judgment != Judgment.Perfect) this.ap = true
     }
     terminate() {
         this.check = false

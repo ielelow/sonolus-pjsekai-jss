@@ -8,7 +8,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({
     accuracy: Number,
     min: Number,
     max: Number,
-    flick: Boolean
+    flick: Boolean,
 }) {
     layout = this.entityMemory(Quad)
     accuracy = this.entityMemory(Number)
@@ -42,7 +42,10 @@ export class JudgmentAccuracy extends SpawnableArchetype({
             Math.ease(
                 'Out',
                 'Cubic',
-                Math.min(1, Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now)),
+                Math.min(
+                    1,
+                    Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now),
+                ),
             )
         NormalLayout({
             l: centerX - (w * s) / 2,

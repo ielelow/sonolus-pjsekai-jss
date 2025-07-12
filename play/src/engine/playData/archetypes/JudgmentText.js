@@ -4,7 +4,7 @@ import { archetypes } from './index.js'
 
 export class JudgmentText extends SpawnableArchetype({
     time: Number,
-    judgment: Number
+    judgment: Number,
 }) {
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
@@ -30,10 +30,7 @@ export class JudgmentText extends SpawnableArchetype({
         const s = Math.ease(
             'Out',
             'Cubic',
-            Math.min(
-                1,
-                Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now),
-            ),
+            Math.min(1, Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now)),
         )
         const a =
             ui.configuration.judgment.alpha *

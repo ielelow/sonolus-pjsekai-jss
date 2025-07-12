@@ -47,7 +47,10 @@ export class ComboNumberGlow extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(0).start
             this.check = false
         }
-        while (time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time && this.head != this.customCombo.get(0).tail) {
+        while (
+            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
+            this.head != this.customCombo.get(0).tail
+        ) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }

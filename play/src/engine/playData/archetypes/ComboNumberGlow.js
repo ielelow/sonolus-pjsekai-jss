@@ -4,7 +4,7 @@ import { getZ, layer, skin } from '../skin.js'
 import { archetypes } from './index.js'
 export class ComboNumberGlow extends SpawnableArchetype({
     time: Number,
-    judgment: Number
+    judgment: Number,
 }) {
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
@@ -43,14 +43,14 @@ export class ComboNumberGlow extends SpawnableArchetype({
         const s =
             0.6 +
             0.4 *
-            Math.ease(
-                'Out',
-                'Cubic',
-                Math.min(
-                    1,
-                    Math.unlerp(this.spawnData.time, this.spawnData.time + 0.15, time.now),
-                ),
-            )
+                Math.ease(
+                    'Out',
+                    'Cubic',
+                    Math.min(
+                        1,
+                        Math.unlerp(this.spawnData.time, this.spawnData.time + 0.15, time.now),
+                    ),
+                )
         const a = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const digitGap = digitWidth * options.comboDistance
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
@@ -188,13 +188,11 @@ export class ComboNumberGlow extends SpawnableArchetype({
         if (this.spawnData.judgment == Judgment.Good || this.spawnData.judgment == Judgment.Miss) {
             this.comboCheck = 0
             this.combo = this.comboCheck
-        }
-        else {
+        } else {
             this.comboCheck += 1
             this.combo = this.comboCheck
         }
-        if (this.spawnData.judgment != Judgment.Perfect)
-            this.ap = true
+        if (this.spawnData.judgment != Judgment.Perfect) this.ap = true
     }
     terminate() {
         this.check = false

@@ -47,7 +47,10 @@ export class ComboNumber extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(0).start
             this.check = false
         }
-        while (time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time && this.head != this.customCombo.get(0).tail) {
+        while (
+            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
+            this.head != this.customCombo.get(0).tail
+        ) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }
@@ -71,13 +74,14 @@ export class ComboNumber extends SpawnableArchetype({}) {
             const centerX = 5.337
             const centerY = 0.585
             // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
-            const s = 0.6 +
+            const s =
+                0.6 +
                 0.4 * Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.15, time.now)))
             const a =
                 ui.configuration.combo.alpha *
                 (0.6 +
                     0.4 *
-                    Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.15, time.now))))
+                        Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.15, time.now))))
             const digitGap = digitWidth * options.comboDistance
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
             const startX = centerX - totalWidth / 2

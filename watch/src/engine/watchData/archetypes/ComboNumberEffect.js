@@ -47,7 +47,10 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(0).start
             this.check = false
         }
-        while (time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time && this.head != this.customCombo.get(0).tail) {
+        while (
+            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
+            this.head != this.customCombo.get(0).tail
+        ) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }
@@ -74,12 +77,12 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
             const s =
                 0.7 +
                 0.3 *
-                Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t + 0.1, t + 0.15, time.now)))
+                    Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t + 0.1, t + 0.15, time.now)))
             const a =
                 time.now >= t + 0.1
                     ? 0.45 *
-                    ui.configuration.combo.alpha *
-                    Math.ease('Out', 'Cubic', Math.unlerp(t + 0.15, t + 0.1, time.now))
+                      ui.configuration.combo.alpha *
+                      Math.ease('Out', 'Cubic', Math.unlerp(t + 0.15, t + 0.1, time.now))
                     : 0
             const digitGap = digitWidth * (options.comboDistance - 0.17)
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap

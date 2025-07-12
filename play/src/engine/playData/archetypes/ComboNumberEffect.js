@@ -3,7 +3,7 @@ import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
 export class ComboNumberEffect extends SpawnableArchetype({
     time: Number,
-    judgment: Number
+    judgment: Number,
 }) {
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
@@ -42,31 +42,27 @@ export class ComboNumberEffect extends SpawnableArchetype({
         const s =
             0.7 +
             0.3 *
-            Math.ease(
-                'Out',
-                'Cubic',
-                Math.min(
-                    1,
-                    Math.unlerp(
-                        this.spawnData.time + 0.1,
-                        this.spawnData.time + 0.15,
-                        time.now,
-                    ),
-                ),
-            )
-        const a =
-            time.now >= this.spawnData.time + 0.1
-                ? 0.45 *
-                ui.configuration.combo.alpha *
                 Math.ease(
                     'Out',
                     'Cubic',
-                    Math.unlerp(
-                        this.spawnData.time + 0.15,
-                        this.spawnData.time + 0.1,
-                        time.now,
+                    Math.min(
+                        1,
+                        Math.unlerp(
+                            this.spawnData.time + 0.1,
+                            this.spawnData.time + 0.15,
+                            time.now,
+                        ),
                     ),
                 )
+        const a =
+            time.now >= this.spawnData.time + 0.1
+                ? 0.45 *
+                  ui.configuration.combo.alpha *
+                  Math.ease(
+                      'Out',
+                      'Cubic',
+                      Math.unlerp(this.spawnData.time + 0.15, this.spawnData.time + 0.1, time.now),
+                  )
                 : 0
         const digitGap = digitWidth * (options.comboDistance - 0.17)
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
@@ -237,13 +233,11 @@ export class ComboNumberEffect extends SpawnableArchetype({
         if (this.spawnData.judgment == Judgment.Good || this.spawnData.judgment == Judgment.Miss) {
             this.comboCheck = 0
             this.combo = this.comboCheck
-        }
-        else {
+        } else {
             this.comboCheck += 1
             this.combo = this.comboCheck
         }
-        if (this.spawnData.judgment != Judgment.Perfect)
-            this.ap = true
+        if (this.spawnData.judgment != Judgment.Perfect) this.ap = true
     }
     terminate() {
         this.check = false
