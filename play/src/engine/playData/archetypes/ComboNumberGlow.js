@@ -4,7 +4,7 @@ import { getZ, layer, skin } from '../skin.js'
 import { archetypes } from './index.js'
 export class ComboNumberGlow extends SpawnableArchetype({
     time: Number,
-    judgment: Number
+    judgment: Number,
 }) {
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
@@ -35,24 +35,24 @@ export class ComboNumberGlow extends SpawnableArchetype({
         if (digits[0] === 0) digitCount = 3
         if (digits[0] === 0 && digits[1] === 0) digitCount = 2
         if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1
-        const h = 0.14 * ui.configuration.combo.scale
-        const centerX = 5.45
+        const h = 0.13 * ui.configuration.combo.scale * 0.94
+        const digitWidth = h * 0.79 * 7
+        const centerX = 5.337
         const centerY = 0.585
         // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
         const s =
             0.6 +
             0.4 *
-            Math.ease(
-                'Out',
-                'Cubic',
-                Math.min(
-                    1,
-                    Math.unlerp(this.spawnData.time, this.spawnData.time + 0.15, time.now),
-                ),
-            )
+                Math.ease(
+                    'Out',
+                    'Cubic',
+                    Math.min(
+                        1,
+                        Math.unlerp(this.spawnData.time, this.spawnData.time + 0.15, time.now),
+                    ),
+                )
         const a = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
-        const digitWidth = h * 0.773 * 6.65
-        const digitGap = digitWidth * (options.comboDistance - 0.1)
+        const digitGap = digitWidth * options.comboDistance
         const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
         const startX = centerX - totalWidth / 2
         if (digitCount === 1) {
@@ -188,13 +188,11 @@ export class ComboNumberGlow extends SpawnableArchetype({
         if (this.spawnData.judgment == Judgment.Good || this.spawnData.judgment == Judgment.Miss) {
             this.comboCheck = 0
             this.combo = this.comboCheck
-        }
-        else {
+        } else {
             this.comboCheck += 1
             this.combo = this.comboCheck
         }
-        if (this.spawnData.judgment != Judgment.Perfect)
-            this.ap = true
+        if (this.spawnData.judgment != Judgment.Perfect) this.ap = true
     }
     terminate() {
         this.check = false

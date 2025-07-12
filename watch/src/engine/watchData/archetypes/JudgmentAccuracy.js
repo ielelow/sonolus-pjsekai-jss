@@ -48,7 +48,10 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(0).start
             this.check = false
         }
-        while (time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time && this.head != this.customCombo.get(0).tail) {
+        while (
+            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
+            this.head != this.customCombo.get(0).tail
+        ) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }
@@ -61,7 +64,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
         const h = 0.06 * ui.configuration.judgment.scale
         const w = h * 20
         const centerX = 0
-        const centerY = 0.72
+        const centerY = 0.73
         const s = Math.ease(
             'Out',
             'Cubic',

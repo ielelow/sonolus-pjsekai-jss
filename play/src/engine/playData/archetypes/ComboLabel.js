@@ -4,7 +4,7 @@ import { options } from '../../configuration/options.js'
 import { archetypes } from './index.js'
 export class ComboLabel extends SpawnableArchetype({
     time: Number,
-    judgment: Number
+    judgment: Number,
 }) {
     z = this.entityMemory(Number)
     z2 = this.entityMemory(Number)
@@ -25,12 +25,13 @@ export class ComboLabel extends SpawnableArchetype({
             this.despawn = true
             return
         }
-        const h = 0.0425 * ui.configuration.combo.scale
+        const h = 0.04225 * ui.configuration.combo.scale
         const w = h * 3.22 * 6.65
-        const hg = 0.06 * ui.configuration.combo.scale
+        const hg = 0.0475 * ui.configuration.combo.scale
         const wg = h * 3.22 * 8
-        const centerX = 5.45
-        const centerY = 0.48
+        const centerX = 5.337
+        const centerY = 0.485
+        const glowCenterY = 0.48
         const a = ui.configuration.combo.alpha
         const a2 = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const layout = NormalLayout({
@@ -42,8 +43,8 @@ export class ComboLabel extends SpawnableArchetype({
         const glow = NormalLayout({
             l: centerX - wg / 2,
             r: centerX + wg / 2,
-            t: centerY - hg / 2,
-            b: centerY + hg / 2,
+            t: glowCenterY - hg / 2,
+            b: glowCenterY + hg / 2,
         })
         if (this.ap || !options.ap) skin.sprites.combo.draw(layout, this.z, a)
         else {
@@ -54,16 +55,14 @@ export class ComboLabel extends SpawnableArchetype({
     updateSequential() {
         if (this.check) return
         this.check = true
-        if (this.spawnData.judgment == Judgment.Miss) {
+        if (this.spawnData.judgment == Judgment.Miss || this.spawnData.judgment == Judgment.Good) {
             this.comboCheck = 0
             this.combo = this.comboCheck
-        }
-        else {
+        } else {
             this.comboCheck += 1
             this.combo = this.comboCheck
         }
-        if (this.spawnData.judgment != Judgment.Perfect)
-            this.ap = true
+        if (this.spawnData.judgment != Judgment.Perfect) this.ap = true
     }
     terminate() {
         this.check = false

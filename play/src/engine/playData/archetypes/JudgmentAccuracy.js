@@ -8,7 +8,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({
     accuracy: Number,
     min: Number,
     max: Number,
-    flick: Boolean
+    flick: Boolean,
 }) {
     layout = this.entityMemory(Quad)
     accuracy = this.entityMemory(Number)
@@ -20,10 +20,6 @@ export class JudgmentAccuracy extends SpawnableArchetype({
         this.z = getZ(layer.judgment, 0, 0)
     }
     updateParallel() {
-        if (this.spawnData.judgment == Judgment.Perfect || this.spawnData.judgment == Judgment.Miss) {
-            this.despawn = true
-            return
-        }
         if (this.combo != this.comboCheck) {
             this.despawn = true
             return
@@ -35,7 +31,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({
         const h = 0.06 * ui.configuration.judgment.scale
         const w = h * 20
         const centerX = 0
-        const centerY = 0.72
+        const centerY = 0.73
         const s = Math.ease(
             'Out',
             'Cubic',
@@ -46,7 +42,10 @@ export class JudgmentAccuracy extends SpawnableArchetype({
             Math.ease(
                 'Out',
                 'Cubic',
-                Math.min(1, Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now)),
+                Math.min(
+                    1,
+                    Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now),
+                ),
             )
         NormalLayout({
             l: centerX - (w * s) / 2,
@@ -61,14 +60,13 @@ export class JudgmentAccuracy extends SpawnableArchetype({
     updateSequential() {
         if (this.check) return
         this.check = true
-        if (this.spawnData.judgment == Judgment.Perfect || this.spawnData.judgment == Judgment.Miss) return
         this.comboCheck += 1
         this.combo = this.comboCheck
         if (this.spawnData.judgment == Judgment.Great || this.spawnData.judgment == Judgment.Good) {
             if (this.spawnData.flick == true) this.accuracy = 3
             else if (this.spawnData.min > this.spawnData.accuracy) this.accuracy = 1
             else if (this.spawnData.max < this.spawnData.accuracy) this.accuracy = 2
-        } else this.accuracy = 0
+        }
     }
     terminate() {
         this.check = false
