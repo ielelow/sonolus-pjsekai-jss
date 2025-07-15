@@ -20,7 +20,6 @@ export class Stage extends Archetype {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
-        accuracyTime: Number,
     })
     ap = this.entityMemory(Boolean)
     cache = this.entityMemory(Tuple(32, Number))
