@@ -67,4 +67,7 @@ export class CriticalSlideEndFlickNote extends FlickNote {
             j: this.import.judgment,
         })
     }
+    get critical() {
+        return true
+    }
 }

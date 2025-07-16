@@ -54,7 +54,6 @@ export class CriticalFlickNote extends SingleFlickNote {
     get slotGlowEffect() {
         return archetypes.CriticalFlickSlotGlowEffect
     }
-
     playLaneEffects() {
         if (particle.effects.criticalFlickLane.exists) {
             this.check = true
@@ -75,5 +74,8 @@ export class CriticalFlickNote extends SingleFlickNote {
         super.touch()
         if (!this.check) return
         SharedLaneEffectUtils.playAndHandleLaneEffect(this, this.laneEffectId, this.laneEffectLane)
+    }
+    get critical() {
+        return true
     }
 }
