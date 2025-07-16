@@ -36,6 +36,14 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 0,
     },
+    version: {
+        name: 'Version',
+        description: 'Select version for effects and others',
+        scope: 'Sekai',
+        type: 'select',
+        def: 0,
+        values: ['v3', 'v1'],
+    },
     customCombo: {
         name: 'Using Sekai Combo',
         scope: 'Sekai',
@@ -175,12 +183,6 @@ export const optionsDefinition = {
         max: 2,
         step: 0.05,
         unit: Text.PercentageUnit,
-    },
-    simplifySlotA: {
-        name: 'Simplify Slot Animation',
-        scope: 'Sekai',
-        type: 'toggle',
-        def: 1,
     },
     optimize: {
         name: 'Performance Optimization(Not Working yet)',
