@@ -62,4 +62,7 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
             j: this.import.judgment,
         })
     }
+    get critical() {
+        return true
+    }
 }

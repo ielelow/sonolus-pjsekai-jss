@@ -52,7 +52,9 @@ export class CriticalFlickNote extends FlickNote {
     get slotGlowEffect() {
         return archetypes.CriticalFlickSlotGlowEffect
     }
-    playLaneEffects() {}
+    playLaneEffects() {
+        // none
+    }
     preprocess() {
         super.preprocess()
         const lane = this.import.lane
@@ -66,5 +68,8 @@ export class CriticalFlickNote extends FlickNote {
             t: t,
             j: this.import.judgment,
         })
+    }
+    get critical() {
+        return true
     }
 }

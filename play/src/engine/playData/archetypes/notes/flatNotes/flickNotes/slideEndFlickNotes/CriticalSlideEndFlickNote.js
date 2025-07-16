@@ -75,4 +75,7 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
         if (!this.check) return
         SharedLaneEffectUtils.playAndHandleLaneEffect(this, this.laneEffectId, this.laneEffectLane)
     }
+    get critical() {
+        return true
+    }
 }

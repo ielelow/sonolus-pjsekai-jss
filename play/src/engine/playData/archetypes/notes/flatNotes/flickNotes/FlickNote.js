@@ -5,6 +5,7 @@ import { linearEffectLayout } from '../../../../particle.js'
 import { scaledScreen } from '../../../../scaledScreen.js'
 import { getZ, layer, skin } from '../../../../skin.js'
 import { FlatNote } from '../FlatNote.js'
+import { archetypes } from '../../../index.js'
 export class FlickNote extends FlatNote {
     leniency = 1
     flickImport = this.defineImport({
@@ -97,7 +98,9 @@ export class FlickNote extends FlatNote {
         this.directionalEffect.spawn(
             linearEffectLayout({
                 lane: this.import.lane,
-                shear: this.flickImport.direction,
+                shear:
+                    (options.version == 1 ? (this.critical ? 2.5 : 1) : 1) *
+                    this.flickImport.direction,
             }),
             0.32,
             false,
@@ -107,5 +110,8 @@ export class FlickNote extends FlatNote {
         if (this.flickImport.direction === FlickDirection.Up) return true
         const a = Math.PI / 2 - this.flickImport.direction
         return touch.dx * Math.cos(a) + touch.dy * Math.sin(a) > 0
+    }
+    get critical() {
+        return false
     }
 }
