@@ -30,11 +30,15 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
         return 999999
     }
     updateParallel() {
+        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
+            this.head = this.customCombo.get(0).start
+            this.check = false
+        }
         if (time.skip) {
-            let ptr = this.customCombo.get(0).start
+            let ptr = this.customCombo.get(this.customCombo.get(0).start).value
             const tail = this.customCombo.get(0).tail
-            while (ptr != tail) {
-                const currentNodeTime = this.customCombo.get(ptr).time
+            while (ptr != tail && ptr != this.customCombo.get(0).start) {
+                const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
                 if (currentNodeTime > time.now) {
                     this.head = ptr
                     this.check = true
@@ -42,10 +46,6 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
                 }
                 ptr = this.customCombo.get(ptr).value
             }
-        }
-        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
-            this.head = this.customCombo.get(0).start
-            this.check = false
         }
         while (
             time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
@@ -77,12 +77,12 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
             const s =
                 0.7 +
                 0.3 *
-                    Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t + 0.1, t + 0.15, time.now)))
+                Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t + 0.1, t + 0.15, time.now)))
             const a =
                 time.now >= t + 0.1
                     ? 0.45 *
-                      ui.configuration.combo.alpha *
-                      Math.ease('Out', 'Cubic', Math.unlerp(t + 0.15, t + 0.1, time.now))
+                    ui.configuration.combo.alpha *
+                    Math.ease('Out', 'Cubic', Math.unlerp(t + 0.15, t + 0.1, time.now))
                     : 0
             const digitGap = digitWidth * (options.comboDistance - 0.17)
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
