@@ -56,6 +56,12 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    customDamage: {
+        name: 'Using Sekai Damage',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
     ap: {
         name: 'AP Effect',
         scope: 'Sekai',

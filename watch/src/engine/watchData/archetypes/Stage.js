@@ -20,6 +20,7 @@ export class Stage extends Archetype {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     ap = this.entityMemory(Boolean)
     cache = this.entityMemory(Tuple(32, Number))
@@ -111,6 +112,7 @@ export class Stage extends Archetype {
                 }
             }
         }
+        if (options.customDamage && replay.isReplay) archetypes.Damage.spawn({})
         if (options.customJudgment) {
             archetypes.JudgmentText.spawn({})
             if (options.fastLate && replay.isReplay) {

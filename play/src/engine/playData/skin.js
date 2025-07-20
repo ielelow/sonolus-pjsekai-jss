@@ -149,6 +149,7 @@ export const skin = defineSkin({
 export const layer = {
     cover: 1000,
     judgment: 1000,
+    damage: 500,
     slotGlowEffect: 200,
     connectorSlotGlowEffect: 190,
     note: {

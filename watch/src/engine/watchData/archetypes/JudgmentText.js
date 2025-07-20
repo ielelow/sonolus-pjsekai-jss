@@ -19,6 +19,7 @@ export class JudgmentText extends SpawnableArchetype({}) {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     initialize() {
         this.z = getZ(layer.judgment, 0, 0)
@@ -31,11 +32,15 @@ export class JudgmentText extends SpawnableArchetype({}) {
         return 999999
     }
     updateParallel() {
+        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
+            this.head = this.customCombo.get(0).start
+            this.check = false
+        }
         if (time.skip) {
-            let ptr = this.customCombo.get(0).start
+            let ptr = this.customCombo.get(this.customCombo.get(0).start).value
             const tail = this.customCombo.get(0).tail
-            while (ptr != tail) {
-                const currentNodeTime = this.customCombo.get(ptr).time
+            while (ptr != tail && ptr != this.customCombo.get(0).start) {
+                const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
                 if (currentNodeTime > time.now) {
                     this.head = ptr
                     this.check = true
@@ -43,10 +48,6 @@ export class JudgmentText extends SpawnableArchetype({}) {
                 }
                 ptr = this.customCombo.get(ptr).value
             }
-        }
-        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
-            this.head = this.customCombo.get(0).start
-            this.check = false
         }
         while (
             time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
@@ -81,7 +82,14 @@ export class JudgmentText extends SpawnableArchetype({}) {
                     skin.sprites.great.draw(this.layout, this.z, a)
                     break
                 case Judgment.Good:
-                    skin.sprites.good.draw(this.layout, this.z, a)
+                    if (
+                        (this.customCombo.get(this.head).accuracy >= 0.1083 &&
+                            this.customCombo.get(this.head).accuracy <= 0.125) ||
+                        (this.customCombo.get(this.head).accuracy <= -0.1083 &&
+                            this.customCombo.get(this.head).accuracy >= -0.125)
+                    )
+                        skin.sprites.bad.draw(this.layout, this.z, a)
+                    else skin.sprites.good.draw(this.layout, this.z, a)
                     break
                 case Judgment.Miss:
                     skin.sprites.miss.draw(this.layout, this.z, a)

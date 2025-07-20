@@ -5,6 +5,7 @@ import { archetypes } from './index.js'
 export class JudgmentText extends SpawnableArchetype({
     time: Number,
     judgment: Number,
+    accuracy: Number,
 }) {
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
@@ -56,7 +57,12 @@ export class JudgmentText extends SpawnableArchetype({
                 skin.sprites.great.draw(this.layout, this.z, a)
                 break
             case Judgment.Good:
-                skin.sprites.good.draw(this.layout, this.z, a)
+                if (
+                    (this.spawnData.accuracy >= 0.1083 && this.spawnData.accuracy <= 0.125) ||
+                    (this.spawnData.accuracy <= -0.1083 && this.spawnData.accuracy >= -0.125)
+                )
+                    skin.sprites.bad.draw(this.layout, this.z, a)
+                else skin.sprites.good.draw(this.layout, this.z, a)
                 break
             case Judgment.Miss:
                 skin.sprites.miss.draw(this.layout, this.z, a)

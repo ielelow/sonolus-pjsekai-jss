@@ -19,6 +19,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     spawnTime() {
         return -999999
@@ -31,11 +32,15 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
         this.head = this.customCombo.get(0).start
     }
     updateParallel() {
+        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
+            this.head = this.customCombo.get(0).start
+            this.check = false
+        }
         if (time.skip) {
-            let ptr = this.customCombo.get(0).start
+            let ptr = this.customCombo.get(this.customCombo.get(0).start).value
             const tail = this.customCombo.get(0).tail
-            while (ptr != tail) {
-                const currentNodeTime = this.customCombo.get(ptr).time
+            while (ptr != tail && ptr != this.customCombo.get(0).start) {
+                const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
                 if (currentNodeTime > time.now) {
                     this.head = ptr
                     this.check = true
@@ -44,10 +49,6 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
                 ptr = this.customCombo.get(ptr).value
             }
         }
-        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
-            this.head = this.customCombo.get(0).start
-            this.check = false
-        }
         while (
             time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
             this.head != this.customCombo.get(0).tail
@@ -55,9 +56,9 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }
-        if (this.customCombo.get(this.head).accuracy != 0) {
+        if (this.customCombo.get(this.head).fastLate != 0) {
             this.accuracyTime = this.customCombo.get(this.head).time
-            this.accuracy = this.customCombo.get(this.head).accuracy
+            this.accuracy = this.customCombo.get(this.head).fastLate
         }
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
         if (this.accuracyTime + 1 < time.now) return

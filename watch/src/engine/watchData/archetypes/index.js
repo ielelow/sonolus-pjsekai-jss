@@ -47,6 +47,7 @@ import { CriticalSlotGlowEffect } from './slotGlowEffects/CriticalSlotGlowEffect
 import { FlickSlotGlowEffect } from './slotGlowEffects/FlickSlotGlowEffect.js'
 import { NormalSlotGlowEffect } from './slotGlowEffects/NormalSlotGlowEffect.js'
 import { SlideSlotGlowEffect } from './slotGlowEffects/SlideSlotGlowEffect.js'
+import { Damage } from './Damage.js'
 export const archetypes = defineArchetypes({
     Initialization,
     Stage,
@@ -97,4 +98,5 @@ export const archetypes = defineArchetypes({
     ComboNumberGlow,
     ComboNumberEffect,
     SlideParticleManager,
+    Damage,
 })

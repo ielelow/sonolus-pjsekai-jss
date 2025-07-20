@@ -1,13 +1,13 @@
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
-import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
+import { scaledScreen } from '../scaledScreen.js'
 
-export class ComboLabel extends SpawnableArchetype({}) {
+export class Damage extends SpawnableArchetype({}) {
     preprocessOrder = 5
     check = this.entityMemory(Boolean)
     head = this.entityMemory(Number)
     z = this.entityMemory(Number)
-    z2 = this.entityMemory(Number)
+    missTime = this.entityMemory(Number)
     customCombo = this.defineSharedMemory({
         value: Number,
         time: Number,
@@ -19,11 +19,9 @@ export class ComboLabel extends SpawnableArchetype({}) {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
-        fastLate: Number,
     })
     initialize() {
-        this.z = getZ(layer.judgment, 0, 0)
-        this.z2 = getZ(layer.judgment - 1, 0, 0)
+        this.z = getZ(layer.damage, 0, 0)
         this.head = this.customCombo.get(0).start
     }
     spawnTime() {
@@ -57,24 +55,40 @@ export class ComboLabel extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }
-        if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
-        if (this.customCombo.get(this.head).combo == 0) return
-        const h = 0.04225 * ui.configuration.combo.scale
-        const w = h * 3.22 * 6.65
-        const centerX = 5.337
-        const centerY = 0.485
-        const a = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
-        const layout = NormalLayout({
-            l: centerX - w / 2,
-            r: centerX + w / 2,
-            t: centerY - h / 2,
-            b: centerY + h / 2,
-        })
-        if (this.customCombo.get(this.head).ap == true || !options.ap)
-            skin.sprites.combo.draw(layout, this.z, 1)
-        else {
-            skin.sprites.apCombo.draw(layout, this.z, 1)
-            skin.sprites.glowCombo.draw(layout, this.z2, a)
+        if (this.customCombo.get(this.head).judgment == Judgment.Miss) {
+            this.missTime = this.customCombo.get(this.head).time
         }
+        if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
+        if (this.missTime + 0.35 < time.now) return
+        const t = Math.unlerp(this.missTime, this.missTime + 0.35, time.now)
+        const a = 0.768 * Math.pow(t, 0.1) * Math.pow(1 - t, 1.35)
+        const layout1 = NormalLayout({
+            l: scaledScreen.l,
+            r: 0,
+            t: scaledScreen.t + scaledScreen.wToH,
+            b: scaledScreen.b + scaledScreen.wToH,
+        })
+        const layout2 = NormalLayout({
+            l: -scaledScreen.l,
+            r: 0,
+            t: scaledScreen.t + scaledScreen.wToH,
+            b: scaledScreen.b + scaledScreen.wToH,
+        })
+        const layout3 = NormalLayout({
+            l: scaledScreen.l,
+            r: 0,
+            t: scaledScreen.b - scaledScreen.t + scaledScreen.wToH,
+            b: scaledScreen.b + scaledScreen.wToH,
+        })
+        const layout4 = NormalLayout({
+            l: -scaledScreen.l,
+            r: 0,
+            t: scaledScreen.b - scaledScreen.t + scaledScreen.wToH,
+            b: scaledScreen.b + scaledScreen.wToH,
+        })
+        skin.sprites.damage.draw(layout1, this.z, a)
+        skin.sprites.damage.draw(layout2, this.z, a)
+        skin.sprites.damage.draw(layout3, this.z, a)
+        skin.sprites.damage.draw(layout4, this.z, a)
     }
 }
