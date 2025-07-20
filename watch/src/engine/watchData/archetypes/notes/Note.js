@@ -42,13 +42,15 @@ export class Note extends Archetype {
                     : false
                 : false
             this.customCombo.get(this.info.index).fastLate =
-                this.import.flickWarning == true
-                    ? 3
-                    : this.import.fast > this.import.accuracy
-                      ? 1
-                      : this.import.late < this.import.accuracy
-                        ? 2
-                        : 0
+                this.import.judgment != Judgment.Miss
+                    ? this.import.flickWarning == true
+                        ? 3
+                        : this.import.fast > this.import.accuracy
+                          ? 1
+                          : this.import.late < this.import.accuracy
+                            ? 2
+                            : 0
+                    : 0
         }
     }
     get hitTime() {
