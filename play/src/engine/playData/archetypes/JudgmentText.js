@@ -57,10 +57,7 @@ export class JudgmentText extends SpawnableArchetype({
                 skin.sprites.great.draw(this.layout, this.z, a)
                 break
             case Judgment.Good:
-                if (
-                    (this.spawnData.accuracy >= 0.1083 && this.spawnData.accuracy <= 0.125) ||
-                    (this.spawnData.accuracy <= -0.1083 && this.spawnData.accuracy >= -0.125)
-                )
+                if (this.spawnData.accuracy >= 0.1083 || this.spawnData.accuracy <= -0.1083)
                     skin.sprites.bad.draw(this.layout, this.z, a)
                 else skin.sprites.good.draw(this.layout, this.z, a)
                 break
