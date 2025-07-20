@@ -38,9 +38,9 @@ export class ComboLabel extends SpawnableArchetype({}) {
             this.check = false
         }
         if (time.skip) {
-            let ptr = this.customCombo.get(this.customCombo.get(0).start).value
+            let ptr = this.customCombo.get(0).start
             const tail = this.customCombo.get(0).tail
-            while (ptr != tail && ptr != this.customCombo.get(0).start) {
+            while (ptr != tail) {
                 const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
                 if (currentNodeTime > time.now) {
                     this.head = ptr
