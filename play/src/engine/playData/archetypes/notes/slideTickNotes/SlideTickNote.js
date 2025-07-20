@@ -42,6 +42,10 @@ export class SlideTickNote extends Note {
     }
     playHitEffects() {}
     terminate() {
+        if (this.result.judgment == Judgment.Miss && options.customDamage)
+            archetypes.Damage.spawn({
+                time: time.now,
+            })
         if (options.customJudgment)
             archetypes.JudgmentText.spawn({
                 time: time.now,

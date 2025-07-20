@@ -111,6 +111,7 @@ export class Stage extends Archetype {
                 }
             }
         }
+        if (options.customDamage && replay.isReplay) archetypes.Damage.spawn({})
         if (options.customJudgment) {
             archetypes.JudgmentText.spawn({})
             if (options.fastLate && replay.isReplay) {
