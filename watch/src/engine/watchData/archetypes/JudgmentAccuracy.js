@@ -19,6 +19,7 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     spawnTime() {
         return -999999
@@ -55,9 +56,9 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(this.head).value
             this.check = true
         }
-        if (this.customCombo.get(this.head).accuracy != 0) {
+        if (this.customCombo.get(this.head).fastLate != 0) {
             this.accuracyTime = this.customCombo.get(this.head).time
-            this.accuracy = this.customCombo.get(this.head).accuracy
+            this.accuracy = this.customCombo.get(this.head).fastLate
         }
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
         if (this.accuracyTime + 1 < time.now) return

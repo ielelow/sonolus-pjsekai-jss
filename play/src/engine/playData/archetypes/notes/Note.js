@@ -51,6 +51,7 @@ export class Note extends Archetype {
             archetypes.JudgmentText.spawn({
                 time: time.now,
                 judgment: this.result.judgment,
+                accuracy: this.result.accuracy,
             })
         if (
             options.fastLate &&

@@ -19,6 +19,7 @@ export class JudgmentText extends SpawnableArchetype({}) {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     initialize() {
         this.z = getZ(layer.judgment, 0, 0)
@@ -81,7 +82,14 @@ export class JudgmentText extends SpawnableArchetype({}) {
                     skin.sprites.great.draw(this.layout, this.z, a)
                     break
                 case Judgment.Good:
-                    skin.sprites.good.draw(this.layout, this.z, a)
+                    if (
+                        (this.customCombo.get(this.head).accuracy >= 0.1083 &&
+                            this.customCombo.get(this.head).accuracy <= 0.125) ||
+                        (this.customCombo.get(this.head).accuracy <= -0.1083 &&
+                            this.customCombo.get(this.head).accuracy >= -0.125)
+                    )
+                        skin.sprites.bad.draw(this.layout, this.z, a)
+                    else skin.sprites.good.draw(this.layout, this.z, a)
                     break
                 case Judgment.Miss:
                     skin.sprites.miss.draw(this.layout, this.z, a)

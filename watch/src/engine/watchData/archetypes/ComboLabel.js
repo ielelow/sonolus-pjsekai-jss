@@ -19,6 +19,7 @@ export class ComboLabel extends SpawnableArchetype({}) {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     initialize() {
         this.z = getZ(layer.judgment, 0, 0)

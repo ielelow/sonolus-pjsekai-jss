@@ -18,6 +18,7 @@ export class ComboNumberGlow extends SpawnableArchetype({}) {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     initialize() {
         this.z = getZ(layer.judgment + 1, 0, 0)

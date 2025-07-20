@@ -25,6 +25,7 @@ export class Note extends Archetype {
         tail: Number,
         ap: Boolean,
         accuracy: Number,
+        fastLate: Number,
     })
     targetTime = this.entityMemory(Number)
     preprocess() {
@@ -34,12 +35,13 @@ export class Note extends Archetype {
         if (options.customJudgment || options.customCombo) {
             this.customCombo.get(this.info.index).time = this.hitTime
             this.customCombo.get(this.info.index).judgment = this.import.judgment
+            this.customCombo.get(this.info.index).accuracy = this.import.accuracy
             this.customCombo.get(this.info.index).ap = replay.isReplay
                 ? this.import.judgment != Judgment.Perfect
                     ? true
                     : false
                 : false
-            this.customCombo.get(this.info.index).accuracy =
+            this.customCombo.get(this.info.index).fastLate =
                 this.import.flickWarning == true
                     ? 3
                     : this.import.fast > this.import.accuracy

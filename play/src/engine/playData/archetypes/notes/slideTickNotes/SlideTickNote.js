@@ -50,6 +50,7 @@ export class SlideTickNote extends Note {
             archetypes.JudgmentText.spawn({
                 time: time.now,
                 judgment: this.result.judgment,
+                accuracy: this.result.accuracy,
             })
         if (options.customCombo) {
             archetypes.ComboNumber.spawn({
