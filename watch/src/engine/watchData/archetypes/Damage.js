@@ -24,6 +24,7 @@ export class Damage extends SpawnableArchetype({}) {
     initialize() {
         this.z = getZ(layer.damage, 0, 0)
         this.head = this.customCombo.get(0).start
+        this.missTime = -1
     }
     spawnTime() {
         return -999999
@@ -34,9 +35,11 @@ export class Damage extends SpawnableArchetype({}) {
     updateParallel() {
         if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
             this.head = this.customCombo.get(0).start
+            this.missTime = -1
             this.check = false
         }
         if (time.skip) {
+            this.missTime = -1
             let ptr = this.customCombo.get(0).start
             const tail = this.customCombo.get(0).tail
             while (ptr != tail) {
@@ -61,6 +64,7 @@ export class Damage extends SpawnableArchetype({}) {
         }
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
         if (this.missTime + 0.35 < time.now) return
+        if (this.missTime == -1) return
         const t = Math.unlerp(this.missTime, this.missTime + 0.35, time.now)
         const a = 0.768 * Math.pow(t, 0.1) * Math.pow(1 - t, 1.35)
         const layout1 = NormalLayout({
