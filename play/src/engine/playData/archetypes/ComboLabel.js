@@ -29,7 +29,6 @@ export class ComboLabel extends SpawnableArchetype({
         const w = h * 3.22 * 6.65
         const centerX = 5.337
         const centerY = 0.485
-        const a = ui.configuration.combo.alpha
         const a2 = ui.configuration.combo.alpha * 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const layout = NormalLayout({
             l: centerX - w / 2,
@@ -37,9 +36,9 @@ export class ComboLabel extends SpawnableArchetype({
             t: centerY - h / 2,
             b: centerY + h / 2,
         })
-        if (this.ap || !options.ap) skin.sprites.combo.draw(layout, this.z, a)
+        if (this.ap || !options.ap) skin.sprites.combo.draw(layout, this.z, ui.configuration.combo.alpha)
         else {
-            skin.sprites.apCombo.draw(layout, this.z, a)
+            skin.sprites.apCombo.draw(layout, this.z, ui.configuration.combo.alpha)
             skin.sprites.glowCombo.draw(layout, this.z2, a2)
         }
     }
