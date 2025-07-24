@@ -1,9 +1,9 @@
 import { DatabaseEngineItem } from "@sonolus/core";
 
-export { susToUSC } from "./sus/convert.cjs";
-export { uscToLevelData } from "./usc/convert.cjs";
-export * from "./usc/index.cjs";
-export { uscToUSC } from "./usc/revert.cjs";
+export { susToUSC } from "./sus/convert.js";
+export { uscToLevelData } from "./usc/convert.js";
+export * from "./usc/index.js";
+export { uscToUSC } from "./usc/revert.js";
 
 export const version = "1.2.19";
 

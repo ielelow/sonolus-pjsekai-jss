@@ -1,5 +1,5 @@
-import * as B from './ccIndex.cjs'
-import * as A from './index.cjs'
+import * as B from './ccIndex.js'
+import * as A from './index.js'
 
 /**
  * B 타입의 USC 슬라이드 연결 노드를 A 타입으로 변환합니다.

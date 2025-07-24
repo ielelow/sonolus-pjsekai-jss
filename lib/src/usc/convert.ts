@@ -11,7 +11,7 @@ import {
     USCSingleNote,
     USCSlideNote,
     USCTimeScaleChange,
-} from './index.cjs'
+} from './index.js'
 
 type Intermediate = {
     archetype: string
