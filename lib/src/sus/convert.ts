@@ -7,8 +7,8 @@ import {
     USCConnectionTickNote,
     USCObject,
     USCSlideNote,
-} from '../usc/index.cjs'
-import { NoteObject, analyze } from './analyze.cjs'
+} from '../usc/index.js'
+import { NoteObject, analyze } from './analyze.js'
 
 export const susToUSC = (sus: string): USC => {
     const score = analyze(sus)
