@@ -112,7 +112,7 @@ export class Stage extends Archetype {
                 }
             }
         }
-        if (options.hideUi) return
+        if (options.hideCombo) return
         if (options.customDamage && replay.isReplay) archetypes.Damage.spawn({})
         if (options.customJudgment) {
             archetypes.JudgmentText.spawn({})
