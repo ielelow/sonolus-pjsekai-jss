@@ -36,7 +36,8 @@ export class ComboLabel extends SpawnableArchetype({
             t: centerY - h / 2,
             b: centerY + h / 2,
         })
-        if (this.ap || !options.ap) skin.sprites.combo.draw(layout, this.z, ui.configuration.combo.alpha)
+        if (this.ap || !options.ap)
+            skin.sprites.combo.draw(layout, this.z, ui.configuration.combo.alpha)
         else {
             skin.sprites.apCombo.draw(layout, this.z, ui.configuration.combo.alpha)
             skin.sprites.glowCombo.draw(layout, this.z2, a2)
