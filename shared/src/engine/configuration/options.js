@@ -220,6 +220,12 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 0,
     },
+    hideCombo: {
+        name: 'Hide Combo & Judgment & Damage',
+        scope: 'Sekai+',
+        type: 'toggle',
+        def: 0,
+    },
     showLane: {
         name: Text.Stage,
         scope: 'Sekai+',
