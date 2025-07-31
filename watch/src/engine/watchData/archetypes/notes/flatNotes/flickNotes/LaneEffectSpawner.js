@@ -23,6 +23,7 @@ export class LaneEffectSpawner extends SpawnableArchetype({
         this.check = false
     }
     updateSequential() {
+        if (time.now < this.spawnData.t) return
         if (this.check) return
         this.check = true
         if (!replay.isReplay || this.spawnData.j != Judgment.Miss) {

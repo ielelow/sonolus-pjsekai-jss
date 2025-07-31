@@ -151,6 +151,7 @@ export class FlatNote extends Note {
         }
     }
     render() {
+        if (time.now > this.hitTime + time.delta) return
         this.y = approach(this.visualTime.min, this.visualTime.max, time.scaled)
         if (this.useFallbackSprites) {
             this.sprites.fallback.draw(this.spriteLayouts.middle.mul(this.y), this.z, 1)
@@ -162,8 +163,8 @@ export class FlatNote extends Note {
     }
     despawnTerminate() {
         if (replay.isReplay && !this.import.judgment) return
-        if (timeScaleChanges.at(time.now).scaledTime < timeScaleChanges.at(this.hitTime).scaledTime)
-            return
+        if (time.now < this.hitTime - note.duration) return
+        if (time.now > this.hitTime + time.delta) return
         if (options.noteEffectEnabled) this.playNoteEffects()
         if (options.slotEffectEnabled) this.playSlotLinears()
         if (options.laneEffectEnabled) this.playLaneEffects()

@@ -26,6 +26,7 @@ export class SlotEffect extends SpawnableArchetype({
         this.z = getZ(layer.slotEffect, -this.spawnData.startTime, Math.abs(this.spawnData.lane))
     }
     updateParallel() {
+        if (time.now < this.spawnData.startTime) return
         const baseA = Math.unlerp(this.endTime, this.spawnData.startTime, time.now)
         const a = options.lightweight ? baseA * 0.25 : baseA
         this.sprite.draw(this.layout, this.z, a)
