@@ -90,7 +90,7 @@ export class SlideConnector extends Archetype {
     }
     updateSequentialOrder = 1
     updateSequential() {
-        if (time.now < this.head.time || time.now >= this.tail.time) return
+        if (time.now < this.head.time) return
         const s = this.getScale(timeScaleChanges.at(time.now - input.offset).scaledTime)
         const hitbox = getHitbox({
             l: this.getL(s),
@@ -162,7 +162,12 @@ export class SlideConnector extends Archetype {
         if (options.hidden > 0 && time.scaled > this.hiddenTime) return
         const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
         const visibleTime = {
-            min: Math.max(this.head.scaledTime, time.scaled + hiddenDuration),
+            min: Math.max(
+                this.head.scaledTime,
+                time.now > this.head.time
+                    ? time.scaled + hiddenDuration
+                    : time.scaled - note.duration * 1.5,
+            ),
             max: Math.min(this.tail.scaledTime, time.scaled + note.duration),
         }
         for (let i = 0; i < 10; i++) {
