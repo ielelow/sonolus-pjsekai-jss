@@ -30,6 +30,7 @@ export class TraceNote extends FlatNote {
     }
     render() {
         super.render()
+        if (time.now > this.hitTime + time.delta) return
         if (!this.useFallbackSprites) {
             this.sprites.diamond.draw(this.diamondLayout.mul(this.y), this.diamondZ, 1)
         }

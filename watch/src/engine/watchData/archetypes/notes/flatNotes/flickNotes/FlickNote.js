@@ -63,6 +63,7 @@ export class FlickNote extends FlatNote {
     }
     render() {
         super.render()
+        if (time.now > this.hitTime + time.delta) return
         if (options.markerAnimation) {
             const s = Math.mod(time.now, 0.5) / 0.5
             skin.sprites.draw(

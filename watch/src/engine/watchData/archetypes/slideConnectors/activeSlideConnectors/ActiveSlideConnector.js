@@ -118,6 +118,8 @@ export class ActiveSlideConnector extends SlideConnector {
         return this.visual === VisualType.NotActivated ? 0.5 : 1
     }
     renderGlow() {
+        if (time.now < this.start.time) return
+        if (time.now > this.end.time) return
         if (!options.slotEffectEnabled) return
         if (this.visual !== VisualType.Activated) return
         const s = this.getScale(time.scaled)
@@ -151,6 +153,7 @@ export class ActiveSlideConnector extends SlideConnector {
             )
     }
     renderSlide() {
+        if (time.now > this.end.time + time.delta) return
         const s = this.getScale(time.scaled)
         const l = this.getL(s)
         const r = this.getR(s)

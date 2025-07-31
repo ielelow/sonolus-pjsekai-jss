@@ -127,41 +127,31 @@
     },
     "overrides": [
         {
-            "includes": [
-                "shared/src/**/*.*"
-            ],
+            "includes": ["shared/src/**/*.*"],
             "javascript": {
                 "globals": []
             }
         },
         {
-            "includes": [
-                "play/src/**/*.*"
-            ],
+            "includes": ["play/src/**/*.*"],
             "javascript": {
                 "globals": []
             }
         },
         {
-            "includes": [
-                "preview/src/**/*.*"
-            ],
+            "includes": ["preview/src/**/*.*"],
             "javascript": {
                 "globals": []
             }
         },
         {
-            "includes": [
-                "watch/src/**/*.*"
-            ],
+            "includes": ["watch/src/**/*.*"],
             "javascript": {
                 "globals": []
             }
         },
         {
-            "includes": [
-                "tutorial/src/**/*.*"
-            ],
+            "includes": ["tutorial/src/**/*.*"],
             "javascript": {
                 "globals": []
             }

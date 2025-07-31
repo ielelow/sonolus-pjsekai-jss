@@ -5,6 +5,7 @@ import { particle } from '../../../../../particle.js'
 import { skin } from '../../../../../skin.js'
 import { archetypes } from '../../../../index.js'
 import { TraceFlickNote } from './TraceFlickNote.js'
+import { options } from '../../../../../../configuration/options.js'
 
 export class CriticalTraceFlickNote extends TraceFlickNote {
     sprites = {
@@ -54,13 +55,14 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
         const l = lane - this.import.size
         const r = lane + this.import.size
         const t = this.hitTime
-        archetypes.LaneEffectSpawner.spawn({
-            l,
-            r,
-            lane,
-            t: t,
-            j: this.import.judgment,
-        })
+        if (options.laneEffectEnabled)
+            archetypes.LaneEffectSpawner.spawn({
+                l,
+                r,
+                lane,
+                t: t,
+                j: this.import.judgment,
+            })
     }
     get critical() {
         return true

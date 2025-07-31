@@ -131,9 +131,15 @@ export class SlideConnector extends Archetype {
     }
     renderConnector() {
         if (options.hidden > 0 && time.scaled > this.hiddenTime) return
+        if (time.now > this.end.time + time.delta) return
         const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
         const visibleTime = {
-            min: Math.max(this.head.scaledTime, time.scaled + hiddenDuration),
+            min: Math.max(
+                this.head.scaledTime,
+                time.now > this.head.time
+                    ? time.scaled + hiddenDuration
+                    : time.scaled - note.duration * 1.5,
+            ),
             max: Math.min(this.tail.scaledTime, time.scaled + note.duration),
         }
         for (let i = 0; i < 10; i++) {
