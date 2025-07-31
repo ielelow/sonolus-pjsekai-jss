@@ -34,13 +34,20 @@ export class FlatNote extends Note {
     }
     preprocess() {
         super.preprocess()
+        this.sharedMemory.despawnTime = timeScaleChanges.at(this.hitTime).scaledTime
         this.visualTime.copyFrom(
-            Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime),
+            Range.l
+                .mul(note.duration)
+                .add(
+                    timeScaleChanges.at(this.hitTime + 0.017).scaledTime >=
+                        this.sharedMemory.despawnTime
+                        ? timeScaleChanges.at(this.hitTime - 0.017).scaledTime
+                        : timeScaleChanges.at(this.hitTime).scaledTime,
+                ),
         )
-        this.sharedMemory.despawnTime =
-            timeScaleChanges.at(this.hitTime - 0.017).scaledTime <= this.visualTime.min
-                ? timeScaleChanges.at(this.hitTime + 0.017).scaledTime
-                : timeScaleChanges.at(this.hitTime).scaledTime
+        timeScaleChanges.at(this.hitTime - 0.017).scaledTime <= this.visualTime.min
+            ? timeScaleChanges.at(this.hitTime + 0.017).scaledTime
+            : timeScaleChanges.at(this.hitTime).scaledTime
         if (options.sfxEnabled) {
             if (replay.isReplay && !options.autoSFX) {
                 this.scheduleReplaySFX()
