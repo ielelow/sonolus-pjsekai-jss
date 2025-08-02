@@ -1,15 +1,15 @@
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { getZ, layer, skin } from '../skin.js'
+import { archetypes } from './index.js'
 export class JudgmentAccuracy extends SpawnableArchetype({}) {
     preprocessOrder = 5
     check = this.entityMemory(Boolean)
-    head = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
     accuracy = this.entityMemory(Number)
     accuracyTime = this.entityMemory(Number)
     customCombo = this.defineSharedMemory({
-        value: Number,
+        value: Tuple(4, Number),
         time: Number,
         scaledTime: Number,
         length: Number,
@@ -29,33 +29,8 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
     }
     initialize() {
         this.z = getZ(layer.judgment, 0, 0)
-        this.head = this.customCombo.get(0).start
     }
     updateParallel() {
-        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
-            this.head = this.customCombo.get(0).start
-            this.check = false
-        }
-        if (time.skip) {
-            let ptr = this.customCombo.get(0).start
-            const tail = this.customCombo.get(0).tail
-            while (ptr != tail) {
-                const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
-                if (currentNodeTime > time.now) {
-                    this.head = ptr
-                    this.check = true
-                    break
-                }
-                ptr = this.customCombo.get(ptr).value
-            }
-        }
-        while (
-            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
-            this.head != this.customCombo.get(0).tail
-        ) {
-            this.head = this.customCombo.get(this.head).value
-            this.check = true
-        }
         if (this.customCombo.get(this.head).fastLate != 0) {
             this.accuracyTime = this.customCombo.get(this.head).time
             this.accuracy = this.customCombo.get(this.head).fastLate
@@ -87,5 +62,8 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
         if (this.accuracy == 3) skin.sprites.flick.draw(this.layout, this.z, a)
         else if (this.accuracy == 1) skin.sprites.fast.draw(this.layout, this.z, a)
         else if (this.accuracy == 2) skin.sprites.late.draw(this.layout, this.z, a)
+    }
+    get head() {
+        return archetypes.ComboNumber.searching.get(0).head
     }
 }

@@ -15,7 +15,7 @@ export class Note extends Archetype {
         late: { name: 'late', type: Number },
     })
     customCombo = this.defineSharedMemory({
-        value: Number,
+        value: Tuple(4, Number),
         time: Number,
         scaledTime: Number,
         length: Number,

@@ -1,15 +1,15 @@
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { getZ, layer, skin } from '../skin.js'
 import { scaledScreen } from '../scaledScreen.js'
+import { archetypes } from './index.js'
 
 export class Damage extends SpawnableArchetype({}) {
     preprocessOrder = 5
     check = this.entityMemory(Boolean)
-    head = this.entityMemory(Number)
     z = this.entityMemory(Number)
     missTime = this.entityMemory(Number)
     customCombo = this.defineSharedMemory({
-        value: Number,
+        value: Tuple(4, Number),
         time: Number,
         scaledTime: Number,
         length: Number,
@@ -23,7 +23,6 @@ export class Damage extends SpawnableArchetype({}) {
     })
     initialize() {
         this.z = getZ(layer.damage, 0, 0)
-        this.head = this.customCombo.get(0).start
         this.missTime = -1
     }
     spawnTime() {
@@ -33,32 +32,6 @@ export class Damage extends SpawnableArchetype({}) {
         return 999999
     }
     updateParallel() {
-        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
-            this.head = this.customCombo.get(0).start
-            this.missTime = -1
-            this.check = false
-        }
-        if (time.skip) {
-            this.missTime = -1
-            let ptr = this.customCombo.get(0).start
-            const tail = this.customCombo.get(0).tail
-            while (ptr != tail) {
-                const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
-                if (currentNodeTime > time.now) {
-                    this.head = ptr
-                    this.check = true
-                    break
-                }
-                ptr = this.customCombo.get(ptr).value
-            }
-        }
-        while (
-            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
-            this.head != this.customCombo.get(0).tail
-        ) {
-            this.head = this.customCombo.get(this.head).value
-            this.check = true
-        }
         if (this.customCombo.get(this.head).judgment == Judgment.Miss) {
             this.missTime = this.customCombo.get(this.head).time
         }
@@ -95,5 +68,8 @@ export class Damage extends SpawnableArchetype({}) {
         skin.sprites.damage.draw(layout2, this.z, a)
         skin.sprites.damage.draw(layout3, this.z, a)
         skin.sprites.damage.draw(layout4, this.z, a)
+    }
+    get head() {
+        return archetypes.ComboNumber.searching.get(0).head
     }
 }

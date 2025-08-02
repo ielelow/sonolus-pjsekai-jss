@@ -2,13 +2,13 @@ import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
 export class ComboNumber extends SpawnableArchetype({}) {
-    preprocessOrder = 5
+    preprocessOrder = 4
     check = this.entityMemory(Boolean)
-    head = this.entityMemory(Number)
-    layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
+    z2 = this.entityMemory(Number)
+    head = this.entityMemory(Number)
     customCombo = this.defineSharedMemory({
-        value: Number,
+        value: Tuple(4, Number),
         time: Number,
         scaledTime: Number,
         length: Number,
@@ -20,15 +20,20 @@ export class ComboNumber extends SpawnableArchetype({}) {
         accuracy: Number,
         fastLate: Number,
     })
+    searching = this.defineSharedMemory({
+        head: Number,
+    })
     initialize() {
         this.z = getZ(layer.judgment, 0, 0)
-        this.head = this.customCombo.get(0).start
     }
     spawnTime() {
         return -999999
     }
     despawnTime() {
         return 999999
+    }
+    updateSequential() {
+        this.searching.get(0).head = this.head
     }
     updateParallel() {
         if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
@@ -38,21 +43,25 @@ export class ComboNumber extends SpawnableArchetype({}) {
         if (time.skip) {
             let ptr = this.customCombo.get(0).start
             const tail = this.customCombo.get(0).tail
-            while (ptr != tail) {
-                const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
-                if (currentNodeTime > time.now) {
-                    this.head = ptr
-                    this.check = true
-                    break
+            for (let level = 3; level >= 0; level--) {
+                while (
+                    ptr != tail &&
+                    this.customCombo.get(this.customCombo.get(ptr).value.get(level)).time < time.now
+                ) {
+                    ptr = this.customCombo.get(ptr).value.get(level)
                 }
-                ptr = this.customCombo.get(ptr).value
+            }
+            ptr = this.customCombo.get(ptr).value.get(0)
+            if (this.customCombo.get(ptr).time >= time.now) {
+                this.head = ptr
+                this.check = true
             }
         }
         while (
-            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
+            time.now >= this.customCombo.get(this.customCombo.get(this.head).value.get(0)).time &&
             this.head != this.customCombo.get(0).tail
         ) {
-            this.head = this.customCombo.get(this.head).value
+            this.head = this.customCombo.get(this.head).value.get(0)
             this.check = true
         }
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return

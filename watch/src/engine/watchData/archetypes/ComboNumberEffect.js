@@ -1,14 +1,14 @@
 import { NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'
 import { getZ, layer, skin } from '../skin.js'
+import { archetypes } from './index.js'
 export class ComboNumberEffect extends SpawnableArchetype({}) {
     preprocessOrder = 5
     check = this.entityMemory(Boolean)
-    head = this.entityMemory(Number)
     layout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
     customCombo = this.defineSharedMemory({
-        value: Number,
+        value: Tuple(4, Number),
         time: Number,
         scaledTime: Number,
         length: Number,
@@ -22,7 +22,6 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
     })
     initialize() {
         this.z = getZ(layer.judgment, 0, 0)
-        this.head = this.customCombo.get(0).start
     }
     spawnTime() {
         return -999999
@@ -31,30 +30,6 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
         return 999999
     }
     updateParallel() {
-        if (time.now <= this.customCombo.get(this.customCombo.get(0).start).time && this.check) {
-            this.head = this.customCombo.get(0).start
-            this.check = false
-        }
-        if (time.skip) {
-            let ptr = this.customCombo.get(0).start
-            const tail = this.customCombo.get(0).tail
-            while (ptr != tail) {
-                const currentNodeTime = this.customCombo.get(this.customCombo.get(ptr).value).time
-                if (currentNodeTime > time.now) {
-                    this.head = ptr
-                    this.check = true
-                    break
-                }
-                ptr = this.customCombo.get(ptr).value
-            }
-        }
-        while (
-            time.now >= this.customCombo.get(this.customCombo.get(this.head).value).time &&
-            this.head != this.customCombo.get(0).tail
-        ) {
-            this.head = this.customCombo.get(this.head).value
-            this.check = true
-        }
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
         if (this.customCombo.get(this.head).combo == 0) return
         const c = this.customCombo.get(this.head).combo
@@ -74,7 +49,6 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
             const digitWidth = h * 0.79 * 7
             const centerX = 5.337
             const centerY = 0.585
-            // 애니메이션 = s * (원래좌표) + (1 - s) * centerX, s * (원래좌표) + (1 - s) * centerY
             const s =
                 0.7 +
                 0.3 *
@@ -248,5 +222,8 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
                     break
             }
         }
+    }
+    get head() {
+        return archetypes.ComboNumber.searching.get(0).head
     }
 }
