@@ -51,11 +51,8 @@ export class ComboNumber extends SpawnableArchetype({}) {
                     ptr = this.customCombo.get(ptr).value.get(level)
                 }
             }
-            ptr = this.customCombo.get(ptr).value.get(0)
-            if (this.customCombo.get(ptr).time >= time.now) {
-                this.head = ptr
-                this.check = true
-            }
+            this.head = ptr
+            this.check = true
         }
         while (
             time.now >= this.customCombo.get(this.customCombo.get(this.head).value.get(0)).time &&
