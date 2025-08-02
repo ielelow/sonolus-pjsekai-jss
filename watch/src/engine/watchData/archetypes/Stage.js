@@ -10,7 +10,7 @@ import { archetypes } from './index.js'
 export class Stage extends Archetype {
     preprocessOrder = 3
     customCombo = this.defineSharedMemory({
-        value: Number,
+        value: Tuple(4, Number),
         time: Number,
         scaledTime: Number,
         length: Number,
@@ -122,10 +122,10 @@ export class Stage extends Archetype {
         }
         if (options.customCombo) {
             if (!options.autoCombo || replay.isReplay) {
+                archetypes.ComboLabel.spawn({})
                 archetypes.ComboNumber.spawn({})
                 archetypes.ComboNumberGlow.spawn({})
                 archetypes.ComboNumberEffect.spawn({})
-                archetypes.ComboLabel.spawn({})
             }
         }
         let entityCount = 0
@@ -163,14 +163,14 @@ export class Stage extends Archetype {
                 archetypeIndex == archetypes.CriticalAttachedSlideTickNote.index
             ) {
                 lineLength += 1
-                this.customCombo.get(ii).value = next
+                this.customCombo.get(ii).value.set(0, next)
                 next = ii
             }
         }
         let currentEntity = next
         for (let i = 0; i < lineLength; i++) {
             let currentHead = currentEntity
-            currentEntity = this.customCombo.get(currentEntity).value
+            currentEntity = this.customCombo.get(currentEntity).value.get(0)
             for (let j = 0; j < 32; j++) {
                 if (this.cache.get(j) == 0) {
                     this.cache.set(j, currentHead)
@@ -206,7 +206,7 @@ export class Stage extends Archetype {
         let combo = 0
         while (
             idx < lineLength &&
-            ptr != this.customCombo.get(this.customCombo.get(0).tail).value
+            ptr != this.customCombo.get(this.customCombo.get(0).tail).value.get(0)
         ) {
             if ((replay.isReplay && this.customCombo.get(ptr).ap == true) || this.ap == true) {
                 this.ap = true
@@ -220,9 +220,10 @@ export class Stage extends Archetype {
                 combo = 0
             else combo += 1
             this.customCombo.get(ptr).combo = combo
-            ptr = this.customCombo.get(ptr).value
+            ptr = this.customCombo.get(ptr).value.get(0)
             idx++
         }
+        this.skipList()
     }
     merge(a, b, Asize, Bsize) {
         let Alen = 0
@@ -233,44 +234,60 @@ export class Stage extends Archetype {
         let pointer = newHead
         if (this.customCombo.get(A).time > this.customCombo.get(B).time) {
             Blen += 1
-            B = this.customCombo.get(B).value
+            B = this.customCombo.get(B).value.get(0)
         } else {
             Alen += 1
-            A = this.customCombo.get(A).value
+            A = this.customCombo.get(A).value.get(0)
         }
         while (Alen < Asize && Blen < Bsize) {
             if (this.customCombo.get(A).time > this.customCombo.get(B).time) {
-                this.customCombo.get(pointer).value = B
+                this.customCombo.get(pointer).value.set(0, B)
                 pointer = B
-                B = this.customCombo.get(B).value
+                B = this.customCombo.get(B).value.get(0)
                 Blen += 1
             } else {
-                this.customCombo.get(pointer).value = A
+                this.customCombo.get(pointer).value.set(0, A)
                 pointer = A
-                A = this.customCombo.get(A).value
+                A = this.customCombo.get(A).value.get(0)
                 Alen += 1
             }
         }
         if (Alen < Asize) {
-            this.customCombo.get(pointer).value = A
+            this.customCombo.get(pointer).value.set(0, A)
             // 마지막 노드 찾기
             while (Alen < Asize) {
                 pointer = A
-                A = this.customCombo.get(A).value
+                A = this.customCombo.get(A).value.get(0)
                 Alen += 1
             }
         }
         if (Blen < Bsize) {
-            this.customCombo.get(pointer).value = B
+            this.customCombo.get(pointer).value.set(0, B)
             // 마지막 노드 찾기
             while (Blen < Bsize) {
                 pointer = B
-                B = this.customCombo.get(B).value
+                B = this.customCombo.get(B).value.get(0)
                 Blen += 1
             }
         }
-        this.customCombo.get(pointer).value = -1
+        this.customCombo.get(pointer).value.set(0, -1)
         this.customCombo.get(0).tail = pointer
         return newHead
+    }
+    skipList() {
+        const head = this.customCombo.get(0).start
+        const tail = this.customCombo.get(0).tail
+        for (let level = 1; level < 4; level++) {
+            let currentNode = this.customCombo.get(head).value.get(level - 1)
+            let lastNode = head
+            while (currentNode && currentNode !== tail) {
+                if (Math.random() < 0.5) {
+                    this.customCombo.get(lastNode).value.set(level, currentNode)
+                    lastNode = currentNode
+                }
+                currentNode = this.customCombo.get(currentNode).value.get(level - 1)
+            }
+            this.customCombo.get(lastNode).value.set(level, tail)
+        }
     }
 }

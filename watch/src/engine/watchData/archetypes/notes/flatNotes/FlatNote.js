@@ -39,7 +39,8 @@ export class FlatNote extends Note {
             Range.l
                 .mul(note.duration)
                 .add(
-                    timeScaleChanges.at(this.targetTime - 0.017).scaledTime <= timeScaleChanges.at(this.targetTime).scaledTime - note.duration
+                    timeScaleChanges.at(this.targetTime - 0.017).scaledTime <=
+                        timeScaleChanges.at(this.targetTime).scaledTime - note.duration
                         ? timeScaleChanges.at(this.targetTime - 0.017).scaledTime
                         : timeScaleChanges.at(this.targetTime).scaledTime,
                 ),
