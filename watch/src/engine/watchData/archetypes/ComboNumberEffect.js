@@ -45,21 +45,16 @@ export class ComboNumberEffect extends SpawnableArchetype({}) {
             if (digits[0] === 0) digitCount = 3
             if (digits[0] === 0 && digits[1] === 0) digitCount = 2
             if (digits[0] === 0 && digits[1] === 0 && digits[2] === 0) digitCount = 1
-            const h = 0.19 * ui.configuration.combo.scale * 0.94
+            const h = 0.15886 * ui.configuration.combo.scale
             const digitWidth = h * 0.79 * 7
             const centerX = 5.337
             const centerY = 0.585
-            const s =
-                0.7 +
-                0.3 *
-                    Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t + 0.1, t + 0.15, time.now)))
+            const s = 0.769 + 0.231 * Math.unlerpClamped(t + 0.112, t + 0.192, time.now)
             const a =
-                time.now >= t + 0.1
-                    ? 0.45 *
-                      ui.configuration.combo.alpha *
-                      Math.ease('Out', 'Cubic', Math.unlerp(t + 0.15, t + 0.1, time.now))
+                time.now >= t + 0.112
+                    ? ui.configuration.combo.alpha * Math.unlerp(t + 0.192, t + 0.112, time.now)
                     : 0
-            const digitGap = digitWidth * (options.comboDistance - 0.17)
+            const digitGap = digitWidth * options.comboDistance
             const totalWidth = digitCount * digitWidth + (digitCount - 1) * digitGap
             const startX = centerX - totalWidth / 2
             if (digitCount === 1) {

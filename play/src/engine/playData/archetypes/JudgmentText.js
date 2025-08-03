@@ -20,7 +20,7 @@ export class JudgmentText extends SpawnableArchetype({
             this.despawn = true
             return
         }
-        if (time.now >= this.spawnData.time + 1) {
+        if (time.now >= this.spawnData.time + 0.5) {
             this.despawn = true
             return
         }
@@ -28,21 +28,10 @@ export class JudgmentText extends SpawnableArchetype({
         const w = h * 27.3
         const centerX = 0
         const centerY = 0.792
-        const s = Math.ease(
-            'Out',
-            'Cubic',
-            Math.min(1, Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now)),
-        )
+        const s = Math.unlerpClamped(this.spawnData.time, this.spawnData.time + 0.064, time.now)
         const a =
             ui.configuration.judgment.alpha *
-            Math.ease(
-                'Out',
-                'Cubic',
-                Math.min(
-                    1,
-                    Math.unlerp(this.spawnData.time, this.spawnData.time + 0.066, time.now),
-                ),
-            )
+            Math.unlerpClamped(this.spawnData.time, this.spawnData.time + 0.064, time.now)
         NormalLayout({
             l: centerX - (w * s) / 2,
             r: centerX + (w * s) / 2,
