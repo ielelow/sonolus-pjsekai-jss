@@ -130,6 +130,7 @@ export class Stage extends Archetype {
             }
         }
         if (options.hideCombo) return
+        archetypes.ComboNumber.spawn({})
         if (options.customDamage && replay.isReplay) archetypes.Damage.spawn({})
         if (options.customJudgment) {
             archetypes.JudgmentText.spawn({})
@@ -137,13 +138,10 @@ export class Stage extends Archetype {
                 archetypes.JudgmentAccuracy.spawn({})
             }
         }
-        if (options.customCombo) {
-            if (!options.autoCombo || replay.isReplay) {
-                archetypes.ComboLabel.spawn({})
-                archetypes.ComboNumber.spawn({})
-                archetypes.ComboNumberGlow.spawn({})
-                archetypes.ComboNumberEffect.spawn({})
-            }
+        if (options.customCombo && (!options.auto || replay.isReplay)) {
+            archetypes.ComboLabel.spawn({})
+            archetypes.ComboNumberGlow.spawn({})
+            archetypes.ComboNumberEffect.spawn({})
         }
         let entityCount = 0
         while (entityInfos.get(entityCount).index == entityCount) {
