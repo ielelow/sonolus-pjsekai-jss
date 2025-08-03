@@ -48,7 +48,7 @@ export class CriticalSlideEndFlickNote extends FlickNote {
     windows = windows.slideEndFlickNote.critical
     bucket = buckets.criticalSlideEndFlickNote
     get slotEffect() {
-        return archetypes.CriticalSlotEffect
+        return archetypes.CriticalFlickSlotEffect
     }
     get slotGlowEffect() {
         return archetypes.CriticalFlickSlotGlowEffect

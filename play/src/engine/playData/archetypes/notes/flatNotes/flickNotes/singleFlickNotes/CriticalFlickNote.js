@@ -49,7 +49,7 @@ export class CriticalFlickNote extends SingleFlickNote {
     windows = windows.flickNote.critical
     bucket = buckets.criticalFlickNote
     get slotEffect() {
-        return archetypes.CriticalSlotEffect
+        return archetypes.CriticalFlickSlotEffect
     }
     get slotGlowEffect() {
         return archetypes.CriticalFlickSlotGlowEffect
