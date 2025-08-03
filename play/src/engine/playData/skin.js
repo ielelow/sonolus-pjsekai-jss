@@ -143,7 +143,6 @@ export const skin = defineSkin({
         glow9: 'Glow9',
         glowCombo: 'GlowCombo',
         damage: 'Damage',
-        autoLive: 'Auto Live',
     },
 })
 export const layer = {
