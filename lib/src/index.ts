@@ -5,7 +5,7 @@ export { uscToLevelData } from "./usc/convert.js";
 export * from "./usc/index.js";
 export { uscToUSC } from "./usc/revert.js";
 
-export const version = "1.3.8";
+export const version = "1.4.0";
 
 export const databaseEngineItem = {
     name: "prosekaR",
@@ -25,7 +25,7 @@ export const databaseEngineItem = {
         zht: "世界計劃 匆忙",
     },
     author: {
-        en: "Hyeon2#7895",
+        en: "prosekaR",
     },
     description: {
         en: [
@@ -39,7 +39,7 @@ export const databaseEngineItem = {
             "https://github.com/hyeon2006/sonolus-pjsekai-js",
         ].join("\n"),
         ko: [
-            "프로젝트 세카이: 컬러풀 스테이지! 엔진을 Sonolus로 재현했습니다.",
+            "A recreation of Project Sekai: Colorful Stage! engine in Sonolus.",
             `버전: ${version}`,
             "",
             "Burrito#1000의 pjsekai 엔진에서 포크되었습니다.",
