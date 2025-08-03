@@ -34,10 +34,10 @@ export class JudgmentText extends SpawnableArchetype({}) {
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
         if (this.customCombo.get(this.head).time + 1 < time.now) return
         const t = this.customCombo.get(this.head).time
-        const h = 0.1 * ui.configuration.judgment.scale
-        const w = h * 25.5
+        const h = 0.09 * ui.configuration.judgment.scale
+        const w = h * 27.3
         const centerX = 0
-        const centerY = 0.79
+        const centerY = 0.792
         const s = Math.ease('Out', 'Cubic', Math.min(1, Math.unlerp(t, t + 0.066, time.now)))
         const a =
             ui.configuration.judgment.alpha *

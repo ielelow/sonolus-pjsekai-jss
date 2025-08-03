@@ -24,10 +24,10 @@ export class JudgmentText extends SpawnableArchetype({
             this.despawn = true
             return
         }
-        const h = 0.1 * ui.configuration.judgment.scale
-        const w = h * 25.5
+        const h = 0.09 * ui.configuration.judgment.scale
+        const w = h * 27.3
         const centerX = 0
-        const centerY = 0.79
+        const centerY = 0.792
         const s = Math.ease(
             'Out',
             'Cubic',

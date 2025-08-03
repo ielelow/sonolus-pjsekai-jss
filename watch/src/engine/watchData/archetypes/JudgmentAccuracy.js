@@ -36,11 +36,11 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
             this.accuracy = this.customCombo.get(this.head).fastLate
         }
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
-        if (this.accuracyTime + 1 < time.now) return
-        const h = 0.06 * ui.configuration.judgment.scale
-        const w = h * 20
+        if (this.accuracyTime + 0.5 < time.now) return
+        const h = 0.054 * ui.configuration.judgment.scale
+        const w = h * 23.6
         const centerX = 0
-        const centerY = 0.73
+        const centerY = 0.723
         const s = Math.ease(
             'Out',
             'Cubic',
