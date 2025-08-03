@@ -48,6 +48,8 @@ import { FlickSlotGlowEffect } from './slotGlowEffects/FlickSlotGlowEffect.js'
 import { NormalSlotGlowEffect } from './slotGlowEffects/NormalSlotGlowEffect.js'
 import { SlideSlotGlowEffect } from './slotGlowEffects/SlideSlotGlowEffect.js'
 import { Damage } from './Damage.js'
+import { CriticalSlideSlotEffect } from './slotEffects/CriticalSlideSlotEffect.js'
+import { CriticalFlickSlotEffect } from './slotEffects/CriticalFlickSlotEffect.js'
 export const archetypes = defineArchetypes({
     Initialization,
     Stage,
@@ -84,6 +86,8 @@ export const archetypes = defineArchetypes({
     SlideSlotEffect,
     FlickSlotEffect,
     CriticalSlotEffect,
+    CriticalFlickSlotEffect,
+    CriticalSlideSlotEffect,
     NormalSlotGlowEffect,
     SlideSlotGlowEffect,
     FlickSlotGlowEffect,

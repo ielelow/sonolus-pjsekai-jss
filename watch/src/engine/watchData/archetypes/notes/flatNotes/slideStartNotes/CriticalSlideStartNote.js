@@ -27,7 +27,7 @@ export class CriticalSlideStartNote extends SlideStartNote {
     windows = windows.slideStartNote.critical
     bucket = buckets.criticalSlideStartNote
     get slotEffect() {
-        return archetypes.CriticalSlotEffect
+        return archetypes.CriticalSlideSlotEffect
     }
     get slotGlowEffect() {
         return archetypes.CriticalSlideNoteSlotGlowEffect

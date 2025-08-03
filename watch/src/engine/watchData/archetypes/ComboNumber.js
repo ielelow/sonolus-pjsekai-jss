@@ -61,6 +61,7 @@ export class ComboNumber extends SpawnableArchetype({}) {
             this.head = this.customCombo.get(this.head).value.get(0)
             this.check = true
         }
+        if (!options.customCombo || (options.auto && !replay.isReplay)) return
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
         if (this.customCombo.get(this.head).combo == 0) return
         const c = this.customCombo.get(this.head).combo

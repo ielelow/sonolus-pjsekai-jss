@@ -73,7 +73,7 @@ export const optionsDefinition = {
         scope: 'Sekai',
         advanced: true,
         type: 'slider',
-        def: 0.25,
+        def: 0.24,
         min: -0.5,
         max: 0.5,
         step: 0.01,
@@ -85,13 +85,7 @@ export const optionsDefinition = {
         def: 1,
     },
     auto: {
-        name: 'Output Judgment As Auto In Watch Mode',
-        scope: 'Sekai',
-        type: 'toggle',
-        def: 1,
-    },
-    autoCombo: {
-        name: 'Hide Combo In Watch Mode',
+        name: 'Using Auto In Watch Mode',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,

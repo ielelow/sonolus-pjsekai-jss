@@ -24,14 +24,14 @@ export class JudgmentAccuracy extends SpawnableArchetype({
             this.despawn = true
             return
         }
-        if (time.now >= this.spawnData.time + 1) {
+        if (time.now >= this.spawnData.time + 0.5) {
             this.despawn = true
             return
         }
-        const h = 0.06 * ui.configuration.judgment.scale
-        const w = h * 20
+        const h = 0.054 * ui.configuration.judgment.scale
+        const w = h * 23.6
         const centerX = 0
-        const centerY = 0.73
+        const centerY = 0.723
         const s = Math.ease(
             'Out',
             'Cubic',
