@@ -32,14 +32,14 @@ export class JudgmentText extends SpawnableArchetype({}) {
     }
     updateParallel() {
         if (time.now < this.customCombo.get(this.customCombo.get(0).start).time) return
-        if (this.customCombo.get(this.head).time + 1 < time.now) return
+        if (this.customCombo.get(this.head).time + 0.5 < time.now) return
         const t = this.customCombo.get(this.head).time
         const h = 0.09 * ui.configuration.judgment.scale
         const w = h * 27.3
         const centerX = 0
         const centerY = 0.792
         const s = Math.unlerpClamped(t, t + 0.064, time.now)
-        const a = ui.configuration.judgment.alpha * Math.unlerp(t, t + 0.064, time.now)
+        const a = ui.configuration.judgment.alpha * Math.unlerpClamped(t, t + 0.064, time.now)
         NormalLayout({
             l: centerX - (w * s) / 2,
             r: centerX + (w * s) / 2,
