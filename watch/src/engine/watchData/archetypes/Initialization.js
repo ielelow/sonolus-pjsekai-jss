@@ -100,7 +100,7 @@ export class Initialization extends Archetype {
             rotation: 0,
             alpha: options.hideUi
                 ? 0
-                : options.customCombo || (options.autoCombo && !replay.isReplay)
+                : options.customCombo || (options.auto && !replay.isReplay)
                   ? 0
                   : ui.configuration.combo.alpha,
             horizontalAlign: HorizontalAlign.Center,
@@ -113,7 +113,7 @@ export class Initialization extends Archetype {
             rotation: 0,
             alpha: options.hideUi
                 ? 0
-                : options.customCombo || (options.autoCombo && !replay.isReplay)
+                : options.customCombo || (options.auto && !replay.isReplay)
                   ? 0
                   : ui.configuration.combo.alpha,
             horizontalAlign: HorizontalAlign.Center,
