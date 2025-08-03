@@ -41,23 +41,12 @@ export class JudgmentAccuracy extends SpawnableArchetype({}) {
         const w = h * 23.6
         const centerX = 0
         const centerY = 0.723
-        const s = Math.ease(
-            'Out',
-            'Cubic',
-            Math.min(1, Math.unlerp(this.accuracyTime, this.accuracyTime + 0.066, time.now)),
-        )
-        const a =
-            ui.configuration.judgment.alpha *
-            Math.ease(
-                'Out',
-                'Cubic',
-                Math.min(1, Math.unlerp(this.accuracyTime, this.accuracyTime + 0.066, time.now)),
-            )
+        const a = ui.configuration.judgment.alpha
         NormalLayout({
-            l: centerX - (w * s) / 2,
-            r: centerX + (w * s) / 2,
-            t: centerY - (h * s) / 2,
-            b: centerY + (h * s) / 2,
+            l: centerX - w / 2,
+            r: centerX + w / 2,
+            t: centerY - h / 2,
+            b: centerY + h / 2,
         }).copyTo(this.layout)
         if (this.accuracy == 3) skin.sprites.flick.draw(this.layout, this.z, a)
         else if (this.accuracy == 1) skin.sprites.fast.draw(this.layout, this.z, a)
