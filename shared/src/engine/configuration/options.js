@@ -62,6 +62,12 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    customAuto: {
+        name: 'Using Auto Live',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
     ap: {
         name: 'AP Effect',
         scope: 'Sekai',
