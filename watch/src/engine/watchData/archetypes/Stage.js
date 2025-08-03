@@ -1,11 +1,11 @@
 import { lane } from '../../../../../shared/src/engine/data/lane.js'
-import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.js'
+import { perspectiveLayout, NormalLayout } from '../../../../../shared/src/engine/data/utils.js'
 import { options } from '../../configuration/options.js'
 import { effect, sfxDistance } from '../effect.js'
 import { note } from '../note.js'
 import { particle } from '../particle.js'
 import { scaledScreen } from '../scaledScreen.js'
-import { layer, skin } from '../skin.js'
+import { layer, skin, getZ } from '../skin.js'
 import { archetypes } from './index.js'
 export class Stage extends Archetype {
     preprocessOrder = 3
@@ -38,9 +38,26 @@ export class Stage extends Archetype {
         }
         this.drawStageCover()
         this.playEffects()
+        if (options.auto) this.drawAutoLive()
     }
     get useFallbackStage() {
         return !skin.sprites.sekaiStage.exists
+    }
+    drawAutoLive() {
+        const a = options.hideUi ? 0 : 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
+        const h = 0.04 * ui.configuration.judgment.scale
+        const w = h * 325
+        const x = 6.7
+        skin.sprites.autoLive.draw(
+            NormalLayout({
+                l: x - w,
+                r: x + w,
+                t: scaledScreen.b - scaledScreen.t - scaledScreen.wToH / 4 - h,
+                b: scaledScreen.b - scaledScreen.t - scaledScreen.wToH / 4 + h,
+            }),
+            getZ(layer.judgment, 0, 0),
+            a,
+        )
     }
     playEffects() {
         if (!replay.isReplay) return
