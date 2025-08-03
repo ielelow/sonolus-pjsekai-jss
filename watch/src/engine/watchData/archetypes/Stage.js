@@ -46,8 +46,8 @@ export class Stage extends Archetype {
     drawAutoLive() {
         const a = options.hideUi ? 0 : 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const h = 0.04 * ui.configuration.judgment.scale
-        const w = h * 325
-        const x = 6.7
+        const w = h * 32.55
+        const x = 6.646
         skin.sprites.autoLive.draw(
             NormalLayout({
                 l: x - w,
