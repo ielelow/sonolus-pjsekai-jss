@@ -38,7 +38,7 @@ export class Stage extends Archetype {
         }
         this.drawStageCover()
         this.playEffects()
-        if (options.auto && !replay.isReplay && options.customAuto) this.drawAutoLive()
+        if (!replay.isReplay && options.customAuto) this.drawAutoLive()
     }
     get useFallbackStage() {
         return !skin.sprites.sekaiStage.exists
