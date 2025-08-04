@@ -5,8 +5,7 @@ export default {
         return {
             ...options,
             treeShaking: true,
-            minifyWhitespace: true,
-            minifySyntax: true,
+            minifyWhitespace: true
         }
     },
 }

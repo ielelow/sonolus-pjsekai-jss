@@ -10,7 +10,6 @@ export default {
             ...options,
             treeShaking: true,
             minifyWhitespace: true,
-            minifySyntax: true,
         }
     },
     devServer(sonolus) {
