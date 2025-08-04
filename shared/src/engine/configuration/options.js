@@ -63,7 +63,13 @@ export const optionsDefinition = {
         def: 1,
     },
     customAuto: {
-        name: 'Using Auto Live',
+        name: 'Using Auto Live Tag',
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
+    auto: {
+        name: 'Using Auto In Watch Mode',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
@@ -86,12 +92,6 @@ export const optionsDefinition = {
     },
     fastLate: {
         name: 'Late/Fast/Flick',
-        scope: 'Sekai',
-        type: 'toggle',
-        def: 1,
-    },
-    auto: {
-        name: 'Using Auto In Watch Mode',
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
