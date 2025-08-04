@@ -38,13 +38,13 @@ export class Stage extends Archetype {
         }
         this.drawStageCover()
         this.playEffects()
-        if (options.auto && !replay.isReplay && options.customAuto) this.drawAutoLive()
+        if (!replay.isReplay && options.customAuto && !options.hideUi) this.drawAutoLive()
     }
     get useFallbackStage() {
         return !skin.sprites.sekaiStage.exists
     }
     drawAutoLive() {
-        const a = options.hideUi ? 0 : 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
+        const a = 0.8 * ((Math.cos(time.now * Math.PI) + 1) / 2)
         const h = 0.04 * ui.configuration.judgment.scale
         const w = h * 32.55
         const x = 6.646
@@ -129,7 +129,7 @@ export class Stage extends Archetype {
                 }
             }
         }
-        if (options.hideCombo) return
+        if (options.hideCustom) return
         archetypes.ComboNumber.spawn({})
         if (options.customDamage && replay.isReplay) archetypes.Damage.spawn({})
         if (options.customJudgment) {

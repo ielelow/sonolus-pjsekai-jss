@@ -43,6 +43,7 @@ export class Note extends Archetype {
     terminate() {
         this.accuracyExport('fast', this.windows.perfect.min)
         this.accuracyExport('late', this.windows.perfect.max)
+        if (options.hideCustom) return
         if (this.result.judgment == Judgment.Miss && options.customDamage)
             archetypes.Damage.spawn({
                 time: time.now,
