@@ -129,7 +129,7 @@ export class Stage extends Archetype {
                 }
             }
         }
-        if (options.hideCombo) return
+        if (options.hideCustom) return
         archetypes.ComboNumber.spawn({})
         if (options.customDamage && replay.isReplay) archetypes.Damage.spawn({})
         if (options.customJudgment) {

@@ -220,8 +220,9 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 0,
     },
-    hideCombo: {
-        name: 'Hide Combo & Judgment & Damage',
+    hideCustom: {
+        name: 'Hide Custom Element',
+        description: 'Hide Combo & Judgment & Damage & Auto Live Tag',
         scope: 'Sekai+',
         type: 'toggle',
         def: 0,
