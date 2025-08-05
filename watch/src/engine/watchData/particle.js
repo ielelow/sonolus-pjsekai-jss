@@ -43,20 +43,37 @@ export const particle = defineParticle({
         slotEffectCriticalSlideConnector: 'Sekai Slot Linear Slide Yellow',
     },
 })
-export const circularEffectLayout = ({ lane, w, h }) => {
+export const circularEffectLayout = ({ lane, w, h, yFromC, yToC }) => {
+    // Scale w and h
     w *= options.noteEffectSize
     h *= options.noteEffectSize * scaledScreen.wToH
+
+    // Calculate bounds
     const b = 1 + h
     const t = 1 - h
+
+    // 3D skew logic
+    const yAvg = (yFromC + yToC) / 2
+    const maxSkew = 0.4
+    const direction = lane < 0 ? -1 : lane > 0 ? 1 : 0
+    const skew = yAvg * maxSkew * direction * Math.abs(lane)
+
+    // Apply skew to horizontal base position
+    const xOffsetB = lane * b + skew
+    const xOffsetT = lane * t + skew
+
     return {
-        x1: lane * b + w,
-        x2: lane * t + w,
-        x3: lane * t - w,
-        x4: lane * b - w,
+        x1: xOffsetB + w,
+        x2: xOffsetT + w,
+        x3: xOffsetT - w,
+        x4: xOffsetB - w,
+
         y1: b,
         y2: t,
         y3: t,
         y4: b,
+    }
+}
     }
 }
 export const linearEffectLayout = ({ lane, shear }) => {
