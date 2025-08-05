@@ -74,8 +74,7 @@ export const circularEffectLayout = ({ lane, w, h, yFromC, yToC }) => {
         y4: b,
     }
 }
-    }
-}
+
 export const linearEffectLayout = ({ lane, shear }) => {
     const w = options.noteEffectSize
     const h = options.noteEffectSize * scaledScreen.wToH
